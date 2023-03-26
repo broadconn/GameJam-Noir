@@ -103,20 +103,20 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Magnitude: -2
+    - _Magnitude: -3.4
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Range: 35
+    - _Range: 102.2
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _StartsAt: -25
+    - _StartsAt: 0
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
