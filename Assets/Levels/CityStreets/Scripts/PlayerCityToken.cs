@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +7,8 @@ public class PlayerCityToken : MonoBehaviour
     
     [SerializeField] private InputActionAsset actions;
     private InputAction _moveAction;
+
+    [SerializeField] private float moveSpeed = 10;
 
     private void Awake()
     {
@@ -26,8 +25,9 @@ public class PlayerCityToken : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var moveVector = _moveAction.ReadValue<Vector2>();
-        print(moveVector);
+        var inputVector = _moveAction.ReadValue<Vector2>();
+        var moveVector = new Vector3(inputVector.x, 0, inputVector.y) * (Time.deltaTime * moveSpeed);
+        transform.position += moveVector;
     }
 
     void LateUpdate()
