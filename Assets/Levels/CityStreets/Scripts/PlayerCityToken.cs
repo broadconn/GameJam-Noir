@@ -9,6 +9,7 @@ public class PlayerCityToken : MonoBehaviour
     private InputAction _moveAction;
 
     [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float rotateSpeed = 10;
 
     private void Awake()
     {
@@ -28,6 +29,9 @@ public class PlayerCityToken : MonoBehaviour
         var inputVector = _moveAction.ReadValue<Vector2>();
         var moveVector = new Vector3(inputVector.x, 0, inputVector.y) * (Time.deltaTime * moveSpeed);
         transform.position += moveVector;
+            
+        if(moveVector.magnitude > 0)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation (moveVector), Time.deltaTime * rotateSpeed);
     }
 
     void LateUpdate()
