@@ -36,6 +36,11 @@ public class PlayerCityToken : MonoBehaviour
 
     void LateUpdate()
     {
+        SetGlobalShaderPosition();
+    }
+
+    public void SetGlobalShaderPosition()
+    {
         Shader.SetGlobalVector(PlayerPosShaderRef, transform.position);
     }
 }
