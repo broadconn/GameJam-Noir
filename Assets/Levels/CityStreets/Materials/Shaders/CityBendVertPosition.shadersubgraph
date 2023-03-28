@@ -68,9 +68,6 @@
         },
         {
             "m_Id": "6a740cfebf554fe7a9e4f59dca79ae8b"
-        },
-        {
-            "m_Id": "1359f84d29984da2ba9af0d996f629ca"
         }
     ],
     "m_GroupDatas": [
@@ -85,12 +82,22 @@
         },
         {
             "m_Id": "50ef3236c66a494d9886617b12cfd269"
-        },
-        {
-            "m_Id": "57e56f8ccd2747e9a697ea64069b12f6"
         }
     ],
-    "m_StickyNoteDatas": [],
+    "m_StickyNoteDatas": [
+        {
+            "m_Id": "f08fedd6aad44b75bb2759d53eb8a752"
+        },
+        {
+            "m_Id": "117bd2d2a8824e939a40ccb4e3ec546d"
+        },
+        {
+            "m_Id": "533287cc8c5d4767af9196e1427e4c69"
+        },
+        {
+            "m_Id": "0b098e2907414abd812e2a711383d53e"
+        }
+    ],
     "m_Edges": [
         {
             "m_OutputSlot": {
@@ -116,20 +123,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "c077607861d140dbbe554f36554be535"
-                },
-                "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "1359f84d29984da2ba9af0d996f629ca"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "4f939b3dfa164199b2e090b7cb1dabfa"
                 },
                 "m_SlotId": 1
             }
@@ -522,6 +515,26 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "0b098e2907414abd812e2a711383d53e",
+    "m_Title": "",
+    "m_Content": "Final vertex offset needs to be in Object space",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": 62.0,
+        "y": -498.0,
+        "width": 117.0,
+        "height": 100.0
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.LerpNode",
     "m_ObjectId": "0c51cf0e0e8640fd86cac02a7ade385f",
     "m_Group": {
@@ -577,7 +590,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 2.0,
+        "x": 100.0,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -587,6 +600,26 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "117bd2d2a8824e939a40ccb4e3ec546d",
+    "m_Title": "",
+    "m_Content": "Just adjusting the values & changing from a linear curve to a squared one.\n\nAdjust this section to change how the curve curves.\n",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -1132.0,
+        "y": 38.0,
+        "width": 151.0,
+        "height": 120.0
+    },
+    "m_Group": {
+        "m_Id": ""
     }
 }
 
@@ -602,10 +635,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -53.0,
-            "y": -428.9999694824219,
-            "width": 212.99981689453126,
-            "height": 156.99996948242188
+            "x": -57.99995803833008,
+            "y": -429.00006103515627,
+            "width": 212.9999542236328,
+            "height": 157.00003051757813
         }
     },
     "m_Slots": [
@@ -637,49 +670,6 @@
     },
     "m_ConversionType": 0,
     "m_Normalize": true
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1Node",
-    "m_ObjectId": "1359f84d29984da2ba9af0d996f629ca",
-    "m_Group": {
-        "m_Id": "57e56f8ccd2747e9a697ea64069b12f6"
-    },
-    "m_Name": "Float",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -1272.0,
-            "y": 162.99998474121095,
-            "width": 126.0,
-            "height": 77.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "daa06869638d41f08caffde17305689d"
-        },
-        {
-            "m_Id": "c12c316bd54245cd9a51dd63748474e4"
-        }
-    ],
-    "synonyms": [
-        "Vector 1",
-        "1",
-        "v1",
-        "vec1",
-        "scalar"
-    ],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Value": 0.0
 }
 
 {
@@ -1115,8 +1105,8 @@
     "m_ObjectId": "50ef3236c66a494d9886617b12cfd269",
     "m_Title": "Magnitude",
     "m_Position": {
-        "x": -787.9996948242188,
-        "y": -208.99993896484376
+        "x": -783.0,
+        "y": -225.00003051757813
     }
 }
 
@@ -1141,6 +1131,26 @@
         "z": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "533287cc8c5d4767af9196e1427e4c69",
+    "m_Title": "",
+    "m_Content": "Lerping between our flat position and our maximum Y offset.\nIf the input value is > 1, it extrapolates past our max.",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -368.0,
+        "y": -537.0,
+        "width": 163.0,
+        "height": 100.0
+    },
+    "m_Group": {
+        "m_Id": ""
+    }
 }
 
 {
@@ -1190,17 +1200,6 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.GroupData",
-    "m_ObjectId": "57e56f8ccd2747e9a697ea64069b12f6",
-    "m_Title": "Range",
-    "m_Position": {
-        "x": -1296.9998779296875,
-        "y": 103.9999771118164
-    }
 }
 
 {
@@ -1323,10 +1322,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -762.9998168945313,
-            "y": -149.9999542236328,
-            "width": 125.99993896484375,
-            "height": 76.99999237060547
+            "x": -758.0,
+            "y": -166.00003051757813,
+            "width": 126.0,
+            "height": 77.00001525878906
         }
     },
     "m_Slots": [
@@ -1894,7 +1893,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": -3.0,
+    "m_Value": -5.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -2035,10 +2034,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 171.9999542236328,
-            "y": -428.9999694824219,
-            "width": 120.99986267089844,
-            "height": 76.99996948242188
+            "x": 228.9999542236328,
+            "y": -429.00006103515627,
+            "width": 121.00004577636719,
+            "height": 77.00003051757813
         }
     },
     "m_Slots": [
@@ -2055,21 +2054,6 @@
         "m_SerializableColors": []
     },
     "IsFirstSlotValid": true
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "c12c316bd54245cd9a51dd63748474e4",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
 }
 
 {
@@ -2204,21 +2188,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "daa06869638d41f08caffde17305689d",
-    "m_Id": 1,
-    "m_DisplayName": "X",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "X",
-    "m_StageCapability": 3,
-    "m_Value": 100.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector3Node",
     "m_ObjectId": "db9f934076cc422da3424f3d11c8e6fa",
     "m_Group": {
@@ -2335,6 +2304,26 @@
     "m_Position": {
         "x": -976.0,
         "y": -488.00006103515627
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.StickyNoteData",
+    "m_ObjectId": "f08fedd6aad44b75bb2759d53eb8a752",
+    "m_Title": "",
+    "m_Content": "We want distant verts to bend more than close ones",
+    "m_TextSize": 0,
+    "m_Theme": 0,
+    "m_Position": {
+        "serializedVersion": "2",
+        "x": -1323.0,
+        "y": -242.0,
+        "width": 129.8499755859375,
+        "height": 75.85000610351563
+    },
+    "m_Group": {
+        "m_Id": ""
     }
 }
 
