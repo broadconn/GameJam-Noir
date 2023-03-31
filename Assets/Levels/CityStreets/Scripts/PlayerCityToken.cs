@@ -9,7 +9,7 @@ public class PlayerCityToken : MonoBehaviour
     
     [SerializeField] 
     private InputActionAsset actions;
-    private InputAction _moveAction, _cameraRotateAction;
+    private InputAction _moveAction;
 
     [SerializeField] private float moveSpeed = 10;
     [SerializeField] private float rotateSpeed = 10;
@@ -18,8 +18,6 @@ public class PlayerCityToken : MonoBehaviour
     {
         _moveAction = actions.FindActionMap("Player_Map").FindAction("Movement");
         _moveAction.Enable();
-        _cameraRotateAction = actions.FindActionMap("Player_Map").FindAction("CameraRotate");
-        _cameraRotateAction.Enable();
     }
 
     void Start()
@@ -44,11 +42,11 @@ public class PlayerCityToken : MonoBehaviour
                 Time.deltaTime * rotateSpeed);
 
         // camera rotation
-        if (_cameraRotateAction.WasPressedThisFrame())
-        {
-            var direction = _cameraRotateAction.ReadValue<float>();
-            _cameraController.RotateCamera(direction);
-        }
+        // if (_cameraRotateAction.WasPressedThisFrame())
+        // {
+        //     var direction = _cameraRotateAction.ReadValue<float>();
+        //     _cameraController.RotateCamera(direction);
+        // }
     }
     
     void LateUpdate()
