@@ -8,6 +8,6 @@ public class EditorMenuItems : MonoBehaviour
     static void ResetShader()
     {
         var player = GameObject.FindWithTag("PlayerCityToken"); 
-        player.GetComponent<PlayerCityToken>().SetGlobalShaderPosition();
+        player.GetComponent<PlayerCityToken>().SetGlobalShaderPosition(); 
     }
 }

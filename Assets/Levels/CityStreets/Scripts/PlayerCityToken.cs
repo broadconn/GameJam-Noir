@@ -30,7 +30,8 @@ public class PlayerCityToken : MonoBehaviour
     {
         // movement 
         var inputVector = _moveAction.ReadValue<Vector2>();
-        if (inputVector.magnitude > 1) inputVector = inputVector.normalized;
+        if (inputVector.magnitude > 1) 
+            inputVector = inputVector.normalized;
         var worldDir = new Vector3(inputVector.x, 0, inputVector.y);
         var cameraMoveDir = Quaternion.AngleAxis(_cameraController.CameraFacingAngle, Vector3.up) * worldDir;
         var movementThisFrame = cameraMoveDir * (Time.deltaTime * moveSpeed);
@@ -40,13 +41,6 @@ public class PlayerCityToken : MonoBehaviour
         if (movementThisFrame.magnitude > 0)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementThisFrame),
                 Time.deltaTime * rotateSpeed);
-
-        // camera rotation
-        // if (_cameraRotateAction.WasPressedThisFrame())
-        // {
-        //     var direction = _cameraRotateAction.ReadValue<float>();
-        //     _cameraController.RotateCamera(direction);
-        // }
     }
     
     void LateUpdate()
