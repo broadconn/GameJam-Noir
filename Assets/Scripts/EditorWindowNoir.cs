@@ -43,15 +43,15 @@ class NoirDevToolsEditor : EditorWindow {
             player.GetComponent<PlayerCityToken>().SetGlobalShaderPosition();
         }
         EditorGUILayout.EndHorizontal();
+        GUILayout.Label("(use if you manually move the player)", EditorStyles.miniLabel);
     }
 
     private void ShowWayPoints()
     {
         GUILayout.Label("City Spawn Points", EditorStyles.boldLabel);
-        if (GUILayout.Button("Refresh spawn points list"))
-        {
-            _spawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint");
-        }
+        if(_spawnPoints.Length == 0)
+            if (GUILayout.Button("List spawn points")) 
+                _spawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
         
         foreach (var wp in _spawnPoints)
         {
