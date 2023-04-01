@@ -9,10 +9,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameConfigScriptableObject gameConfig;
 
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
-    
+
+    #region Startup
     void Awake()
     {
         EnsureOneInstance();
+        DontDestroyOnLoad(gameObject); // survive scene changes
+        
         SetStartupGameConfig();
     }
 
@@ -31,15 +34,9 @@ public class GameController : MonoBehaviour
     {
         Shader.SetGlobalFloat(WorldBendMagnitudeShaderId, gameConfig.WorldShaderCurveAmount);
     }
+    #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void SwitchToMap()
     {
         
     }

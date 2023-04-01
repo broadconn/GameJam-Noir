@@ -54,25 +54,27 @@ namespace Editor
 
         private void ShowWayPoints()
         {
-            // validate waypoints
-            _spawnPoints = _spawnPoints.Where(sp => sp != null).ToArray();
+            _spawnPoints = _spawnPoints.Where(sp => sp is not null).ToArray(); // if the scene changes these references get nullified
             
-            GUILayout.Label("City Spawn Points", EditorStyles.boldLabel);
-            if(_spawnPoints.Length == 0)
-                if (GUILayout.Button("Show")) 
-                    _spawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
-        
+            // show / refresh waypoints button
+            EditorGUILayout.BeginHorizontal(); 
+            GUILayout.Label("City Spawn Points", EditorStyles.boldLabel); 
+            if (GUILayout.Button(_spawnPoints.Length == 0 ? "Show" : "Refresh", GUILayout.Width(100))) 
+                _spawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
+            EditorGUILayout.EndHorizontal();
+                
+            // waypoint buttons
             if(_spawnPoints.Length > 0)
                 GUILayout.Label("Click to set player position", EditorStyles.miniLabel);
-            foreach (var wp in _spawnPoints)
+            foreach (var sp in _spawnPoints)
             {
                 EditorGUILayout.BeginHorizontal(); 
-                if (GUILayout.Button(wp.name, GUILayout.Width(100)))
+                if (GUILayout.Button(sp.name, GUILayout.Width(100)))
                 {
                     // move player to the gameobject location
                     var player = GameObject.FindWithTag("PlayerCityToken");
                     Undo.RecordObject (player.transform, "Player Original Position"); // helps Unity recognize that something has changed that needs saving
-                    player.transform.position = wp.transform.position;
+                    player.transform.position = sp.transform.position;
                 
                     // update the world bend shader position
                     player.GetComponent<PlayerCityToken>().SetGlobalShaderPosition();
@@ -82,7 +84,7 @@ namespace Editor
                     SceneView.lastActiveSceneView.AlignViewToObject(player.transform);
                     SceneView.lastActiveSceneView.LookAt(playerPos, Quaternion.Euler(35, 0, 0));
                 }
-                GUILayout.Label(wp.transform.position.ToString(), EditorStyles.miniLabel);
+                GUILayout.Label(sp.transform.position.ToString(), EditorStyles.miniLabel);
                 EditorGUILayout.EndHorizontal();
             }
             GUILayout.Label("(add new spawn points by tagging GameObjects with 'CitySpawnPoint')",  EditorStyles.miniLabel);
