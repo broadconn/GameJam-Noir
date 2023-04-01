@@ -18,7 +18,7 @@ namespace Editor
     
         void OnGUI () {
             ShowShaderSettings();
-            GUILayout.Space(15);
+            GUILayout.Space(20);
             ShowWayPoints();
         }
 
