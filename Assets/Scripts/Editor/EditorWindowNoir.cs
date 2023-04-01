@@ -85,6 +85,7 @@ namespace Editor
                 GUILayout.Label(wp.transform.position.ToString(), EditorStyles.miniLabel);
                 EditorGUILayout.EndHorizontal();
             }
+            GUILayout.Label("(add new spawn points by tagging GameObjects with 'CitySpawnPoint')",  EditorStyles.miniLabel);
         }
     }
 }
