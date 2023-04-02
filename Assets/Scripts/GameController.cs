@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Use for scene-agnostic things, e.g. for accessing the audio settings
+/// </summary>
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
@@ -35,9 +39,4 @@ public class GameController : MonoBehaviour
         Shader.SetGlobalFloat(WorldBendMagnitudeShaderId, gameConfig.WorldShaderCurveAmount);
     }
     #endregion
-
-    public void SwitchToMap()
-    {
-        
-    }
 }

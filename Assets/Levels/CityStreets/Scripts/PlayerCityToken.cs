@@ -11,8 +11,11 @@ public class PlayerCityToken : MonoBehaviour
     private InputActionAsset actions;
     private InputAction _moveAction;
 
-    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float groundMoveSpeed = 10;
+    [SerializeField] private float mapMoveSpeed = 1000;
     [SerializeField] private float rotateSpeed = 10;
+
+    private CityMode mode = CityMode.Street;
 
     private void Awake()
     {
@@ -28,13 +31,16 @@ public class PlayerCityToken : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (mode == CityMode.Map)
+        //     return; 
+        
         // movement 
         var inputVector = _moveAction.ReadValue<Vector2>();
         if (inputVector.magnitude > 1) 
             inputVector = inputVector.normalized;
         var worldDir = new Vector3(inputVector.x, 0, inputVector.y);
         var cameraMoveDir = Quaternion.AngleAxis(_cameraController.CameraFacingAngle, Vector3.up) * worldDir;
-        var movementThisFrame = cameraMoveDir * (Time.deltaTime * moveSpeed);
+        var movementThisFrame = cameraMoveDir * (Time.deltaTime * (mode == CityMode.Map ? mapMoveSpeed : groundMoveSpeed));
         transform.position += movementThisFrame;
 
         // token rotation
@@ -51,5 +57,10 @@ public class PlayerCityToken : MonoBehaviour
     public void SetGlobalShaderPosition()
     {
         Shader.SetGlobalVector(PlayerPosShaderRef, transform.position);
+    }
+
+    public void SetMode(CityMode m)
+    {
+        mode = m;
     }
 }
