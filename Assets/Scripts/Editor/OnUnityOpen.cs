@@ -23,7 +23,7 @@ namespace Editor
 
         private static void RunStartupCode()
         {
-            // set the world curve shader property to the last-set value
+            // set the world curve shader property to the value saved in the scriptable object
             var configSettings =
                 (GameConfigScriptableObject)AssetDatabase.LoadAssetAtPath("Assets/Settings/Game/GameConfig.asset",
                     typeof(GameConfigScriptableObject));

@@ -54,7 +54,7 @@ namespace Editor
 
         private void ShowWayPoints()
         {
-            _spawnPoints = _spawnPoints.Where(sp => sp is not null).ToArray(); // if the scene changes these references get nullified
+            _spawnPoints = _spawnPoints.Where(sp => sp is not null).ToArray(); // if the scene changes these references become null
             
             // show / refresh waypoints button
             EditorGUILayout.BeginHorizontal(); 

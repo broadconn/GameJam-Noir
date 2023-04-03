@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     private readonly CameraSettings streetSettings = new()
     {
         Distance = 7,
-        Pitch = 9,
+        Pitch = 0,
         DefaultYRotation = 0,
         ManualRotationEnabled = true
     };
