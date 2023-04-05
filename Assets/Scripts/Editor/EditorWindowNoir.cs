@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +7,7 @@ namespace Editor
 {
     internal class NoirDevToolsEditor : EditorWindow {
         private float _worldShaderBendAmount = 2;
-        private GameObject[] _spawnPoints = Array.Empty<GameObject>(); 
+        private GameObject[] _citySpawnPoints = Array.Empty<GameObject>(); 
 
         private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
@@ -33,8 +31,8 @@ namespace Editor
         private void CheckForSceneChange()
         {
             if (_currentScene == SceneManager.GetActiveScene().name) return;
-            OnSceneChange();
             _currentScene = SceneManager.GetActiveScene().name;
+            OnSceneChange();
         }
 
         private void OnSceneChange()
@@ -42,26 +40,23 @@ namespace Editor
             // load saved world curve setting
             if (SceneUsesWorldBendShader())
             {
-                var configSettings =
+                var gameConfig =
                     (GameConfigScriptableObject)AssetDatabase.LoadAssetAtPath("Assets/Settings/Game/GameConfig.asset",
-                        typeof(GameConfigScriptableObject));
-                var shaderBend = configSettings.WorldShaderCurveAmount;
-                _worldShaderBendAmount = Mathf.Abs(shaderBend);
+                        typeof(GameConfigScriptableObject)); 
+                _worldShaderBendAmount = Mathf.Abs(gameConfig.WorldShaderCurveAmount);
             }
             
-            // reset the shader curve for non-city scenes. Probably should just not use those shaders in those scenes, but I'm lazy :^)
-            SetGlobalWorldBendShader(SceneUsesWorldBendShader() ? _worldShaderBendAmount : 0);  
-            _spawnPoints = Array.Empty<GameObject>();
+            // Reset the shader curve for non-city scenes. Probably should just not use those shaders in those scenes, but I'm lazy :^)
+            SetGlobalWorldBendShader(SceneUsesWorldBendShader() ? _worldShaderBendAmount : 0);
+
+            _citySpawnPoints = Array.Empty<GameObject>();
+            if(_currentScene == "City") 
+                _citySpawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint");
         }
 
         bool SceneUsesWorldBendShader()
         {
-            return SceneIsCity();
-        }
-
-        bool SceneIsCity()
-        {
-            return SceneManager.GetActiveScene().name == "City";
+            return _currentScene == "City";
         }
 
         void OnGUI ()
@@ -72,6 +67,15 @@ namespace Editor
                     ShowShaderSettings();
                     GUILayout.Space(20);
                     ShowWayPoints();
+                    break;
+                default: 
+                    GUILayout.FlexibleSpace();
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+                    GUILayout.Label("No settings for this scene :)", EditorStyles.miniLabel);
+                    GUILayout.FlexibleSpace(); 
+                    EditorGUILayout.EndHorizontal();
+                    GUILayout.FlexibleSpace();
                     break;
             }
         }
@@ -111,14 +115,14 @@ namespace Editor
             // show / refresh waypoints button
             EditorGUILayout.BeginHorizontal(); 
             GUILayout.Label("City Spawn Points", EditorStyles.boldLabel); 
-            if (GUILayout.Button(_spawnPoints.Length == 0 ? "Show" : "Refresh", GUILayout.Width(100))) 
-                _spawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
+            if (GUILayout.Button(_citySpawnPoints.Length == 0 ? "Show" : "Refresh", GUILayout.Width(100))) 
+                _citySpawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
             EditorGUILayout.EndHorizontal();
                 
             // waypoint buttons
-            if(_spawnPoints.Length > 0)
+            if(_citySpawnPoints.Length > 0)
                 GUILayout.Label("Click to set player position", EditorStyles.miniLabel);
-            foreach (var sp in _spawnPoints)
+            foreach (var sp in _citySpawnPoints)
             {
                 EditorGUILayout.BeginHorizontal(); 
                 if (GUILayout.Button(sp.name, GUILayout.Width(100)))
