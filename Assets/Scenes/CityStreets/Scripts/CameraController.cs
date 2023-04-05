@@ -19,7 +19,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothSpeed = 10;
     [SerializeField] private float rotateSpeed = 40;
 
-    private CameraSettings settings;
     private readonly CameraSettings streetSettings = new()
     {
         Distance = 7,
@@ -35,10 +34,11 @@ public class CameraController : MonoBehaviour
         ManualRotationEnabled = false
     };
 
-    private bool _isRotating = false;
-    private float _rotateDir = 0;
-    private float _tgtYRot = 0, _smoothedYRot =0; 
-    private float _tgtXRot = 0, _smoothedXRot =0; 
+    private bool _manualRotationEnabled;
+    private bool _isRotating;
+    private float _rotateDir;
+    private float _tgtYRot, _smoothedYRot; 
+    private float _tgtXRot, _smoothedXRot; 
     private float _tgtDistance, _smoothedDist;
 
     public float CameraFacingAngle => _smoothedYRot;
@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
         SetMode(CityMode.Street);
     }   
     
-    #region Input Handling
+    #region Input Event Handling
     private void RotateInputStarted(InputAction.CallbackContext input)
     {
         _isRotating = true;
@@ -70,15 +70,15 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        ApplyInput();
+        UpdateValuesViaInput();
         UpdateSmoothedValues();
-        ApplySmoothedValues();
+        ApplyValues();
     }
 
-    private void ApplyInput()
+    private void UpdateValuesViaInput()
     {
         // yaw manual rotation
-        if (_isRotating && settings.ManualRotationEnabled)
+        if (_manualRotationEnabled && _isRotating)
             _tgtYRot += _rotateDir * rotateSpeed * Time.deltaTime;
     }
 
@@ -87,37 +87,37 @@ public class CameraController : MonoBehaviour
         // smooth yaw
         _smoothedYRot = Mathf.LerpAngle(_smoothedYRot, _tgtYRot, Time.deltaTime * smoothSpeed);
 
-        // smooth pitch
+        // smooth pitch (e.g. when switching to map view)
         _smoothedXRot = Mathf.LerpAngle(_smoothedXRot, _tgtXRot, Time.deltaTime * smoothSpeed);
 
         // smooth distance
         _smoothedDist = Mathf.Lerp(_smoothedDist, _tgtDistance, Time.deltaTime * smoothSpeed);
     }
 
-    private void ApplySmoothedValues()
+    private void ApplyValues()
     {
         // apply rotation
         playerCamera.transform.localEulerAngles = new Vector3(_smoothedXRot, _smoothedYRot, 0);
         
         // apply distance
         var componentBase = playerCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-        if (componentBase is CinemachineFramingTransposer transposer)
-        {
+        if (componentBase is CinemachineFramingTransposer transposer) {
             transposer.m_CameraDistance = _smoothedDist; 
         }
     }
 
-    private void SetSettingsTargets()
-    {
-        _tgtYRot = settings.DefaultYRotation;
-        _tgtXRot = settings.Pitch;
-        _tgtDistance = settings.Distance;
-    }
-
     public void SetMode(CityMode mode)
     {
-        settings = mode == CityMode.Street ? streetSettings : mapSettings;
-        SetSettingsTargets();
+        var settings = mode == CityMode.Street ? streetSettings : mapSettings;
+        SetTargetValues(settings);
+    }
+
+    private void SetTargetValues(CameraSettings cs)
+    {
+        _tgtYRot = cs.DefaultYRotation;
+        _tgtXRot = cs.Pitch;
+        _tgtDistance = cs.Distance;
+        _manualRotationEnabled = cs.ManualRotationEnabled;
     }
 }
 
@@ -126,5 +126,5 @@ internal struct CameraSettings
     public float Distance { get; set; }
     public float Pitch { get; set; } // X Rotation
     public bool ManualRotationEnabled { get; set; }
-    public float DefaultYRotation { get; set; }
+    public float DefaultYRotation { get; set; } // can probably remove this
 }
