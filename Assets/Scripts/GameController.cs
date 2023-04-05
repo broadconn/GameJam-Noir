@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameConfigScriptableObject gameConfig;
     
     [SerializeField] private List<StoryConversation> story;
+    
     private const string LastStoryIdPrefName = "StoryID";
     private StoryId? _lastStoryId = null; // should be set at the end of every conversation
 
@@ -48,14 +49,29 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    public StoryId GetNextStory()
+    public StoryId? GetLastStoryId()
     {
-        return _lastStoryId ?? StoryId.Intro;
+        return _lastStoryId ?? null;
+    }
+
+    public StoryId GetNextStoryId()
+    {
+        if (_lastStoryId is null) 
+            return StoryId.Intro;
+
+        for (var i = 0; i < story.Count-1; i++)
+        {
+            var storyId = story[i].Id;
+            if (storyId == _lastStoryId)
+                return story[i+1].Id;
+        }
+        
+        return StoryId.Intro; // should only reach here if they've finished the game
     }
 
     public void StartConversation(string storyId)
     {
-        
+        // load conversation scene
     }
 }
 

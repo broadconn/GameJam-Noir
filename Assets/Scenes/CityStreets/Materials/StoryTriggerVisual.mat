@@ -99,7 +99,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EffectDetail: 3
+    - _EffectDetail: -1.52
     - _EffectSpeed: 2
     - _EffectSpread: 5
     - _EnvironmentReflections: 1

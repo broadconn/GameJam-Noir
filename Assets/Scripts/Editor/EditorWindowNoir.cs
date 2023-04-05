@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Editor
 {
@@ -11,15 +13,67 @@ namespace Editor
 
         private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
+        private string _currentScene;
+
         [MenuItem ("**Noir**/Dev Tools")]
-        public static void  ShowWindow () {
+        public static void ShowWindow () {
             GetWindow(typeof(NoirDevToolsEditor));
         }
-    
-        void OnGUI () {
-            ShowShaderSettings();
-            GUILayout.Space(20);
-            ShowWayPoints();
+
+        private void Awake()
+        {
+            OnHierarchyChange();
+        }
+
+        private void OnHierarchyChange()
+        {
+            CheckForSceneChange();
+        }
+
+        private void CheckForSceneChange()
+        {
+            if (_currentScene == SceneManager.GetActiveScene().name) return;
+            OnSceneChange();
+            _currentScene = SceneManager.GetActiveScene().name;
+        }
+
+        private void OnSceneChange()
+        {
+            // load saved world curve setting
+            if (SceneUsesWorldBendShader())
+            {
+                var configSettings =
+                    (GameConfigScriptableObject)AssetDatabase.LoadAssetAtPath("Assets/Settings/Game/GameConfig.asset",
+                        typeof(GameConfigScriptableObject));
+                var shaderBend = configSettings.WorldShaderCurveAmount;
+                _worldShaderBendAmount = Mathf.Abs(shaderBend);
+            }
+            
+            // reset the shader curve for non-city scenes. Probably should just not use those shaders in those scenes, but I'm lazy :^)
+            SetGlobalWorldBendShader(SceneUsesWorldBendShader() ? _worldShaderBendAmount : 0);  
+            _spawnPoints = Array.Empty<GameObject>();
+        }
+
+        bool SceneUsesWorldBendShader()
+        {
+            return SceneIsCity();
+        }
+
+        bool SceneIsCity()
+        {
+            return SceneManager.GetActiveScene().name == "City";
+        }
+
+        void OnGUI ()
+        {
+            switch (_currentScene)
+            {
+                case "City":
+                    ShowShaderSettings();
+                    GUILayout.Space(20);
+                    ShowWayPoints();
+                    break;
+            }
         }
 
         private void ShowShaderSettings()
@@ -29,8 +83,8 @@ namespace Editor
             EditorGUILayout.BeginHorizontal(); 
             _worldShaderBendAmount = EditorGUILayout.Slider ("World Bend Amount", _worldShaderBendAmount, 0, 20);
             if (GUILayout.Button("Apply", GUILayout.Width(100)))
-            { 
-                Shader.SetGlobalFloat(WorldBendMagnitudeShaderId, -1 * _worldShaderBendAmount);
+            {
+                SetGlobalWorldBendShader(_worldShaderBendAmount);
                 
                 // set this in the config scriptableObject so we can use the value in the build
                 var configSettings = (GameConfigScriptableObject)AssetDatabase.LoadAssetAtPath("Assets/Settings/Game/GameConfig.asset", typeof(GameConfigScriptableObject));
@@ -54,8 +108,6 @@ namespace Editor
 
         private void ShowWayPoints()
         {
-            _spawnPoints = _spawnPoints.Where(sp => sp is not null).ToArray(); // if the scene changes these references become null
-            
             // show / refresh waypoints button
             EditorGUILayout.BeginHorizontal(); 
             GUILayout.Label("City Spawn Points", EditorStyles.boldLabel); 
@@ -88,6 +140,11 @@ namespace Editor
                 EditorGUILayout.EndHorizontal();
             }
             GUILayout.Label("(add new spawn points by tagging GameObjects with 'CitySpawnPoint')",  EditorStyles.miniLabel);
+        }
+
+        private void SetGlobalWorldBendShader(float worldShaderBendAmount)
+        {
+            Shader.SetGlobalFloat(WorldBendMagnitudeShaderId, -1 * worldShaderBendAmount);
         }
     }
 }
