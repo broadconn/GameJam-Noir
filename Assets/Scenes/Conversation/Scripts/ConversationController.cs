@@ -41,37 +41,13 @@ namespace Scenes.Conversation.Scripts
                 Debug.Log(result);
             }
         }
-
-        private string ExtractMusic(string s) {
-            var sceneEdits = ExtractSceneEdits(s);
-            // TODO
-            return null;
-        }
-
-        private List<GameObject> ExtractObjectsToEnable(string s) {
-            var sceneEdits = ExtractSceneEdits(s);
-            // TODO
-            return null;
-        }
-
-        private static string ExtractSceneEdits(string s)
-        {
-            try {
-                return s.Substring(s.IndexOf('{') + 1, s.IndexOf('}') - s.IndexOf('{') - 1); 
-            }
-            catch (Exception e) {
-                // 🙈
-            }
-
-            return null;
-        }
  
         private static string ExtractSpeaker(string s)
         {
             try { 
                 return s.Substring(s.IndexOf('<') + 1, s.IndexOf('>') - s.IndexOf('<') - 1);
             }
-            catch (Exception e) {
+            catch (Exception) {
                 // 🙈
             }
 
@@ -87,10 +63,37 @@ namespace Scenes.Conversation.Scripts
             var dialogue = s[(endOfShenanigans+1)..];
             return dialogue;
         }
+
+        private string ExtractMusic(string s) {
+            var sceneEdits = ExtractSceneEdits(s);
+            // TODO when we have music kek
+            return null;
+        }
+
+        private List<GameObject> ExtractObjectsToEnable(string s) {
+            var sceneEdits = ExtractSceneEdits(s);
+            // TODO
+            return null;
+        }
+
+        private static string ExtractSceneEdits(string s)
+        {
+            try {
+                return s.Substring(s.IndexOf('{') + 1, s.IndexOf('}') - s.IndexOf('{') - 1); 
+            }
+            catch (Exception) {
+                // 🙈
+            }
+
+            return null;
+        }
     }
 
     internal class StorySegment
     {
+        /// <summary>
+        /// Value should link to an ID in the Speakers list of the Set object
+        /// </summary>
         public string SpeakerId;
         public string Dialogue; // includes the newline operator
         public List<GameObject> objectsToEnable;
