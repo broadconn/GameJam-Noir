@@ -20,15 +20,19 @@ public class CitySceneController : MonoBehaviour
 
     private void EnableNextStoryTrigger()
     { 
-        var nextStoryId = GameController.Instance.GetNextStoryId();
+        var nextStoryId = GameController.Instance.StoryController.GetNextStoryId();
+        print("Active Story ID: " + nextStoryId);
         foreach (Transform t in storyTriggersParent) {
             t.gameObject.SetActive(t.GetComponent<StoryTrigger>()?.GetID() == nextStoryId); 
         }
     }
 
+    /// <summary>
+    /// Lets the player continue from where they left off last time they played.
+    /// </summary>
     private void SetPlayerAtLastStoryTrigger()
     {
-        var lastStoryId = GameController.Instance.GetLastStoryId() ?? StoryId.Intro;
+        var lastStoryId = GameController.Instance.StoryController.GetLastStoryId() ?? StoryId.Intro;
         
         var lastStoryTrigger = storyTriggersParent.GetComponentsInChildren<StoryTrigger>()
             .FirstOrDefault(st => st.GetID() == lastStoryId);

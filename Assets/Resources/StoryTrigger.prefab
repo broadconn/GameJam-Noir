@@ -227,7 +227,6 @@ GameObject:
   - component: {fileID: 6971020714333984928}
   - component: {fileID: 2788896992301140186}
   - component: {fileID: 6718823257581706360}
-  - component: {fileID: 3441218541558673981}
   m_Layer: 0
   m_Name: AuraVisual
   m_TagString: Untagged
@@ -300,29 +299,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3441218541558673981
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6045040944139692018}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.49999997
-  m_Height: 1.9999999
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7064878195398027794
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7810833586209573693}
   - component: {fileID: 4628019190838037315}
+  - component: {fileID: 7183781053722301398}
   m_Layer: 0
   m_Name: StoryTrigger
   m_TagString: Untagged
@@ -452,3 +429,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a9463d33abf6a4a9a16ea43ca0a52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _storyId: 0
+--- !u!135 &7183781053722301398
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8131548560433879796}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.9
+  m_Center: {x: 0, y: 0, z: 0}

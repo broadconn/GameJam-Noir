@@ -1,9 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
+/// Essentially a singleton hub to get easy references to specific controllers. 
 /// Use for scene-agnostic things, e.g. game state, audio settings etc
 /// </summary>
 public class GameController : MonoBehaviour
@@ -11,11 +15,8 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     
     [SerializeField] private GameConfigScriptableObject gameConfig;
-    
-    [SerializeField] private List<StoryConversation> story;
-    
-    private const string LastStoryIdPrefName = "StoryID";
-    private StoryId? _lastStoryId = null; // should be set at the end of every conversation
+    public SceneFader SceneFader;
+    public StoryController StoryController;
 
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
@@ -41,37 +42,12 @@ public class GameController : MonoBehaviour
 
     private void SetStartupGameConfig()
     {
-        // saved shader values
         Shader.SetGlobalFloat(WorldBendMagnitudeShaderId, gameConfig.WorldShaderCurveAmount);
-        
-        // load story beat played last session
-        _lastStoryId = (StoryId) PlayerPrefs.GetInt(LastStoryIdPrefName);
     }
     #endregion
 
-    public StoryId? GetLastStoryId()
-    {
-        return _lastStoryId ?? null;
-    }
-
-    public StoryId GetNextStoryId()
-    {
-        if (_lastStoryId is null) 
-            return StoryId.Intro;
-
-        for (var i = 0; i < story.Count-1; i++)
-        {
-            var storyId = story[i].Id;
-            if (storyId == _lastStoryId)
-                return story[i+1].Id;
-        }
-        
-        return StoryId.Intro; // should only reach here if they've finished the game
-    }
-
-    public void StartConversation(string storyId)
-    {
-        // load conversation scene
+    public void StartConversation(StoryId storyId) {
+        SceneFader.FadeToScene("Conversation");
     }
 }
 
