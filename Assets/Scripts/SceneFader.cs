@@ -13,8 +13,8 @@ public class SceneFader : MonoBehaviour
     private float _timeTriggeredTransition = float.MinValue;
     private string _sceneToGoTo;
     private FadeDirection _fadeDir = FadeDirection.In;
-    private bool isTransitioning = false;
-    private bool isLoadingLevel = false;
+    private bool _isTransitioning = false;
+    private bool _isLoadingLevel = false;
 
     private void Awake() {
         SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
@@ -23,15 +23,13 @@ public class SceneFader : MonoBehaviour
     private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1) { 
         _fadeDir = FadeDirection.In;
         _timeTriggeredTransition = Time.time;
-        isLoadingLevel = false;
+        _isLoadingLevel = false;
     }
-
-    // Start is called before the first frame update
+ 
     void Start()
     {
     }
-
-    // Update is called once per frame
+ 
     void Update()
     {
         var timePassed = Time.time - _timeTriggeredTransition;
@@ -40,13 +38,13 @@ public class SceneFader : MonoBehaviour
         UpdateSceneTransition(timePassed, transitionPercent);
 
         if (_fadeDir == FadeDirection.In && transitionPercent >= 1) {
-            isTransitioning = false; // enable the next scene change
+            _isTransitioning = false; // enable the next scene change
         }
     }
 
     public void FadeToScene(string sceneName) {
-        if (isTransitioning) return;
-        isTransitioning = true;
+        if (_isTransitioning) return;
+        _isTransitioning = true;
         
         _sceneToGoTo = sceneName;
         _fadeDir = FadeDirection.Out;
@@ -61,10 +59,9 @@ public class SceneFader : MonoBehaviour
             transitionPercent);
 
         // handle the scene change after we fade out
-        if (timePassed > fadeTime && _fadeDir != FadeDirection.In && !isLoadingLevel) {
-            isLoadingLevel = true;
-            StartCoroutine(LoadAndGoToScene());
-        }
+        if (timePassed < fadeTime || _fadeDir == FadeDirection.In || _isLoadingLevel) return;
+        _isLoadingLevel = true;
+        StartCoroutine(LoadAndGoToScene());
     }
 
     private IEnumerator LoadAndGoToScene() {

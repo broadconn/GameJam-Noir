@@ -16,7 +16,6 @@ public class StoryController : MonoBehaviour {
 
     private void Awake() {
         _lastSeenStoryId = (StoryId) PlayerPrefs.GetInt(LastStoryIdPrefName);
-        print("Last story ID: " + _lastSeenStoryId);
     }
 
     public StoryId? GetLastStoryId() {

@@ -19,8 +19,6 @@ public class CitySceneController : MonoBehaviour
     private void EnableNextStoryTrigger()
     { 
         var nextStoryId = GameController.Instance.StoryController.GetNextStoryId();
-        var lastStoryId = GameController.Instance.StoryController.GetLastStoryId();
-        print("Next:" + nextStoryId + " " + "Last:" + lastStoryId);
         foreach (Transform t in storyTriggersParent) {
             t.gameObject.SetActive(t.GetComponent<StoryTrigger>()?.GetID() == nextStoryId); 
         }

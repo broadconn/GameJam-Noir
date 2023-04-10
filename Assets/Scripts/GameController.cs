@@ -5,34 +5,35 @@ using UnityEngine;
 /// Essentially a singleton hub to get easy references to specific controllers. 
 /// Use for scene-agnostic things, e.g. overall game state, audio settings etc
 /// </summary>
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
     public static GameController Instance { get; private set; }
     
+    [SerializeField] private GameConfigScriptableObject gameConfig;
+    
+    public SceneFader SceneFader => _sceneFader;
+    private SceneFader _sceneFader;
+    public StoryController StoryController => _storyController;
+    private StoryController _storyController; 
+
     public static readonly string CitySceneName = "City";
     public static readonly string ConversationSceneName = "Conversation";
-    
-    [SerializeField] private GameConfigScriptableObject gameConfig;
-    public SceneFader SceneFader;
-    public StoryController StoryController; 
-
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
     #region Startup
     void Awake()
     {
         EnsureOneInstance();
+        _sceneFader = GetComponent<SceneFader>();
+        _storyController = GetComponent<StoryController>();
         SetStartupGameConfig();
     }
 
     private void EnsureOneInstance()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
+        if (Instance != null && Instance != this) {
+            Destroy(this); 
             return;
         }
-
         Instance = this;
         
         DontDestroyOnLoad(gameObject); // survive scene changes

@@ -48,8 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameConfig: {fileID: 11400000, guid: fc786a78be624094abfb157fc7989f28, type: 2}
-  SceneFader: {fileID: 3573228234840918959}
-  StoryController: {fileID: 2695697270598915021}
 --- !u!114 &2695697270598915021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,9 +62,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   story:
   - Id: 0
-    Dialogue: <Me>Here we go again.||The new client wanted to meet at the Midnight
-      Diner in The Heights.|I've just arrived.||She wouldn't share any details over
-      the phone.||Better get to it.|Diner's just up the street.
+    Dialogue: <Me>Here we go again.||A new client wants to meet at the Midnight Diner
+      in the Heights District.|I've just arrived.||She wouldn't share any details
+      over the phone.||Better get to it.|Diner's just up the street.
   - Id: 1
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
       show:Wd, music}[She's wearing a muted overcoat and dark glasses, evidently

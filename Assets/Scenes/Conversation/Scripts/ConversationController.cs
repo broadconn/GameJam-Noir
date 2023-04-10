@@ -96,6 +96,7 @@ namespace Scenes.Conversation.Scripts
             return speakerId switch {
                 "Me" => "The Protagonist",
                 "Wd" => "The Client",
+                "Kd" => "Weird kid",
                 _ => "[" + speakerId + "]"
             };
         }
