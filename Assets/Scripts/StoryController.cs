@@ -5,14 +5,14 @@ using UnityEngine;
     
 /// <summary>
 /// Kind of a weird class. Some aspects make sense to be global, some only need to be in the conversation scene.
-/// TODO: refactor at some point to have a clear separation of concerns.
+/// TODO: refactor at some point to have a clearer separation of concerns.
 /// </summary>
 public class StoryController : MonoBehaviour {
     public static readonly string EnteringStoryIdPrefName = "EnteringStoryID"; // the story ID used by the Conversation scene to know what convo to show
-    public static readonly string LastStoryIdPrefName = "LastStoryID"; // last conversation completed
-    private StoryId? _lastSeenStoryId; // the last conversation seen. Should be set at the end of every conversation.
+    public static readonly string LastStoryIdPrefName = "LastStoryID"; 
+    private StoryId? _lastSeenStoryId; // the last conversation completed. Gets set at the end of every conversation.
     
-    [SerializeField] private List<StoryConversation> story; // should probably be in ConversationController. 
+    [SerializeField] private List<StoryConversation> story; // should probably be in ConversationController, but it's useful to have access to the order of the story globally.
 
     private void Awake() {
         _lastSeenStoryId = (StoryId) PlayerPrefs.GetInt(LastStoryIdPrefName);

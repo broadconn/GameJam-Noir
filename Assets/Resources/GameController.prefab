@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8047153938741843460}
   - component: {fileID: 4891753684197766201}
-  - component: {fileID: 2695697270598915021}
   - component: {fileID: 3573228234840918959}
+  - component: {fileID: 2695697270598915021}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -48,6 +48,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameConfig: {fileID: 11400000, guid: fc786a78be624094abfb157fc7989f28, type: 2}
+--- !u!114 &3573228234840918959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739791969214591118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4d7cdfae75a2f448d485f6c1f19c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackFadeImg: {fileID: 5155203408148531330}
+  fadeTime: 1
 --- !u!114 &2695697270598915021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,20 +132,6 @@ MonoBehaviour:
     Dialogue: 
   - Id: 6
     Dialogue: 
---- !u!114 &3573228234840918959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739791969214591118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe4d7cdfae75a2f448d485f6c1f19c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackFadeImg: {fileID: 5155203408148531330}
-  fadeTime: 1
 --- !u!1 &6193551232576580085
 GameObject:
   m_ObjectHideFlags: 0
