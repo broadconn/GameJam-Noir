@@ -1,5 +1,4 @@
 using System;
-using DefaultNamespace;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +14,7 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private GameConfigScriptableObject gameConfig;
     public SceneFader SceneFader;
-    public StoryController StoryController; // should this be in ConversationController? I'm thinking so.
+    public StoryController StoryController; 
 
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
