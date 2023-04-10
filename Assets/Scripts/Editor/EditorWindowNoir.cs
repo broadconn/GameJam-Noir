@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using DefaultNamespace;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +14,8 @@ namespace Editor
         private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
         private string _currentScene;
+        private int lastDoneStoryIdx = 0; // might not need both of these
+        private int enteringStoryIdx = 0;
 
         [MenuItem ("**Noir**/Dev Tools")]
         public static void ShowWindow () {
@@ -24,7 +28,7 @@ namespace Editor
         }
 
         private void OnHierarchyChange()
-        {
+        { 
             CheckForSceneChange();
         }
 
@@ -52,6 +56,10 @@ namespace Editor
             _citySpawnPoints = Array.Empty<GameObject>();
             if(_currentScene == "City") 
                 _citySpawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint");
+            
+            // Story pos
+            lastDoneStoryIdx = PlayerPrefs.GetInt(StoryController.LastStoryIdPrefName);
+            enteringStoryIdx = PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName);
         }
 
         bool SceneUsesWorldBendShader()
@@ -64,18 +72,15 @@ namespace Editor
             switch (_currentScene)
             {
                 case "City":
+                    ShowLastStorySetter();
+                    GUILayout.Space(20);
                     ShowShaderSettings();
                     GUILayout.Space(20);
                     ShowWayPoints();
-                    break;
-                default: 
-                    GUILayout.FlexibleSpace();
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label("No settings for this scene :)", EditorStyles.miniLabel);
-                    GUILayout.FlexibleSpace(); 
-                    EditorGUILayout.EndHorizontal();
-                    GUILayout.FlexibleSpace();
+                    break; 
+                case "Conversation":
+                    ShowEnteringStorySetter();
+                    GUILayout.Space(20);
                     break;
             }
         }
@@ -110,15 +115,43 @@ namespace Editor
             GUILayout.Label("(useful if you manually move the player)", EditorStyles.miniLabel);
         }
 
+        private void ShowLastStorySetter() {
+            GUILayout.Label ("Story Pref", EditorStyles.boldLabel);
+            var options = (StoryId[])Enum.GetValues(typeof(StoryId));
+            var optionsStrs = options.Select(s => s.ToString()).ToArray(); 
+            EditorGUILayout.BeginHorizontal(); 
+            lastDoneStoryIdx = EditorGUILayout.Popup("Last done StoryId", lastDoneStoryIdx, optionsStrs);
+            if (GUILayout.Button("Apply", GUILayout.Width(100))) {
+                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, lastDoneStoryIdx);
+                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, lastDoneStoryIdx+1);
+            }
+            EditorGUILayout.EndHorizontal(); 
+        }
+
+        private void ShowEnteringStorySetter() {
+            GUILayout.Label ("Story Pref", EditorStyles.boldLabel);
+            var options = (StoryId[])Enum.GetValues(typeof(StoryId));
+            var optionsStrs = options.Select(s => s.ToString()).ToArray(); 
+            EditorGUILayout.BeginHorizontal(); 
+            enteringStoryIdx = EditorGUILayout.Popup("Entering StoryId", enteringStoryIdx, optionsStrs);
+            if (GUILayout.Button("Apply", GUILayout.Width(100))) {
+                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, enteringStoryIdx-1);
+                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, enteringStoryIdx);
+            }
+            EditorGUILayout.EndHorizontal(); 
+        }
+
         private void ShowWayPoints()
         {
+            _citySpawnPoints = _citySpawnPoints.Where(sp => sp != null).ToArray(); // changing scene can make these references null
+            
             // show / refresh waypoints button
             EditorGUILayout.BeginHorizontal(); 
             GUILayout.Label("City Spawn Points", EditorStyles.boldLabel); 
             if (GUILayout.Button(_citySpawnPoints.Length == 0 ? "Show" : "Refresh", GUILayout.Width(100))) 
                 _citySpawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint"); 
             EditorGUILayout.EndHorizontal();
-                
+
             // waypoint buttons
             if(_citySpawnPoints.Length > 0)
                 GUILayout.Label("Click to set player position", EditorStyles.miniLabel);
@@ -129,7 +162,7 @@ namespace Editor
                 {
                     // move player to the gameobject location
                     var player = GameObject.FindWithTag("PlayerCityToken");
-                    Undo.RecordObject (player.transform, "Player Original Position"); // helps Unity recognize that something has changed that needs saving
+                    Undo.RecordObject (player.transform, "Player Original Position"); // we need to help Unity recognize that something has changed that needs saving
                     player.transform.position = sp.transform.position;
                 
                     // update the world bend shader position

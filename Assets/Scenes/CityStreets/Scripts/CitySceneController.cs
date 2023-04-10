@@ -6,9 +6,7 @@ using UnityEngine;
 public class CitySceneController : MonoBehaviour
 {
     [SerializeField] private PlayerCityToken player;
-
     [SerializeField] private CameraController cameraController;
-
     [SerializeField] private Transform storyTriggersParent;
     
     // Start is called before the first frame update
@@ -21,7 +19,8 @@ public class CitySceneController : MonoBehaviour
     private void EnableNextStoryTrigger()
     { 
         var nextStoryId = GameController.Instance.StoryController.GetNextStoryId();
-        print("Active Story ID: " + nextStoryId);
+        var lastStoryId = GameController.Instance.StoryController.GetLastStoryId();
+        print("Next:" + nextStoryId + " " + "Last:" + lastStoryId);
         foreach (Transform t in storyTriggersParent) {
             t.gameObject.SetActive(t.GetComponent<StoryTrigger>()?.GetID() == nextStoryId); 
         }
@@ -34,7 +33,7 @@ public class CitySceneController : MonoBehaviour
     {
         var lastStoryId = GameController.Instance.StoryController.GetLastStoryId() ?? StoryId.Intro;
         
-        var lastStoryTrigger = storyTriggersParent.GetComponentsInChildren<StoryTrigger>()
+        var lastStoryTrigger = storyTriggersParent.GetComponentsInChildren<StoryTrigger>(includeInactive: true)
             .FirstOrDefault(st => st.GetID() == lastStoryId);
         
         if (lastStoryTrigger != null)

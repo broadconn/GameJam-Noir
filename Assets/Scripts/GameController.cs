@@ -1,22 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Essentially a singleton hub to get easy references to specific controllers. 
-/// Use for scene-agnostic things, e.g. game state, audio settings etc
+/// Use for scene-agnostic things, e.g. overall game state, audio settings etc
 /// </summary>
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
     
+    public static readonly string CitySceneName = "City";
+    public static readonly string ConversationSceneName = "Conversation";
+    
     [SerializeField] private GameConfigScriptableObject gameConfig;
     public SceneFader SceneFader;
-    public StoryController StoryController;
+    public StoryController StoryController; // should this be in ConversationController? I'm thinking so.
 
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
@@ -47,7 +46,8 @@ public class GameController : MonoBehaviour
     #endregion
 
     public void StartConversation(StoryId storyId) {
-        SceneFader.FadeToScene("Conversation");
+        PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, (int)storyId);
+        SceneFader.FadeToScene(ConversationSceneName);
     }
 }
 

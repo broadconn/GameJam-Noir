@@ -13,6 +13,8 @@ public class SceneFader : MonoBehaviour
     private float _timeTriggeredTransition = float.MinValue;
     private string _sceneToGoTo;
     private FadeDirection _fadeDir = FadeDirection.In;
+    private bool isTransitioning = false;
+    private bool isLoadingLevel = false;
 
     private void Awake() {
         SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
@@ -21,33 +23,37 @@ public class SceneFader : MonoBehaviour
     private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1) { 
         _fadeDir = FadeDirection.In;
         _timeTriggeredTransition = Time.time;
+        isLoadingLevel = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // fade in
-        // _fadeDir = FadeDirection.In;
-        // _timeTriggeredTransition = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateSceneTransition();
+        var timePassed = Time.time - _timeTriggeredTransition;
+        var transitionPercent = Mathf.Clamp01(timePassed / fadeTime);
+        
+        UpdateSceneTransition(timePassed, transitionPercent);
+
+        if (_fadeDir == FadeDirection.In && transitionPercent >= 1) {
+            isTransitioning = false; // enable the next scene change
+        }
     }
 
-    public void FadeToScene(string sceneName)
-    {
+    public void FadeToScene(string sceneName) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        
         _sceneToGoTo = sceneName;
         _fadeDir = FadeDirection.Out;
         _timeTriggeredTransition = Time.time;
     }
 
-    private void UpdateSceneTransition() {
-        var timePassed = Time.time - _timeTriggeredTransition;
-        var transitionPercent = Mathf.Clamp01(timePassed / fadeTime);
-        
+    private void UpdateSceneTransition(float timePassed, float transitionPercent) {
         if (_fadeDir == FadeDirection.In)
             transitionPercent  = 1 - transitionPercent; // invert fade amount if fading in
 
@@ -55,8 +61,10 @@ public class SceneFader : MonoBehaviour
             transitionPercent);
 
         // handle the scene change after we fade out
-        if (timePassed > fadeTime && _fadeDir != FadeDirection.In)
+        if (timePassed > fadeTime && _fadeDir != FadeDirection.In && !isLoadingLevel) {
+            isLoadingLevel = true;
             StartCoroutine(LoadAndGoToScene());
+        }
     }
 
     private IEnumerator LoadAndGoToScene() {
@@ -66,6 +74,7 @@ public class SceneFader : MonoBehaviour
         sceneLoadOperation.allowSceneActivation = false; 
         
         while (!sceneLoadOperation.isDone) {  
+            // can use sceneLoadOperation.progress for a loading indicator
             if (sceneLoadOperation.progress >= 0.9f) { // progress stops at 0.9 if allowSceneActivation = false
                 sceneLoadOperation.allowSceneActivation = true;
             }

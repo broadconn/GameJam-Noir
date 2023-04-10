@@ -1,45 +1,123 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 
 namespace Scenes.Conversation.Scripts
 {
     public class ConversationController : MonoBehaviour
     {
-        private const string EnteringStoryIdPrefName = "EnteringStoryID"; // the story ID set right before entering this scene
-        private List<StorySegment> conversation;
+        private List<StorySegment> conversation = new();
+        private StorySegment curDialogue;
 
-        private void Start()
-        {
-            var enteringStoryId = (StoryId)PlayerPrefs.GetInt(EnteringStoryIdPrefName);
-            
-            // Get next story conversation
-            var rawDialogue = GameController.Instance.StoryController.GetConversation(enteringStoryId).Dialogue;
-            CreateConversation(rawDialogue);
-            
-            // fade out black UI 
+        [SerializeField] private TMP_Text userText;
+        [SerializeField] private TMP_Text dialogueText;
+        [SerializeField] private GameObject nextIndicator;
+        [SerializeField] private float letterDelay = 0.1f;
+        private float totalDialogueTime;
+        private float timeTriggeredText = float.MinValue;
+        private int convoIndex = -1;
+        private bool textSpawning = false;
+
+        [SerializeField] private Transform setsParent;
+        private Transform setSpeakers;
+
+        private StoryId thisConversationId;
+
+        private void Awake() {
+            userText.text = string.Empty;
         }
 
-        void CreateConversation(string rawDialogue)
+        private void Start() {
+            thisConversationId = (StoryId)PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName); 
+            var rawDialogue = GameController.Instance.StoryController.GetConversation(thisConversationId).Dialogue;
+            conversation = CreateConversation(rawDialogue);
+            PrepareBgSet(thisConversationId);
+            TriggerNextDialogue();
+        }
+
+        private void PrepareBgSet(StoryId storyId) {
+            // disable all sets
+            foreach (Transform set in setsParent) {
+                set.gameObject.SetActive(false);
+            }
+            
+            // enable the set for this story
+            var sets = setsParent.GetComponentsInChildren<ConversationSet>(includeInactive: true);
+            var relevantSet = sets.First(s => s.StoryIds == storyId);
+            setSpeakers = relevantSet.SpeakersParent;
+            relevantSet.gameObject.SetActive(true);
+        }
+
+        private void Update() {
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                if (convoIndex < conversation.Count - 1) {
+                    if (!textSpawning)
+                        TriggerNextDialogue();
+                    else
+                        timeTriggeredText = float.MinValue; // insta-complete the current spawning words
+                }
+                else {
+                    EndConversation();
+                }
+            }
+
+            if (curDialogue == null) return;
+            var timePassed = Time.time - timeTriggeredText;
+            textSpawning = timePassed < totalDialogueTime;
+            var percThroughText = Mathf.Clamp01(timePassed / totalDialogueTime);
+            dialogueText.text = GetPercChars(curDialogue.Dialogue, percThroughText);
+            nextIndicator.SetActive(!textSpawning);
+        }
+
+        private void EndConversation() {
+            GameController.Instance.StoryController.SetLastStoryId(thisConversationId);
+            GameController.Instance.SceneFader.FadeToScene(GameController.CitySceneName);
+        }
+
+        private static string GetPercChars(string s, float percThroughText) { 
+            var numChars = Mathf.FloorToInt(s.Length * percThroughText);
+            return s[..numChars];
+        }
+
+        private void TriggerNextDialogue() {
+            timeTriggeredText = Time.time;
+            convoIndex++;
+            curDialogue = conversation[convoIndex];
+            userText.text = curDialogue.SpeakerId == null ? userText.text : MapSpeakerIdToName(curDialogue.SpeakerId);
+            userText.gameObject.SetActive(!curDialogue.Dialogue.StartsWith('[')); // remove speaker name for internal speech
+
+            totalDialogueTime = curDialogue.Dialogue.Length * letterDelay;
+        }
+
+        private static string MapSpeakerIdToName(string speakerId) {
+            return speakerId switch {
+                "Me" => "The Protagonist",
+                "Wd" => "The Client",
+                _ => "[" + speakerId + "]"
+            };
+        }
+
+        List<StorySegment> CreateConversation(string rawDialogue)
         {
-            conversation = new List<StorySegment>();
+            var convo = new List<StorySegment>();
 
             var sections = rawDialogue.Split("||");
             
             foreach (var s in sections)
             {
-                Debug.Log("Section: " + s);
-                
                 var storySegment = new StorySegment();
-                conversation.Add(storySegment); 
+                convo.Add(storySegment); 
                 storySegment.SpeakerId = ExtractSpeaker(s);
                 storySegment.Dialogue = ExtractDialogue(s);
                 storySegment.objectsToEnable = ExtractObjectsToEnable(s); 
                 storySegment.musicToPlay = ExtractMusic(s);
-
-                var result = JsonUtility.ToJson(storySegment);
-                Debug.Log(result);
             }
+
+            return convo;
         }
  
         private static string ExtractSpeaker(string s)
@@ -54,13 +132,14 @@ namespace Scenes.Conversation.Scripts
             return null;
         }
 
-        private string ExtractDialogue(string s)
+        private static string ExtractDialogue(string s)
         {
             // just grab everything after the last > or }
             var lastGator = s.LastIndexOf('>');
             var lastCurly = s.LastIndexOf('}');
             var endOfShenanigans = Mathf.Max(lastGator, lastCurly); // will be -1 if both missing, that is ok.
             var dialogue = s[(endOfShenanigans+1)..];
+            dialogue = dialogue.Replace("|", Environment.NewLine);
             return dialogue;
         }
 
