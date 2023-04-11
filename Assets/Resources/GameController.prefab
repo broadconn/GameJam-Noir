@@ -77,7 +77,7 @@ MonoBehaviour:
   story:
   - Id: 0
     Dialogue: <Me>Here we go again.||A new client wants to meet at the Midnight Diner
-      in the Heights District.|I've just arrived.||She wouldn't share any details
+      in the Westward District.|I've just arrived.||She wouldn't share any details
       over the phone.||Better get to it.|Diner's just up the street.
   - Id: 1
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
@@ -88,17 +88,16 @@ MonoBehaviour:
       day before last - traffic accident.||Witnesses say he walked into the road
       without looking.||Knowing my husband, this isn't entirely out of the question.||However,
       I have reason to believe it's not true.||The police assured me it was him,
-      but the body was a mess. I couldn\u2019t be sure.||On top of this, I'm ashamed
-      to say it but I recently discovered my husband had a mistress; ||I found a
-      polaroid of them together a week ago.||[She slides the photo across the table]||The
-      day before he died, a large sum of money was withdrawn from our account.||To
-      me the evidence is clear. He faked his death to run away with this floozy.||I
-      want you to help me prove it. ||<Me>I see. Any other leads ma'am?||[You're
-      not sold on her theory.]||<Wd>Well - I suppose not. That's your job isn't it?||<Me>I
-      suppose so. Where's the body now?||<Wd>Still at the morgue, I think. Near the
-      docks.||Will you help me? I need to know the truth.||<Me>I can look into it.
-      You know my rates.||<Wd>I do.||[She slides you an envelope.]||<Me>Then I'll
-      get to it."
+      but the body was a mess. I couldn\u2019t be sure.||On top of this, I recently
+      discovered my husband had a mistress - |I found a polaroid of them together
+      a week ago.||[She slides the photo across the table]||The day before he died,
+      a large sum of money was withdrawn from our account.||To me the evidence is
+      clear. He faked his death to run away with this floozy.||I want you to help
+      me prove it. ||<Me>I see. Any other leads ma'am?||[You're not sold on her theory.]||<Wd>Well
+      - I suppose not. That's your job isn't it?||<Me>I suppose so. Where's the body
+      now?||<Wd>Still at the morgue, I think. The one near the docks.||Will you help
+      me? I need to know the truth.||<Me>I can look into it. You know my rates.||<Wd>I
+      do.||[She slides you an envelope.]||<Me>Then I'll get to it."
   - Id: 2
     Dialogue: "{show:Me}[You knock at the door.  After a moment a weird kid greets
       you.]||{show:Kd}<Kd>Uh... hi. Can I help you?||<Me>I'm here to see the body
@@ -112,18 +111,18 @@ MonoBehaviour:
       kid helps you find the right one. He opens the door and pulls out a body bag
       resting on a long tray.]||[Unzipping the bag, the first thing you notice is
       that the cops weren't lying to your client. He is a right mess.]||[You get
-      to work analysing the mangled corpse. To the untrained eye this could be believed
+      to work analysing the mangled corpse.|To the untrained eye this could be believed
       to be the husband.]||[However, you\u2019ve done this a hundred times. In seconds
-      you\u2019re certain that this is NOT the man in the photo. Perhaps the widow
-      was on to something after all.]||[Most surprising of all though is that hidden
-      amongst the gore and the muck of his face... is a bullet wound.]||[A car didn\u2019t
-      do that. This case might be more interesting that you thought.]||<Kd>Hey...
-      come on. If my boss finds out I let anyone in here, I could lose my job...||[You
-      ignore the kid and sneakily search the victim's pockets. Nothing but some lint,
-      a couple dimes and\u2026 a matchbook. Looks to have custom branding from a
-      club in town.]||[Looks like you have your next stop.]||[You pat the kid on
-      the shoulder and head out into the cold night, lighting up a cigarette with
-      your evidence.]"
+      you\u2019re certain that this is NOT the man in the photo.]||[Perhaps the widow
+      was on to something after all.]||[Most surprising of all is that hidden amongst
+      the gore and the muck of his face... is a bullet wound.]||[A car didn\u2019t
+      do that. This case might be more interesting that you thought.]||[Who is this
+      man, and where was the husband?]||<Kd>Hey... come on. If my boss finds out
+      I let anyone in here, I could lose my job...||[You ignore the kid and sneakily
+      search the victim's pockets. Nothing but some lint, a couple dimes and\u2026
+      a matchbook. Looks to have custom branding from a club in town.]||[Looks like
+      you have your next stop.]||[You pat the kid on the shoulder and head out into
+      the cold night, lighting up a cigarette with your newfound evidence.]"
   - Id: 3
     Dialogue: 
   - Id: 4
