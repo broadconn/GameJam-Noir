@@ -124,7 +124,35 @@ MonoBehaviour:
       you have your next stop.]||[You pat the kid on the shoulder and head out into
       the cold night, lighting up a cigarette with your newfound evidence.]"
   - Id: 3
-    Dialogue: 
+    Dialogue: "[You enter the dimly lit bar and make your way through the haze.|You
+      clock a few other patrons scattered around by the time you reach the bar.]||[You
+      tap your finger on it's dark wood surface.]||{show:BG, show:Bt, show:Me}<Me>Whiskey.
+      Neat.||[The bartender pours your drink and slides it over to you.]||<Bt>Anything
+      else I can get you?||<Me>Actually, yeah\u2026||[You pull out the photo and
+      point to the husband.]||Ever seen this man in here?||[The bartender glances
+      at it, then looks away.]||<Bt>Can't say I have.||[He starts cleaning a glass.]||[A
+      bit quick to dismiss it, wasn't he?|You decide to press the matter.]||<Me>Are
+      you sure? Have a good look. It's important.||[You hold the picture up to him]||[His
+      brow furrows and he looks away.]||<Bt>Sorry, can't help you. Excuse me.||{hide:Bt}[He
+      disappears through a door behind the bar.]||[Interesting.]||[You return to
+      your drink and let your eyes wander the bar for anything notable.]||[Your eyes
+      linger on one of the patrons.|He locks eyes with you and perks up.]||<Br>Well,
+      look what the cat dragged in!||[It's your old friend from the force.|You join
+      him at his table.]||{show:Br}[You take a while to catch up with him before
+      getting back to the story at hand.]||<Br>HAHaha\u2026 anyway.||<Me>Yes. Anyway.
+      Look, I'm working this case right now. You come here often, yes?||<Br>Yep!
+      Almost every night lately.||[You decide not to pry.]||<Me>Do you recognize
+      this man?||[You show him the photograph.]||<Br>Oh, yeah, seen him in here plenty.
+      With that pretty thing by his side too. Why's askin'?||<Me>He supposedly died
+      a day or so ago. Only thing is, the body at the morgue wasn't his. Trying to
+      find answers.||<Br>Wow. You got quite the conundrum on your hands.|Only thing
+      I can tell you is that I havent seen him in a while. But I *have* seen her.||She
+      comes in almost every night, and heads straight out the back. You might get
+      lucky if you hang around long enough. Ha ha ha!||<Me>Is that so. Maybe I will.||[You
+      smile and raise your glass to him].||[You continue drinking. A few hours go
+      by. No sign of either of your quarry.]||[Eventually you sigh and bid your friend
+      farewell.]||[Maybe you'll be back tomorrow night.]||[You head out into the
+      dark streets.]"
   - Id: 4
     Dialogue: 
   - Id: 5

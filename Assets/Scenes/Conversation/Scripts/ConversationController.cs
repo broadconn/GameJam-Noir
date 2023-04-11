@@ -204,6 +204,8 @@ namespace Scenes.Conversation.Scripts
                 "Me" => "The Protagonist",
                 "Wd" => "The Client",
                 "Kd" => "Weird kid",
+                "Bt" => "Bartender",
+                "Br" => "Bert",
                 _ => "[" + speakerId + "]"
             };
         }
