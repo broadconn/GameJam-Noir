@@ -83,7 +83,7 @@ MonoBehaviour:
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
       show:Wd, music}[She's wearing a muted overcoat and dark glasses, evidently
       trying to hide her opulence.]||[She bears a grim expression behind the steaming
-      bean juice.]||[You sit at her table.]||<Wd>Hello detective.||{show:Me}<Me>I
+      bean juice.]||{show:Me}[You sit at her table.]||<Wd>Hello detective.||{show:Me}<Me>I
       hear you have a case for me.||<Wd>Yes. You see, my husband passed away the
       day before last - traffic accident.||Witnesses say he walked into the road
       without looking.||Knowing my husband, this isn't entirely out of the question.||However,

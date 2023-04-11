@@ -8,116 +8,54 @@ namespace Scenes.Conversation.Scripts
 {
     public class ConversationController : MonoBehaviour
     {
-        private List<StorySegment> conversation = new();
-        private StorySegment curDialogue;
+        private List<StorySegment> _conversation = new();
+        private StorySegment _curDialogue;
 
         [SerializeField] private TMP_Text userText;
         [SerializeField] private TMP_Text dialogueText;
         [SerializeField] private GameObject nextIndicator;
         [SerializeField] private float letterDelay = 0.1f;
-        private float totalDialogueTime;
-        private float timeTriggeredText = float.MinValue;
-        private int convoIndex = -1;
-        private bool textSpawning = false;
+        private float _totalDialogueTime;
+        private float _timeTriggeredText = float.MinValue;
+        private int _convoIndex = -1;
+        private bool _textSpawning = false;
 
         [SerializeField] private Transform setsParent;
-        private Transform setSpeakers;
 
-        private StoryId thisConversationId;
+        private StoryId _thisConversationId;
+        private ConversationSet _currentSet;
 
         private void Awake() {
             userText.text = string.Empty;
         }
 
         private void Start() {
-            thisConversationId = (StoryId)PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName); 
-            var rawDialogue = GameController.Instance.StoryController.GetConversation(thisConversationId).Dialogue;
-            conversation = CreateConversation(rawDialogue);
-            PrepareBgSet(thisConversationId);
+            _thisConversationId = (StoryId)PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName); 
+            var rawDialogue = GameController.Instance.StoryController.GetConversation(_thisConversationId).Dialogue;
+            _conversation = CreateConversation(rawDialogue);
+            PrepareBgSet(_thisConversationId);
             TriggerNextDialogue();
         }
 
-        private void PrepareBgSet(StoryId storyId) {
-            // disable all sets
-            foreach (Transform set in setsParent) {
-                set.gameObject.SetActive(false);
-            }
-            
-            // enable the set for this story
-            var sets = setsParent.GetComponentsInChildren<ConversationSet>(includeInactive: true);
-            var relevantSet = sets.First(s => s.StoryIds == storyId);
-            setSpeakers = relevantSet.SpeakersParent;
-            relevantSet.gameObject.SetActive(true);
-        }
-
-        private void Update() {
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                if (convoIndex < conversation.Count - 1) {
-                    if (!textSpawning)
-                        TriggerNextDialogue();
-                    else
-                        timeTriggeredText = float.MinValue; // insta-complete the current spawning words
-                }
-                else {
-                    EndConversation();
-                }
-            }
-
-            if (curDialogue == null) return;
-            var timePassed = Time.time - timeTriggeredText;
-            textSpawning = timePassed < totalDialogueTime;
-            var percThroughText = Mathf.Clamp01(timePassed / totalDialogueTime);
-            dialogueText.text = GetPercChars(curDialogue.Dialogue, percThroughText);
-            nextIndicator.SetActive(!textSpawning);
-        }
-
-        private void EndConversation() {
-            GameController.Instance.StoryController.SetLastStoryId(thisConversationId);
-            GameController.Instance.SceneFader.FadeToScene(GameController.CitySceneName);
-        }
-
-        private static string GetPercChars(string s, float percThroughText) { 
-            var numChars = Mathf.FloorToInt(s.Length * percThroughText);
-            return s[..numChars];
-        }
-
-        private void TriggerNextDialogue() {
-            timeTriggeredText = Time.time;
-            convoIndex++;
-            curDialogue = conversation[convoIndex];
-            userText.text = curDialogue.SpeakerId == null ? userText.text : MapSpeakerIdToName(curDialogue.SpeakerId);
-            userText.gameObject.SetActive(!curDialogue.Dialogue.StartsWith('[')); // remove speaker name for internal speech
-
-            totalDialogueTime = curDialogue.Dialogue.Length * letterDelay;
-        }
-
-        private static string MapSpeakerIdToName(string speakerId) {
-            return speakerId switch {
-                "Me" => "The Protagonist",
-                "Wd" => "The Client",
-                "Kd" => "Weird kid",
-                _ => "[" + speakerId + "]"
-            };
-        }
-
-        List<StorySegment> CreateConversation(string rawDialogue)
+        private List<StorySegment> CreateConversation(string rawDialogue)
         {
-            var convo = new List<StorySegment>();
-
             var sections = rawDialogue.Split("||");
-            
+            var lastSpeaker = (string) null;
+
+            var c = new List<StorySegment>();
             foreach (var s in sections)
             {
-                var storySegment = new StorySegment();
-                convo.Add(storySegment); 
-                storySegment.SpeakerId = ExtractSpeaker(s);
-                storySegment.Dialogue = ExtractDialogue(s);
-                storySegment.objectsToEnable = ExtractObjectsToEnable(s); 
-                storySegment.musicToPlay = ExtractMusic(s);
+                var storySegment = new StorySegment {
+                    SpeakerId = ExtractSpeaker(s) ?? lastSpeaker,
+                    Dialogue = ExtractDialogue(s),
+                    ThingsToShow = ExtractThingsToShow(s),
+                    MusicToPlay = ExtractMusic(s)
+                };
+                c.Add(storySegment);
+                lastSpeaker = storySegment.SpeakerId;
             }
 
-            return convo;
+            return c;
         }
  
         private static string ExtractSpeaker(string s)
@@ -143,15 +81,35 @@ namespace Scenes.Conversation.Scripts
             return dialogue;
         }
 
+        /// <summary>
+        /// e.g. `show:Me, show:Wd, show:BG, music` 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        private List<StoryThing> ExtractThingsToShow(string s) {
+            var result = new List<StoryThing>();
+            var sceneEdits = ExtractSceneEdits(s);
+            if (sceneEdits == null) 
+                return result;
+            
+            var things = sceneEdits.Split(',').Select(t => t.Trim());
+            foreach (var thing in things) {
+                if (thing.Contains(':')) {
+                    var sceneThing = thing.Split(':');
+                    if (sceneThing[0] != "show") continue; // I think this is always 'show'? Finish the script u dingus
+                    var thingId = sceneThing[1];
+                    result.Add(new StoryThing{ Type = StoryThingType.SceneThing, ID = thingId });
+                }
+                else 
+                    result.Add(new StoryThing{ Type = StoryThingType.Music });
+            }
+            
+            return result;
+        }
+
         private string ExtractMusic(string s) {
             var sceneEdits = ExtractSceneEdits(s);
             // TODO when we have music kek
-            return null;
-        }
-
-        private List<GameObject> ExtractObjectsToEnable(string s) {
-            var sceneEdits = ExtractSceneEdits(s);
-            // TODO
             return null;
         }
 
@@ -166,16 +124,108 @@ namespace Scenes.Conversation.Scripts
 
             return null;
         }
+
+        private void PrepareBgSet(StoryId storyId) {
+            // disable all sets
+            foreach (Transform set in setsParent) {
+                set.gameObject.SetActive(false);
+            }
+            
+            // enable the set for this story
+            var sets = setsParent.GetComponentsInChildren<ConversationSet>(includeInactive: true);
+            _currentSet = sets.First(s => s.StoryIds == storyId);
+            
+            // turn off the elements that get enabled - lights, background
+            _currentSet.Prepare();
+            _currentSet.gameObject.SetActive(true);
+        }
+
+        private void Update() {
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                if (_convoIndex < _conversation.Count - 1) {
+                    if (!_textSpawning)
+                        TriggerNextDialogue();
+                    else
+                        _timeTriggeredText = float.MinValue; // insta-complete the current spawning words
+                }
+                else {
+                    EndConversation();
+                }
+            }
+
+            if (_curDialogue == null) return;
+            var timePassed = Time.time - _timeTriggeredText;
+            _textSpawning = timePassed < _totalDialogueTime;
+            var percThroughText = Mathf.Clamp01(timePassed / _totalDialogueTime);
+            dialogueText.text = GetPercChars(_curDialogue.Dialogue, percThroughText);
+            nextIndicator.SetActive(!_textSpawning);
+        }
+
+        private void EndConversation() {
+            GameController.Instance.StoryController.SetLastStoryId(_thisConversationId);
+            GameController.Instance.SceneFader.FadeToScene(GameController.CitySceneName);
+        }
+
+        private static string GetPercChars(string s, float percThroughText) { 
+            var numChars = Mathf.FloorToInt(s.Length * percThroughText);
+            return s[..numChars];
+        }
+
+        private void TriggerNextDialogue() {
+            _timeTriggeredText = Time.time;
+            
+            _convoIndex++;
+            _curDialogue = _conversation[_convoIndex];
+            
+            SetSceneElements(_curDialogue);
+
+            _totalDialogueTime = _curDialogue.Dialogue.Length * letterDelay;
+        }
+
+        private void SetSceneElements(StorySegment dialogue) {
+            var speechIsInternal = SpeechIsInternal(dialogue.Dialogue);
+            userText.text = MapSpeakerIdToName(dialogue.SpeakerId);
+            userText.gameObject.SetActive(!speechIsInternal); // hide speaker name for internal speech
+
+            foreach (var thing in dialogue.ThingsToShow) {
+                _currentSet.ShowThing(thing.ID);
+            }
+            
+            _currentSet.SetPersonSpeaking(speechIsInternal ? null : dialogue.SpeakerId);
+        }
+
+        private static bool SpeechIsInternal(string speech) {
+            return speech.StartsWith('[');
+        }
+
+        private static string MapSpeakerIdToName(string speakerId) {
+            return speakerId switch {
+                "Me" => "The Protagonist",
+                "Wd" => "The Client",
+                "Kd" => "Weird kid",
+                _ => "[" + speakerId + "]"
+            };
+        }
     }
 
-    internal class StorySegment
-    {
+    internal class StorySegment {
         /// <summary>
         /// Value should link to an ID in the Speakers list of the Set object
         /// </summary>
         public string SpeakerId;
         public string Dialogue; // includes the newline operator
-        public List<GameObject> objectsToEnable;
-        public string musicToPlay;
+        public List<StoryThing> ThingsToShow;
+        public string MusicToPlay;
+    }
+
+    internal class StoryThing {
+        public string ID;
+        public StoryThingType Type;
+    }
+
+    internal enum StoryThingType {
+        SceneThing,
+        Music
     }
 }
