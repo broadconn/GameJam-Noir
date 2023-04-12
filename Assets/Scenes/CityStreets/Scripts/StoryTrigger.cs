@@ -1,21 +1,16 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class StoryTrigger : MonoBehaviour
-{
+public class StoryTrigger : MonoBehaviour {
     [SerializeField] private StoryId storyId;
 
-    public StoryId GetID()
-    {
+    public StoryId GetID() {
         return storyId;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        GameController.Instance.StartConversation(storyId);
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("PlayerCityToken"))
+            GameController.Instance.StartConversation(storyId);
     }
 }

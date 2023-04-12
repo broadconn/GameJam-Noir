@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private CinemachineVirtualCamera playerCamera;
+    [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private InputAction cameraRotateAction;
     [Header("Settings")]
@@ -41,7 +42,7 @@ public class CameraController : MonoBehaviour
     private float _tgtXRot, _smoothedXRot; 
     private float _tgtDistance, _smoothedDist;
 
-    public float CameraFacingAngle => _smoothedYRot;
+    public float CameraFacingAngle => playerCameraTransform.localEulerAngles.y;
 
     private void Awake()
     {
@@ -97,13 +98,17 @@ public class CameraController : MonoBehaviour
     private void ApplyValues()
     {
         // apply rotation
-        playerCamera.transform.localEulerAngles = new Vector3(_smoothedXRot, _smoothedYRot, 0);
+        playerCamera.transform.localEulerAngles = new Vector3(_smoothedXRot, _smoothedYRot, 0); // this doesn't work if LookAt is set
         
         // apply distance
         var componentBase = playerCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
         if (componentBase is CinemachineFramingTransposer transposer) {
             transposer.m_CameraDistance = _smoothedDist; 
         }
+    }
+
+    public void SetCameraLookTarget(Transform t) {
+        playerCamera.LookAt = t;
     }
 
     public void SetMode(CityMode mode)
