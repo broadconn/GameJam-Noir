@@ -32,7 +32,7 @@ public class ConversationSpeaker : MonoBehaviour {
 
     public void Show() {
         _isVisible = true;
-        _lightTgtIntensity = lightIntensitySilent;
+        _lightTgtIntensity = lightIntensitySilent; // turn light on, but the dull setting
     }
 
     public void Hide() {
