@@ -8,10 +8,12 @@ public class CitySceneController : MonoBehaviour
     [SerializeField] private PlayerCityToken player;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform storyTriggersParent;
+
+    private StoryTrigger[] _storyTriggers;
     
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+        _storyTriggers = storyTriggersParent.GetComponentsInChildren<StoryTrigger>(includeInactive: true);
         EnableNextStoryTrigger();
         SetPlayerAtLastStoryTrigger();
     }
@@ -31,13 +33,15 @@ public class CitySceneController : MonoBehaviour
     {
         var lastStoryId = GameController.Instance.StoryController.GetLastStoryId() ?? StoryId.Intro;
         
-        var lastStoryTrigger = storyTriggersParent.GetComponentsInChildren<StoryTrigger>(includeInactive: true)
+        var lastStoryTrigger = _storyTriggers
             .FirstOrDefault(st => st.GetID() == lastStoryId);
-        
-        if (lastStoryTrigger != null)
+
+        if (lastStoryTrigger != null) {
             player.transform.position = lastStoryTrigger.transform.position;
+            Debug.Log("Placing player at story trigger for " + lastStoryId + " " + lastStoryTrigger.transform.position);
+        }
         else
-            Debug.LogWarning("Couldn't figure out where to put the player 🤔");
+            Debug.LogWarning("Couldn't figure out where to put the player for ID " + lastStoryId);
     }
 
     // Update is called once per frame

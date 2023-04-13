@@ -18,15 +18,15 @@ public class MistressCityToken : MonoBehaviour {
     private bool _isPaused = true;
     private float _resumeTime = float.MaxValue; // time we get auto-unpaused
 
-    private GameObject light;
+    private GameObject _light;
     
     // Start is called before the first frame update
     void Start() {
         _myTransform = transform; // Rider says repeatedly accessing transform is inefficient
         _posLastFrame = _myTransform.position;
 
-        light = GetComponentInChildren<Light>().GameObject();
-        light.SetActive(false);
+        _light = GetComponentInChildren<Light>().GameObject();
+        _light.SetActive(false);
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class MistressCityToken : MonoBehaviour {
 
     public void StartMoving() {
         _isPaused = false;
-        light.SetActive(true);
+        _light.SetActive(true);
     }
 
     private void MoveAlongSpline() {

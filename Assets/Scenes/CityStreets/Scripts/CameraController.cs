@@ -20,17 +20,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothSpeed = 10;
     [SerializeField] private float rotateSpeed = 40;
 
-    private readonly CameraSettings streetSettings = new()
+    private readonly CameraSettings _streetSettings = new()
     {
         Distance = 7,
         Pitch = 0,
         DefaultYRotation = 0,
         ManualRotationEnabled = true
     };
-    private readonly CameraSettings mapSettings = new()
+    private readonly CameraSettings _mapSettings = new()
     {
         Distance = 500,
-        Pitch = 89,
+        Pitch = 30,
         DefaultYRotation = 0,
         ManualRotationEnabled = false
     };
@@ -113,7 +113,7 @@ public class CameraController : MonoBehaviour
 
     public void SetMode(CityMode mode)
     {
-        var settings = mode == CityMode.Street ? streetSettings : mapSettings;
+        var settings = mode == CityMode.Street ? _streetSettings : _mapSettings;
         SetTargetValues(settings);
     }
 

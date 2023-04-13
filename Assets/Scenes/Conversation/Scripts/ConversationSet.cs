@@ -15,35 +15,30 @@ public class ConversationSet : MonoBehaviour
     public Transform SpeakersParent => speakersParent;
     public Transform BackgroundParent => backgroundParent;
 
-    private List<ConversationSpeaker> speakers;
-
-    private void Awake() {
-        speakers = speakersParent.GetComponentsInChildren<ConversationSpeaker>(includeInactive: true).ToList();
-    }
+    private List<ConversationSpeaker> _speakers; 
 
     public void Prepare() {
-        // disable / hide everything that could get revealed as part of a conversation
-        // e.g. background, speakers
         backgroundParent.gameObject.SetActive(false);
 
-        foreach (var speaker in speakers) {
+        _speakers = speakersParent.GetComponentsInChildren<ConversationSpeaker>(includeInactive: true).ToList();
+        foreach (var speaker in _speakers) {
             speaker.Hide();
         }
     }
 
     public void ShowThing(string id) {
         if (id == "BG") {  
-            backgroundParent.gameObject.SetActive(true); // todo nice face
+            backgroundParent.gameObject.SetActive(true); // todo nice fade
             return;
         }
         
-        var relevantThing = speakers.FirstOrDefault(s => s.id == id); 
-        if (relevantThing == null) return;
-        relevantThing.Show();
+        var speakerWithId = _speakers.FirstOrDefault(s => s.id == id); 
+        if (speakerWithId == null) return;
+        speakerWithId.Show();
     }
 
     public void SetPersonSpeaking(string personId) {
-        foreach (var speaker in speakers.Where(speaker => speaker.IsVisible)) {
+        foreach (var speaker in _speakers.Where(speaker => speaker.IsVisible)) {
             speaker.SetSpeaking(speaker.id == personId);
         }
     }

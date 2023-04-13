@@ -18,7 +18,7 @@ namespace Scenes.Conversation.Scripts
         private float _totalDialogueTime;
         private float _timeTriggeredText = float.MinValue;
         private int _convoIndex = -1;
-        private bool _textSpawning = false;
+        private bool _textIsSpawning = false;
 
         [SerializeField] private Transform setsParent;
 
@@ -134,32 +134,33 @@ namespace Scenes.Conversation.Scripts
             // enable the set for this story
             var sets = setsParent.GetComponentsInChildren<ConversationSet>(includeInactive: true);
             _currentSet = sets.First(s => s.StoryIds == storyId);
-            
-            // turn off the elements that get enabled - lights, background
             _currentSet.Prepare();
             _currentSet.gameObject.SetActive(true);
         }
 
         private void Update() {
 
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                if (_convoIndex < _conversation.Count - 1) {
-                    if (!_textSpawning)
+            if (Input.GetKeyDown(KeyCode.Space)) {  
+                if (_convoIndex < _conversation.Count - 1 || _textIsSpawning) {
+                    if (!_textIsSpawning)
                         TriggerNextDialogue();
                     else
                         _timeTriggeredText = float.MinValue; // insta-complete the current spawning words
                 }
                 else {
                     EndConversation();
+                    return;
                 }
             }
 
             if (_curDialogue == null) return;
+            
             var timePassed = Time.time - _timeTriggeredText;
-            _textSpawning = timePassed < _totalDialogueTime;
             var percThroughText = Mathf.Clamp01(timePassed / _totalDialogueTime);
             dialogueText.text = GetPercChars(_curDialogue.Dialogue, percThroughText);
-            nextIndicator.SetActive(!_textSpawning);
+            
+            _textIsSpawning = timePassed < _totalDialogueTime;
+            nextIndicator.SetActive(!_textIsSpawning); // the little '>' in the bottom right of the UI
         }
 
         private void EndConversation() {
@@ -216,7 +217,7 @@ namespace Scenes.Conversation.Scripts
         /// Value should link to an ID in the Speakers list of the Set object
         /// </summary>
         public string SpeakerId;
-        public string Dialogue; // includes the newline operator
+        public string Dialogue; // includes the newline operator '|'
         public List<StoryThing> ThingsToShow;
         public string MusicToPlay;
     }
