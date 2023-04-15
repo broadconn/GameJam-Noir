@@ -28,6 +28,11 @@ public class GameController : MonoBehaviour {
         SetStartupGameConfig();
     }
 
+    public void StartNewGame() {
+        PlayerPrefs.DeleteAll(); 
+        StartConversation(StoryId.Intro);
+    }
+
     private void EnsureOneInstance()
     {
         if (Instance != null && Instance != this) {

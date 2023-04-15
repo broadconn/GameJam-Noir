@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65162acb0340f83468d5a1a9c9afb346, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  WorldShaderCurveAmount: -4.6
+  WorldShaderCurveAmount: -4.3

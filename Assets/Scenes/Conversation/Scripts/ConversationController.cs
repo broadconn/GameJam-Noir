@@ -30,9 +30,10 @@ namespace Scenes.Conversation.Scripts
         }
 
         private void Start() {
-            _thisConversationId = (StoryId)PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName); 
+            _thisConversationId = (StoryId)PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName);
             var rawDialogue = GameController.Instance.StoryController.GetConversation(_thisConversationId).Dialogue;
             _conversation = CreateConversation(rawDialogue);
+            
             PrepareBgSet(_thisConversationId);
             TriggerNextDialogue();
         }
@@ -207,6 +208,7 @@ namespace Scenes.Conversation.Scripts
                 "Kd" => "Weird kid",
                 "Bt" => "Bartender",
                 "Br" => "Bert",
+                "Ms" => "Photo lady",
                 _ => "[" + speakerId + "]"
             };
         }

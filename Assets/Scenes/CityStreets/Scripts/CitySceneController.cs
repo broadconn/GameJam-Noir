@@ -38,6 +38,7 @@ public class CitySceneController : MonoBehaviour
 
         if (lastStoryTrigger != null) {
             player.transform.position = lastStoryTrigger.transform.position;
+            cameraController.ForceCameraRotation(lastStoryTrigger.SpawnRotation);
             Debug.Log("Placing player at story trigger for " + lastStoryId + " " + lastStoryTrigger.transform.position);
         }
         else
@@ -47,17 +48,11 @@ public class CitySceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        # if UNITY_EDITOR
-        HandleDebugInput();
-        # endif
-    }
-
-    private void HandleDebugInput()
-    {
         if (Input.GetKeyDown(KeyCode.M))
             SetMode(CityMode.Map);
+        
         if (Input.GetKeyDown(KeyCode.DownArrow))
-            SetMode(CityMode.Street);
+            SetMode(CityMode.Street); 
     }
 
     private void SetMode(CityMode mode)

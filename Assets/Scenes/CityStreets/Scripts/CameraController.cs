@@ -124,6 +124,12 @@ public class CameraController : MonoBehaviour
         _tgtDistance = cs.Distance;
         _manualRotationEnabled = cs.ManualRotationEnabled;
     }
+
+    public void ForceCameraRotation(float spawnRotation) {
+        print("Setting spawn rotation: " + spawnRotation);
+        _tgtYRot = spawnRotation;
+        playerCamera.transform.localEulerAngles = new Vector3(playerCamera.transform.localEulerAngles.x, spawnRotation, playerCamera.transform.localEulerAngles.z);
+    }
 }
 
 internal struct CameraSettings

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -17,6 +18,8 @@ public class PlayerCityToken : MonoBehaviour
     [SerializeField] private float groundMoveSpeed = 10;
     [SerializeField] private float mapMoveSpeed = 1000;
     [SerializeField] private float rotateSpeed = 10;
+
+    private bool hasPrintedFirstMovement = false;
 
     private CityMode _mode = CityMode.Street; // In map mode we still control the player token. Kinda hacky but it works :)
 
@@ -45,6 +48,11 @@ public class PlayerCityToken : MonoBehaviour
         var cameraMoveDir = Quaternion.AngleAxis(cameraController.CameraFacingAngle, Vector3.up) * inputVectorXZ; // rotates the input XZ direction around the Up vector by CameraFacingAngle degrees. So 'forward' input is always in the direction the camera faces.
         var movementThisFrame = cameraMoveDir * (Time.deltaTime * (_mode == CityMode.Map ? mapMoveSpeed : groundMoveSpeed));
         _cc.Move(movementThisFrame);
+
+        if (!hasPrintedFirstMovement) {
+            Debug.Log("First cc movement: " + movementThisFrame);
+            hasPrintedFirstMovement = true;
+        }
         
         var position = _myTransform.position;
         position = new Vector3(position.x, 0.7f, position.z);
