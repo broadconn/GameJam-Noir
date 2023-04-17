@@ -12,18 +12,19 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private InputAction cameraRotateAction;
-    [Header("Settings")]
+    [Header("General Settings")]
     [SerializeField] private float smoothSpeed = 10;
     [SerializeField] private float rotateSpeed = 40;
+    [Header("State Settings")]
+    [SerializeField] private float playingDistance = 7;
+    [SerializeField] private float playingPitch = 0;
+    [Space(5)]
+    [SerializeField] private float mapDistance = 500;
+    [SerializeField] private float mapPitch = 30;
+    
 
-    private readonly CameraSettings _streetSettings = new()
-    {
-        Distance = 7,
-        Pitch = 0,
-        DefaultYRotation = 0,
-        ManualRotationEnabled = true
-    };
-    private readonly CameraSettings _mapSettings = new()
+    private CameraSettings _streetSettings;
+    private CameraSettings _mapSettings = new()
     {
         Distance = 500,
         Pitch = 30,
@@ -47,10 +48,24 @@ public class CameraController : MonoBehaviour
         cameraRotateAction.Enable();
         cameraRotateAction.started += RotateInputStarted; 
         cameraRotateAction.canceled += RotateInputCancelled;
+        
+        // setting the settings
+        _streetSettings = new CameraSettings {
+            Distance = playingDistance,
+            Pitch = playingPitch,
+            DefaultYRotation = 0,
+            ManualRotationEnabled = true
+        };
+        _mapSettings = new CameraSettings {
+            Distance = mapDistance,
+            Pitch = mapPitch,
+            DefaultYRotation = 0,
+            ManualRotationEnabled = true
+        };
 
         SetMode(CityMode.Street);
-    }   
-    
+    }
+
     #region Input Event Handling
     private void RotateInputStarted(InputAction.CallbackContext input)
     {
@@ -65,11 +80,30 @@ public class CameraController : MonoBehaviour
         _smoothedYRot = _tgtYRot;
     }
 
-    void Update()
-    {
+    void Update() {
+        DoEditorOnlyThings();
+        
         UpdateValuesViaInput();
         UpdateSmoothedValues();
         ApplyValues();
+    }
+
+    private void DoEditorOnlyThings() {
+#if UNITY_EDITOR
+        // setting the settings
+        _streetSettings = new CameraSettings {
+            Distance = playingDistance,
+            Pitch = playingPitch,
+            DefaultYRotation = 0,
+            ManualRotationEnabled = true
+        };
+        _mapSettings = new CameraSettings {
+            Distance = mapDistance,
+            Pitch = mapPitch,
+            DefaultYRotation = 0,
+            ManualRotationEnabled = true
+        };
+#endif
     }
 
     private void UpdateValuesViaInput()

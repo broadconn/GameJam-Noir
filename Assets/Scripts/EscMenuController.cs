@@ -29,7 +29,7 @@ public class EscMenuController : MonoBehaviour {
     }
 
     public void ResetGame() {
-        GameController.Instance.StartNewGame();
         ShowUI(false);
+        GameController.Instance.StartNewGame();
     }
 }

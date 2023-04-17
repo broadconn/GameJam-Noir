@@ -1,7 +1,5 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem; 
 
 public class PlayerCityToken : MonoBehaviour
 {
@@ -9,6 +7,7 @@ public class PlayerCityToken : MonoBehaviour
 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform model;
+    [SerializeField] private float yPos = 0.7f; // fixed y position
     private Transform _myTransform;
     
     [SerializeField] 
@@ -17,9 +16,7 @@ public class PlayerCityToken : MonoBehaviour
 
     [SerializeField] private float groundMoveSpeed = 10;
     [SerializeField] private float mapMoveSpeed = 1000;
-    [SerializeField] private float rotateSpeed = 10;
-
-    private bool hasPrintedFirstMovement = false;
+    [SerializeField] private float rotateSpeed = 10; 
 
     private CityMode _mode = CityMode.Street; // In map mode we still control the player token. Kinda hacky but it works :)
 
@@ -31,13 +28,9 @@ public class PlayerCityToken : MonoBehaviour
         _moveInput.Enable();
 
         _myTransform = transform;
-    }
-
-    void Start() {
         _cc = GetComponent<CharacterController>();
-    }
-
-    // Update is called once per frame
+    } 
+ 
     void Update()
     {
         // movement 
@@ -47,16 +40,9 @@ public class PlayerCityToken : MonoBehaviour
         var inputVectorXZ = new Vector3(inputVector.x, 0, inputVector.y);
         var cameraMoveDir = Quaternion.AngleAxis(cameraController.CameraFacingAngle, Vector3.up) * inputVectorXZ; // rotates the input XZ direction around the Up vector by CameraFacingAngle degrees. So 'forward' input is always in the direction the camera faces.
         var movementThisFrame = cameraMoveDir * (Time.deltaTime * (_mode == CityMode.Map ? mapMoveSpeed : groundMoveSpeed));
-        _cc.Move(movementThisFrame);
-
-        if (!hasPrintedFirstMovement) {
-            Debug.Log("First cc movement: " + movementThisFrame);
-            hasPrintedFirstMovement = true;
-        }
+        _cc.Move(movementThisFrame); 
         
-        var position = _myTransform.position;
-        position = new Vector3(position.x, 0.7f, position.z);
-        _myTransform.position = position;
+        TeleportToPosition(transform.position); // just forcing the y position. It could've changed via the character controller code.
 
         // model rotation - smoothly face movement direction
         if (movementThisFrame.magnitude > 0)
@@ -77,5 +63,12 @@ public class PlayerCityToken : MonoBehaviour
     public void SetMode(CityMode m)
     {
         _mode = m;
+        _cc.detectCollisions = _mode == CityMode.Street;
+    }
+
+    public void TeleportToPosition(Vector3 position) {
+        _cc.enabled = false;
+        _myTransform.position = new Vector3(position.x, yPos, position.z);
+        _cc.enabled = true;
     }
 }

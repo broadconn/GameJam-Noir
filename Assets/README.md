@@ -11,3 +11,6 @@
 - Finish the dialogue
 - Conversation set pieces
 - Music
+- More dynamic map development
+
+City model from https://github.com/vvoovv/blender-osm

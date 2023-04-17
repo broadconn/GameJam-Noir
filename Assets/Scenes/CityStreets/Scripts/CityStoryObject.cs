@@ -8,7 +8,6 @@ public class CityStoryObject : MonoBehaviour {
 
     private void Awake() {
         var nextStory = GameController.Instance.StoryController.GetNextStoryId();
-        print("Heading towards:" + nextStory);
         if(nextStory != IdToActivateOn)
             gameObject.SetActive(false);
     }

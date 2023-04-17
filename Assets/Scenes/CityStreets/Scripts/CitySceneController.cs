@@ -7,11 +7,12 @@ public class CitySceneController : MonoBehaviour
 {
     [SerializeField] private PlayerCityToken player;
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private CityVisualsController visualsController;
+    [SerializeField] private MapController mapController;
     [SerializeField] private Transform storyTriggersParent;
 
     private StoryTrigger[] _storyTriggers;
-    
-    // Start is called before the first frame update
+     
     void Start() {
         _storyTriggers = storyTriggersParent.GetComponentsInChildren<StoryTrigger>(includeInactive: true);
         EnableNextStoryTrigger();
@@ -27,7 +28,7 @@ public class CitySceneController : MonoBehaviour
     }
 
     /// <summary>
-    /// Lets the player continue from where they left off last time they played.
+    /// Lets the player resume city gameplay from where they started the last conversation
     /// </summary>
     private void SetPlayerAtLastStoryTrigger()
     {
@@ -37,15 +38,14 @@ public class CitySceneController : MonoBehaviour
             .FirstOrDefault(st => st.GetID() == lastStoryId);
 
         if (lastStoryTrigger != null) {
-            player.transform.position = lastStoryTrigger.transform.position;
+            player.TeleportToPosition(lastStoryTrigger.transform.position);
             cameraController.ForceCameraRotation(lastStoryTrigger.SpawnRotation);
             Debug.Log("Placing player at story trigger for " + lastStoryId + " " + lastStoryTrigger.transform.position);
         }
         else
             Debug.LogWarning("Couldn't figure out where to put the player for ID " + lastStoryId);
     }
-
-    // Update is called once per frame
+ 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
@@ -59,6 +59,8 @@ public class CitySceneController : MonoBehaviour
     {
         player.SetMode(mode);
         cameraController.SetMode(mode);
+        visualsController.SetMode(mode);
+        mapController.SetMode(mode);
     }
 }
 

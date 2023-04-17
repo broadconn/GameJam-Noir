@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour {
 
     public void StartNewGame() {
         PlayerPrefs.DeleteAll(); 
-        StartConversation(StoryId.Intro);
+        StoryController.StartConversation(StoryId.Intro);
     }
 
     private void EnsureOneInstance()
@@ -50,10 +50,6 @@ public class GameController : MonoBehaviour {
     }
     #endregion
 
-    public void StartConversation(StoryId storyId) {
-        PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, (int)storyId);
-        SceneFader.FadeToScene(ConversationSceneName);
-    }
 }
 
 [Serializable]

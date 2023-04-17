@@ -11,14 +11,15 @@ public class PlayerTokenThoughts : MonoBehaviour {
     private float _timeTriggeredText = float.MinValue;
     
     private string _textToShow;
-    private bool _textIsSpawning = false;
-    
-    // Start is called before the first frame update
+    private bool _textIsSpawning;
+
+    private Camera _mainCamera;
+     
     void Start() {
         textBox.text = string.Empty;
+        _mainCamera = Camera.main;
     }
-
-    // Update is called once per frame
+ 
     void Update()
     {
         FaceCamera();  
@@ -40,7 +41,7 @@ public class PlayerTokenThoughts : MonoBehaviour {
     }
 
     private void FaceCamera() {
-        transform.forward = Camera.main.transform.forward;
+        transform.forward = _mainCamera.transform.forward;
     }
 
     private static string GetPercChars(string s, float percThroughText) { 
