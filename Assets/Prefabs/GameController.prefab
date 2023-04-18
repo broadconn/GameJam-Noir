@@ -210,11 +210,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   story:
-  - Id: 0
+  - Id: 1
     Dialogue: <Me>Here we go again.||A new client wants to meet at the Midnight Diner
       in the Westward District.|I've just arrived.||She wouldn't share any details
       over the phone.||Better get to it.|Diner's just up the street.
-  - Id: 1
+  - Id: 2
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
       show:Wd, music}[She's wearing a muted overcoat and dark glasses, evidently
       trying to hide her opulence.]||[She bears a grim expression behind the steaming
@@ -233,7 +233,7 @@ MonoBehaviour:
       now?||<Wd>Still at the morgue, I think. The one near the docks.||Will you help
       me? I need to know the truth.||<Me>I can look into it. You know my rates.||<Wd>I
       do.||[She slides you an envelope.]||<Me>Then I'll get to it."
-  - Id: 2
+  - Id: 3
     Dialogue: "{show:Me}[You knock at the door.  After a moment a weird kid greets
       you.]||{show:Kd}<Kd>Uh... hi. Can I help you?||<Me>I'm here to see the body
       of HUSBAND. Coroners orders.||[You flash your old badge. The fact you still
@@ -258,7 +258,7 @@ MonoBehaviour:
       a matchbook. Looks to have custom branding from a club in town.]||[Looks like
       you have your next stop.]||[You pat the kid on the shoulder and head out into
       the cold night, lighting up a cigarette with your newfound evidence.]"
-  - Id: 3
+  - Id: 4
     Dialogue: "[You enter the dimly lit bar and make your way through the haze.|You
       clock a few other patrons scattered around by the time you reach the bar.]||[You
       tap your finger on it's dark wood surface.]||{show:BG, show:Bt, show:Me}<Me>Whiskey.
@@ -288,7 +288,7 @@ MonoBehaviour:
       by. No sign of either of your quarry.]||[Eventually you sigh and bid your friend
       farewell.]||[Maybe you'll be back tomorrow night.]||[You head out into the
       dark streets.]"
-  - Id: 4
+  - Id: 5
     Dialogue: '{show:Me}<Ms>Can I help you, detective?||{show:Ms}<Me>Not very subtle,
       was I.||<Ms>No. Tell me why you''re following me.||<Me>When is the last time
       you saw this man?||[You hold up the photo]||[She says a few days ago]||[You
@@ -296,7 +296,7 @@ MonoBehaviour:
       to the bar.]
 
 '
-  - Id: 5
+  - Id: 6
     Dialogue: '[You climb the ladder, quickly getting out of breath.]||[The fire
       escape grants you a vantage of a nearby window into the bar.]||[You hear the
       lady talking to someone.]||[She sounds mad.]||[She talks about how the widow
@@ -306,7 +306,7 @@ MonoBehaviour:
       the widow at this meeting (or kill? idk).]||[Shes tells the person shes talking
       to to bring gangsterz.]||[You go talk to your cop buddy again, telling him
       to bring cops to the warehouse.]||[You''re going on ahead.]'
-  - Id: 6
+  - Id: 7
     Dialogue: '[You sneak into the warehouse.]||[You find the mistress and the widow
       arguing.]||[The widow denies sending the detective after her.]||[The mistress
       doesn''t believe her and draws a gun, demanding all her money.]||[The conversation

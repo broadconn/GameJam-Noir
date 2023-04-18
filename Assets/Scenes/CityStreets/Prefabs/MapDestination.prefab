@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1209122011430685216}
   - component: {fileID: 5580510664987457414}
   - component: {fileID: 8011746242417997389}
+  - component: {fileID: 8100416574338370550}
   m_Layer: 5
   m_Name: MapDestination
   m_TagString: Untagged
@@ -76,3 +77,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8100416574338370550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089121446051996103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c5f1516d0137b4fb81df55d99e0751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldDestination: {fileID: 0}
+  navUp: {fileID: 0}
+  navLeft: {fileID: 0}
+  navDown: {fileID: 0}
+  navRight: {fileID: 0}

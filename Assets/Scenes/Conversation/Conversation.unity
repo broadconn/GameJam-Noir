@@ -187,6 +187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
+      propertyPath: storyIds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
+        type: 3}
       propertyPath: storyId.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -689,7 +694,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
@@ -1165,7 +1170,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
@@ -1629,7 +1634,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
@@ -1821,7 +1826,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
@@ -2217,7 +2222,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
@@ -2521,7 +2526,7 @@ PrefabInstance:
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}
       propertyPath: storyIds
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 994959077413625684, guid: 5c8c84239418f2d4c8bdcd5066bac583,
         type: 3}

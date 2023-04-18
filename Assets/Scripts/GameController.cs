@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour {
     public static readonly string ConversationSceneName = "Conversation";
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
-    #region Startup
+    #region Singleton stuff
     void Awake()
     {
         EnsureOneInstance();
@@ -62,8 +62,9 @@ public class StoryConversation
 
 public enum StoryId
 {
+    Undefined,
     Intro,
-    Widow,
+    Diner,
     Morgue,
     Bar,
     Mistress,
