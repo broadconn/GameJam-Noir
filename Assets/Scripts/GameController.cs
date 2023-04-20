@@ -71,3 +71,12 @@ public enum StoryId
     Eavesdrop,
     Warehouse
 }
+
+public enum CityLocation
+{
+    Undefined,
+    Diner,
+    Morgue,
+    Bar,
+    Warehouse
+}

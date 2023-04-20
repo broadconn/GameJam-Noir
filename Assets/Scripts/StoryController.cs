@@ -58,4 +58,23 @@ public class StoryController : MonoBehaviour {
         var storyId = GetNextStoryId();
         return story.First(s => s.Id == storyId); 
     }
+    
+    public CityLocation StoryIdToLocation(StoryId? storyId) {
+        switch (storyId) {
+            case null:
+                return CityLocation.Undefined;
+            case StoryId.Intro:
+            case StoryId.Diner:
+                return CityLocation.Diner;
+            case StoryId.Morgue:
+                return CityLocation.Morgue;
+            case StoryId.Bar:
+            case StoryId.Mistress:
+            case StoryId.Eavesdrop:
+                return CityLocation.Bar;
+            case StoryId.Warehouse:
+                return CityLocation.Warehouse;
+        }
+        return CityLocation.Undefined;
+    }
 }

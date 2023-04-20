@@ -31,14 +31,15 @@ public class PlayerCityToken : MonoBehaviour
         _cc = GetComponent<CharacterController>();
     } 
  
-    void Update()
-    {
+    void Update() {
+        if (!_cc.enabled) return;
+        
         // movement 
         var inputVector = _moveInput.ReadValue<Vector2>();
         if (inputVector.magnitude > 1) 
             inputVector = inputVector.normalized;
         var inputVectorXZ = new Vector3(inputVector.x, 0, inputVector.y);
-        var cameraMoveDir = Quaternion.AngleAxis(cameraController.CameraFacingAngle, Vector3.up) * inputVectorXZ; // rotates the input XZ direction around the Up vector by CameraFacingAngle degrees. So 'forward' input is always in the direction the camera faces.
+        var cameraMoveDir = Quaternion.AngleAxis(cameraController.CameraFacingAngle, Vector3.up) * inputVectorXZ; // rotates the input XZ direction around the Up vector by CameraFacingAngle degrees. So 'forward / w' input always moves in the direction the camera faces.
         var movementThisFrame = cameraMoveDir * (Time.deltaTime * (_mode == CityMode.Map ? mapMoveSpeed : groundMoveSpeed));
         _cc.Move(movementThisFrame); 
         
@@ -63,6 +64,7 @@ public class PlayerCityToken : MonoBehaviour
     public void SetMode(CityMode m)
     {
         _mode = m;
+        _cc.enabled = _mode == CityMode.Street;
         _cc.detectCollisions = _mode == CityMode.Street;
     }
 
