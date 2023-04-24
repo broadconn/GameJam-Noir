@@ -216,53 +216,55 @@ MonoBehaviour:
       over the phone.||Better get to it.|Diner's just up the street.
   - Id: 2
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
-      show:Wd, music}[She's wearing a muted overcoat and dark glasses, evidently
-      trying to hide her opulence.]||[She bears a grim expression behind the steaming
-      bean juice.]||{show:Me}[You sit at her table.]||<Wd>Hello detective.||{show:Me}<Me>I
-      hear you have a case for me.||<Wd>Yes. You see, my husband passed away the
-      day before last - traffic accident.||Witnesses say he walked into the road
-      without looking.||Knowing my husband, this isn't entirely out of the question.||However,
-      I have reason to believe it's not true.||The police assured me it was him,
-      but the body was a mess. I couldn\u2019t be sure.||On top of this, I recently
-      discovered my husband had a mistress - |I found a polaroid of them together
-      a week ago.||[She slides the photo across the table]||The day before he died,
-      a large sum of money was withdrawn from our account.||To me the evidence is
-      clear. He faked his death to run away with this floozy.||I want you to help
-      me prove it. ||<Me>I see. Any other leads ma'am?||[You're not sold on her theory.]||<Wd>Well
-      - I suppose not. That's your job isn't it?||<Me>I suppose so. Where's the body
-      now?||<Wd>Still at the morgue, I think. The one near the docks.||Will you help
-      me? I need to know the truth.||<Me>I can look into it. You know my rates.||<Wd>I
-      do.||[She slides you an envelope.]||<Me>Then I'll get to it."
+      show:Wd, music}[She's wearing a muted overcoat and dark glasses, apparently
+      trying to blend in where she don't belong.]||[She bears a grim expression behind
+      the vapor of her bean juice.]||{show:Me}[You sit at her table.]||<Wd>Hello
+      detective.||<Me>I hear you have a case for me.||<Wd>Yes. You see, my husband
+      passed away the day before last - traffic accident.||Witnesses say he walked
+      into the road without looking.||Knowing my husband, this isn't entirely out
+      of the question.||However, I have reason to believe it's not true.||The police
+      assured me it was him, but the body was a mess. I couldn\u2019t be sure.||On
+      top of this, I recently discovered my husband had a mistress - |I found a polaroid
+      of them together a week ago.||[She slides the photo across the table]||The
+      day before he died, a large sum of money was withdrawn from our account.||To
+      me the evidence is clear. He faked his death to run away with this floozy.||I
+      want you to help me prove it. ||<Me>I see. Any other leads ma'am?||[You're
+      not sold on her theory.]||<Wd>Well - I suppose not. That's your job isn't it?||<Me>I
+      suppose so. Where's the body now?||<Wd>Still at the morgue, I think. The one
+      near the docks.||Will you help me? I need to know the truth.||<Me>I can look
+      into it. You know my rates.||<Wd>I do.||[She slides you an envelope.]||<Me>Then
+      I'll get to it."
   - Id: 3
     Dialogue: "{show:Me}[You knock at the door.  After a moment a weird kid greets
       you.]||{show:Kd}<Kd>Uh... hi. Can I help you?||<Me>I'm here to see the body
       of HUSBAND. Coroners orders.||[You flash your old badge. The fact you still
       have it says a lot about this city.]||<Kd>Uh\u2026 my boss is out.  I was told
-      not to let anyone see the bodies\u2026||[He seems nervous. Does he mean any
-      bodies, or just this body?]||<Me>You lookin' to go to jail kid? Obstruction
-      of justice?|Cmon, it won\u2019t take long. 5 mins max, won\u2019t even touch
-      the guy.||[He hesitates, but after a moment he sighs and opens the door.]||<Kd>Just
-      make it quick.||{show:BG}[You enter a long silver room, walls lined with hatches.]||[The
-      kid helps you find the right one. He opens the door and pulls out a body bag
-      resting on a long tray.]||[Unzipping the bag, the first thing you notice is
-      that the cops weren't lying to your client. He is a right mess.]||[You get
-      to work analysing the mangled corpse.|To the untrained eye this could be believed
-      to be the husband.]||[However, you\u2019ve done this a hundred times. In seconds
-      you\u2019re certain that this is NOT the man in the photo.]||[Perhaps the widow
-      was on to something after all.]||[Most surprising of all is that hidden amongst
-      the gore and the muck of his face... is a bullet wound.]||[A car didn\u2019t
-      do that. This case might be more interesting that you thought.]||[Who is this
-      man, and where was the husband?]||<Kd>Hey... come on. If my boss finds out
-      I let anyone in here, I could lose my job...||[You ignore the kid and sneakily
-      search the victim's pockets. Nothing but some lint, a couple dimes and\u2026
-      a matchbook. Looks to have custom branding from a club in town.]||[Looks like
-      you have your next stop.]||[You pat the kid on the shoulder and head out into
-      the cold night, lighting up a cigarette with your newfound evidence.]"
+      not to let anyone see the bodies\u2026||[He seems nervous. Is he concerned
+      about any bodies being seen, or just this body?]||<Me>You lookin' to go to
+      jail kid? Obstruction of justice?|Cmon, it won\u2019t take long. 5 mins max,
+      won\u2019t even touch the guy.||[He hesitates, but after a moment he sighs
+      and opens the door.]||<Kd>Just make it quick.||[You enter a long silver room,
+      walls lined with hatches.]||[The kid helps you find the right one. He opens
+      the door and pulls out a body bag resting on a long tray.]||{show:BG}[Unzipping
+      the bag, the first thing you notice is that the cops weren't lying to your
+      client. He is a right mess.]||[You get to work analysing the mangled corpse.|To
+      the untrained eye this could be believed to be the husband.]||[However, you\u2019ve
+      done this a hundred times. In seconds you\u2019re certain that this is NOT
+      the man in the photo.]||[Perhaps the widow was on to something after all.]||[Most
+      surprising of all is that hidden amongst the gore and the muck of his face...
+      is a bullet wound.]||[A car didn\u2019t do that. This case might be more interesting
+      that you thought.]||[Who is this man, and where was the husband?]||<Kd>Hey...
+      come on. If my boss finds out I let anyone in here, I could lose my job...||[You
+      ignore the kid and sneakily search the victim's pockets. Nothing but some lint,
+      a couple dimes and\u2026 a matchbook. Looks to have custom branding from a
+      club in town.]||[Looks like you have your next stop.]||[You pat the kid on
+      the shoulder and head out into the cold night, lighting up a cigarette with
+      your newfound evidence.]"
   - Id: 4
     Dialogue: "[You enter the dimly lit bar and make your way through the haze.|You
       clock a few other patrons scattered around by the time you reach the bar.]||[You
-      tap your finger on it's dark wood surface.]||{show:BG, show:Bt, show:Me}<Me>Whiskey.
-      Neat.||[The bartender pours your drink and slides it over to you.]||<Bt>Anything
+      tap your finger on it's dark wood surface.]||{show:BG, show:Me}<Me>Whiskey.
+      Neat.||{show:Bt}[The bartender pours your drink and slides it over to you.]||<Bt>Anything
       else I can get you?||<Me>Actually, yeah\u2026||[You pull out the photo and
       point to the husband.]||Ever seen this man in here?||[The bartender glances
       at it, then looks away.]||<Bt>Can't say I have.||[He starts cleaning a glass.]||[A
@@ -272,28 +274,27 @@ MonoBehaviour:
       disappears through a door behind the bar.]||[Interesting.]||[You return to
       your drink and let your eyes wander the bar for anything notable.]||[Your eyes
       linger on one of the patrons.|He locks eyes with you and perks up.]||<Br>Well,
-      look what the cat dragged in!||[It's your old friend from the force.|You join
-      him at his table.]||{show:Br}[You take a while to catch up with him before
-      getting back to the story at hand.]||<Br>HAHaha\u2026 anyway.||<Me>Yes. Anyway.
-      Look, I'm working this case right now. You come here often, yes?||<Br>Yep!
-      Almost every night lately.||[You decide not to pry.]||<Me>Do you recognize
-      this man?||[You show him the photograph.]||<Br>Oh, yeah, seen him in here plenty.
-      With that pretty thing by his side too. Why's askin'?||<Me>He supposedly died
-      a day or so ago. Only thing is, the body at the morgue wasn't his. Trying to
-      find answers.||<Br>Wow. You got quite the conundrum on your hands.|Only thing
-      I can tell you is that I havent seen him in a while. But I *have* seen her.||She
-      comes in almost every night, and heads straight out the back. You might get
-      lucky if you hang around long enough. Ha ha ha!||<Me>Is that so. Maybe I will.||[You
-      smile and raise your glass to him].||[You continue drinking. A few hours go
-      by. No sign of either of your quarry.]||[Eventually you sigh and bid your friend
-      farewell.]||[Maybe you'll be back tomorrow night.]||[You head out into the
-      dark streets.]"
+      look what the cat dragged in!||{show:Br}[It's your old friend from the force.|You
+      join him at his table.]||[You take a while to catch up with him before getting
+      back to the story at hand.]||<Br>HAHaha\u2026 anyway.||<Me>Yes. Anyway. Look,
+      I'm working this case right now. You come here often, yes?||<Br>Yep! Almost
+      every night lately.||[You decide not to pry.]||<Me>Do you recognize this man?||[You
+      show him the photograph.]||<Br>Oh, yeah, seen him in here plenty. With that
+      pretty thing by his side too. Why's askin'?||<Me>He supposedly died a day or
+      so ago. Only thing is, the body at the morgue wasn't his. Trying to find answers.||<Br>Wow.
+      You got quite the conundrum on your hands.|Only thing I can tell you is that
+      I havent seen him in a while. But I *have* seen her.||She comes in almost every
+      night, and heads straight out the back. You might get lucky if you hang around
+      long enough. Ha ha ha!||<Me>Is that so. Maybe I will.||[You smile and raise
+      your glass to him].||[You continue drinking. A few hours go by. No sign of
+      either of your quarry.]||[Eventually you sigh and bid your friend farewell.]||[Maybe
+      you'll be back tomorrow night.]||[You head out into the dark streets.]"
   - Id: 5
-    Dialogue: '{show:Me}<Ms>Can I help you, detective?||{show:Ms}<Me>Not very subtle,
+    Dialogue: '{show:Ms}<Ms>Can I help you, detective?||{show:Me}<Me>Not very subtle,
       was I.||<Ms>No. Tell me why you''re following me.||<Me>When is the last time
       you saw this man?||[You hold up the photo]||[She says a few days ago]||[You
-      tell her he is dead]||[She cries crocodile tears, the leaves through a backdoor
-      to the bar.]
+      tell her he is dead]||{hide:Ms}[She cries crocodile tears, then leaves through
+      a backdoor to the bar.]
 
 '
   - Id: 6

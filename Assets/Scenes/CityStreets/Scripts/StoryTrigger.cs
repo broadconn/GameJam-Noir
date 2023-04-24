@@ -17,6 +17,6 @@ public class StoryTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         if(other.CompareTag("PlayerCityToken"))
-            GameController.Instance.StoryController.StartConversation(storyId);
+            StoryController.StartConversation(storyId);
     }
 }

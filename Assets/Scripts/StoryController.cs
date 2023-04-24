@@ -18,7 +18,7 @@ public class StoryController : MonoBehaviour {
         _lastSeenStoryId = (StoryId) PlayerPrefs.GetInt(LastStoryIdPrefName);
     }
     
-    public void StartConversation(StoryId storyId) {
+    public static void StartConversation(StoryId storyId) {
         PlayerPrefs.SetInt(EnteringStoryIdPrefName, (int)storyId);
         GameController.Instance.SceneFader.FadeToScene(GameController.ConversationSceneName);
     }

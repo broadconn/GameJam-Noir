@@ -22,7 +22,7 @@ public class ConversationSet : MonoBehaviour
 
         _speakers = speakersParent.GetComponentsInChildren<ConversationSpeaker>(includeInactive: true).ToList();
         foreach (var speaker in _speakers) {
-            speaker.Hide();
+            speaker.Hide(instant: true);
         }
     }
 
@@ -35,6 +35,17 @@ public class ConversationSet : MonoBehaviour
         var speakerWithId = _speakers.FirstOrDefault(s => s.id == id); 
         if (speakerWithId == null) return;
         speakerWithId.Show();
+    }
+
+    public void HideThing(string id) {
+        if (id == "BG") {  
+            backgroundParent.gameObject.SetActive(false); // todo nice fade
+            return;
+        }
+        
+        var speakerWithId = _speakers.FirstOrDefault(s => s.id == id); 
+        if (speakerWithId == null) return;
+        speakerWithId.Hide();
     }
 
     public void SetPersonSpeaking(string personId) {

@@ -49,7 +49,8 @@ namespace Scenes.Conversation.Scripts
                 var storySegment = new StorySegment {
                     SpeakerId = ExtractSpeaker(s) ?? lastSpeaker,
                     Dialogue = ExtractDialogue(s),
-                    ThingsToShow = ExtractThingsToShow(s),
+                    ThingsToShow = ExtractThings(s, "show"),
+                    ThingsToHide = ExtractThings(s, "hide"),
                     MusicToPlay = ExtractMusic(s)
                 };
                 c.Add(storySegment);
@@ -83,11 +84,12 @@ namespace Scenes.Conversation.Scripts
         }
 
         /// <summary>
-        /// e.g. `show:Me, show:Wd, show:BG, music` 
+        /// e.g. `show:Me, hide:Wd, show:BG, music` 
         /// </summary>
         /// <param name="s"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        private List<StoryThing> ExtractThingsToShow(string s) {
+        private List<StoryThing> ExtractThings(string s, string action) {
             var result = new List<StoryThing>();
             var sceneEdits = ExtractSceneEdits(s);
             if (sceneEdits == null) 
@@ -97,7 +99,7 @@ namespace Scenes.Conversation.Scripts
             foreach (var thing in things) {
                 if (thing.Contains(':')) {
                     var sceneThing = thing.Split(':');
-                    if (sceneThing[0] != "show") continue; // I think this is always 'show'? Finish the script u dingus
+                    if (sceneThing[0] != action) continue; 
                     var thingId = sceneThing[1];
                     result.Add(new StoryThing{ Type = StoryThingType.SceneThing, ID = thingId });
                 }
@@ -193,6 +195,9 @@ namespace Scenes.Conversation.Scripts
             foreach (var thing in dialogue.ThingsToShow) {
                 _currentSet.ShowThing(thing.ID);
             }
+            foreach (var thing in dialogue.ThingsToHide) {
+                _currentSet.HideThing(thing.ID);
+            }
             
             _currentSet.SetPersonSpeaking(speechIsInternal ? null : dialogue.SpeakerId);
         }
@@ -221,6 +226,7 @@ namespace Scenes.Conversation.Scripts
         public string SpeakerId;
         public string Dialogue; // includes the newline operator '|'
         public List<StoryThing> ThingsToShow;
+        public List<StoryThing> ThingsToHide;
         public string MusicToPlay;
     }
 

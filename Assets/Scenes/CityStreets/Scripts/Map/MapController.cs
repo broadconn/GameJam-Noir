@@ -11,6 +11,7 @@
     [SerializeField] private Transform nodesParent;
     [SerializeField] private MapCursor mapCursor;
     [SerializeField] private Transform mapHighlight;
+    [SerializeField] private GameObject enterZonePrompt;
     [Space(5)] 
     [SerializeField] private CitySceneController cityController;
     [SerializeField] private CityGui cityGui;
@@ -40,13 +41,21 @@
     }
 
     void Update() {
+        if (_curMode == CityMode.Map) {
+            if(!_isTransitioning)
+                HandleMapInput();
+            
+            enterZonePrompt.SetActive(!_isTransitioning && IsAtNextStoryNode());
+        }
+        
         UpdateUiFade();
 
-        if(_curMode == CityMode.Map)
-            HandleMapInput();
-        
         if(_isTransitioning)
             UpdateNodeTransition();
+    }
+
+    private bool IsAtNextStoryNode() {
+        return _curNode == _nextNode;
     }
 
     public void SetMode(CityMode mode) {
@@ -156,6 +165,8 @@
     }
 
     private static MapNode GetNodeInDir(MapNode curNode, ArrowDir? dir) { 
-        return curNode.NavNodes.FirstOrDefault(n => n.Direction == dir).Node;
+        return curNode.NavNodes
+            .FirstOrDefault(n => n.Direction == dir)
+            .Node;
     }
 }
