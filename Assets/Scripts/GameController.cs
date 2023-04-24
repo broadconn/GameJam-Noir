@@ -13,10 +13,10 @@ public class GameController : MonoBehaviour {
     public SceneFader SceneFader => _sceneFader;
     private SceneFader _sceneFader;
     public StoryController StoryController => _storyController;
-    private StoryController _storyController; 
+    private StoryController _storyController;
 
-    public static readonly string CitySceneName = "City";
-    public static readonly string ConversationSceneName = "Conversation";
+    public const string CitySceneName = "City";
+    public const string ConversationSceneName = "Conversation";
     private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
     #region Singleton stuff

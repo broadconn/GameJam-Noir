@@ -50,12 +50,9 @@ public class CitySceneController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
             SetMode(CityMode.Map);
-        
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            SetMode(CityMode.Street); 
     }
 
-    private void SetMode(CityMode mode)
+    public void SetMode(CityMode mode)
     {
         player.SetMode(mode);
         cameraController.SetMode(mode);

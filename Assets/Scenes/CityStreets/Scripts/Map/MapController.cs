@@ -3,7 +3,7 @@
  using System.Linq;
  using UnityEngine;
 
- public class MapController : MonoBehaviour {
+ public class MapController : MonoBehaviour { 
     [SerializeField] private CanvasGroup uiGroup;    
     [SerializeField] private float uiFadeTime = 2f;
     [SerializeField] private float uiFadeInDelay = 0.7f;
@@ -12,6 +12,8 @@
     [SerializeField] private MapCursor mapCursor;
     [SerializeField] private Transform mapHighlight;
     [Space(5)] 
+    [SerializeField] private CitySceneController cityController;
+    [SerializeField] private CityGui cityGui;
     [SerializeField] private PlayerCityToken player;
     [SerializeField] private float nodeTransitionTime = 3f;
 
@@ -54,8 +56,13 @@
 
         if (mode == CityMode.Street) return;
         SetupMap();
+        UpdateOtherUI();
     }
- 
+
+    private void UpdateOtherUI() {
+        cityGui.ShowMapPrompt(false);
+    }
+
     private void SetupMap() {
         _curNode = _nodes.FirstOrDefault(n => n.CitySpawnLocation == _curCityLocation);
         _nextStoryDir = GetNextStoryDir(_curNode);
@@ -109,6 +116,9 @@
     /// The plan for a full game would be to allow navigation anywhere, let the player hunt for the location. 
     private void HandleMapInput() {
         if (_nextStoryDir == null) return; 
+        
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+            cityController.SetMode(CityMode.Street); 
         
         switch (_nextStoryDir) {
             case ArrowDir.Up:

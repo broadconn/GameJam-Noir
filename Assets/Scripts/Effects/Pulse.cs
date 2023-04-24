@@ -33,8 +33,8 @@ public class Pulse : MonoBehaviour {
     public void SetPulsing(bool b) {
         _enabled = b;
         
-        // if(!_enabled)
-        //     SetScale(0.5f);
+        if(!_enabled)
+            SetScale(0);
     }
 
     private void SetScale(float f) {

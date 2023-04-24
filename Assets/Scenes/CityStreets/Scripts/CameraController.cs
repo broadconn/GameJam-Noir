@@ -21,7 +21,8 @@ public class CameraController : MonoBehaviour
     [Space(5)]
     [SerializeField] private float mapDistance = 500;
     [SerializeField] private float mapPitch = 30;
-    
+
+    private CinemachineCollider _cameraCollider;
 
     private CameraSettings _streetSettings;
     private CameraSettings _mapSettings = new()
@@ -64,8 +65,10 @@ public class CameraController : MonoBehaviour
         };
         
         _smoothedYRot = _tgtYRot;
+
+        _cameraCollider = playerCamera.GetComponent<CinemachineCollider>();
         
-        SetMode(CityMode.Street); // do this in Awake() so special cases can override it in Start()
+        SetMode(CityMode.Street); 
     }
 
     #region Input Event Handling
@@ -105,7 +108,7 @@ public class CameraController : MonoBehaviour
     private void ApplyValues()
     {
         // apply rotation
-        playerCamera.transform.localEulerAngles = new Vector3(_smoothedXRot, _smoothedYRot, 0); // this doesn't work if LookAt is set
+        playerCamera.transform.localEulerAngles = new Vector3(_smoothedXRot, _smoothedYRot, 0); // beware, this doesn't work if LookAt is set
         
         // apply distance
         var componentBase = playerCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
@@ -116,19 +119,19 @@ public class CameraController : MonoBehaviour
 
     public void SetCameraLookTarget(Transform t, bool allowCollisions) {
         playerCamera.LookAt = t;
-        playerCamera.GetComponent<CinemachineCollider>().enabled = allowCollisions; 
+        _cameraCollider.enabled = allowCollisions; 
     }
 
     public void SetMode(CityMode mode)
     {
         var settings = mode == CityMode.Street ? _streetSettings : _mapSettings;
+        _cameraCollider.enabled = mode == CityMode.Street; 
         SetTargetValues(settings);
     }
 
     private void SetTargetValues(CameraSettings cs)
     {
-        print("Setting map mode values");
-        _tgtYRot = cs.DefaultYRotation;
+        _tgtYRot = cs.DefaultYRotation; // consider replacing this with a setting on the map node or current car park
         _manualRotationEnabled = cs.ManualRotationEnabled;
         
         _tgtXRot = cs.Pitch;
@@ -136,7 +139,6 @@ public class CameraController : MonoBehaviour
     }
 
     public void ForceCameraRotation(float spawnRotation) {
-        print("Setting spawn rotation: " + spawnRotation);
         _tgtYRot = spawnRotation;
         playerCamera.transform.localEulerAngles = new Vector3(playerCamera.transform.localEulerAngles.x, spawnRotation, 0);
     }
@@ -147,5 +149,5 @@ internal struct CameraSettings
     public float Distance { get; set; }
     public float Pitch { get; set; } // X Rotation
     public bool ManualRotationEnabled { get; set; }
-    public float DefaultYRotation { get; set; } // can probably remove this
+    public float DefaultYRotation { get; set; }  
 }
