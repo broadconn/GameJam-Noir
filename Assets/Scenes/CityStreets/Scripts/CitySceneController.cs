@@ -33,7 +33,7 @@ public class CitySceneController : MonoBehaviour
     private void SetPlayerAtLastStoryTrigger()
     {
         var lastStoryId = GameController.Instance.StoryController.GetLastStoryId() ?? StoryId.Intro;
-        
+
         var lastStoryTrigger = _storyTriggers
             .FirstOrDefault(st => st.GetID() == lastStoryId);
 

@@ -14,6 +14,9 @@ public class MapCursor : MonoBehaviour {
         ShowNavArrows(node.NavUp != null, node.NavRight != null, node.NavDown != null, node.NavLeft != null);
     }
 
+    /// <summary>
+    /// Visuals when the cursor is moving from one node to another
+    /// </summary>
     public void SetTransitionMode() {
         ShowNavArrows(false, false, false, false);
     }

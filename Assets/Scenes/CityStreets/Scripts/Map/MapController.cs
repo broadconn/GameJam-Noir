@@ -16,17 +16,25 @@
     [SerializeField] private float nodeTransitionTime = 3f;
 
     private List<MapNode> _nodes;
-    
-    private CityMode _curMode;
-    private float _timeSwitchedModes = float.MinValue;
     private MapNode _curNode, _nextNode;
-    private ArrowDir? _nextStoryDir;
 
-    private bool _isTransitioning = false;
+    private CityMode _curMode;
+    private float _timeSwitchedModes = float.MinValue; 
+    
+    private StoryId? _lastDoneStoryId, _nextStoryId;
+    private CityLocation _curCityLocation, _nextCityLocation;
+    private ArrowDir? _nextStoryDir;
+    
+    private bool _isTransitioning;
     private float _timeTriggeredTransition = float.MinValue;
 
     private void Awake() {
         _nodes = nodesParent.GetComponentsInChildren<MapNode>(includeInactive: true).ToList();
+        
+        _lastDoneStoryId = GameController.Instance.StoryController.GetLastStoryId();
+        _nextStoryId = GameController.Instance.StoryController.GetNextStoryId();
+        _curCityLocation = GameController.Instance.StoryController.StoryIdToLocation(_lastDoneStoryId);
+        _nextCityLocation = GameController.Instance.StoryController.StoryIdToLocation(_nextStoryId);
     }
 
     void Update() {
@@ -49,32 +57,29 @@
     }
  
     private void SetupMap() {
-        var curStoryId = GameController.Instance.StoryController.GetLastStoryId();
-        var nextStoryId = GameController.Instance.StoryController.GetNextStoryId();
-        var curCityLocation = GameController.Instance.StoryController.StoryIdToLocation(curStoryId);
-        var nextCityLocation = GameController.Instance.StoryController.StoryIdToLocation(nextStoryId);
-        _curNode = _nodes.FirstOrDefault(n => n.CitySpawnLocation == curCityLocation);
-        _nextStoryDir = GetNextStoryDir(_curNode, nextStoryId);
+        _curNode = _nodes.FirstOrDefault(n => n.CitySpawnLocation == _curCityLocation);
+        _nextStoryDir = GetNextStoryDir(_curNode);
  
-        // set cursor position 
-        if(_curNode != null)
+        // map cursor
+        if (_curNode != null) {
+            mapCursor.SetAtMapNode(_curNode);
             mapCursor.transform.position = _curNode.transform.position;
+        }
         mapCursor.gameObject.SetActive(_curNode != null);
         mapCursor.EmphasizeDir(_nextStoryDir);
         
         // set destination highlight
-        var nextNode = _nodes.FirstOrDefault(n => n.CitySpawnLocation == nextCityLocation);
+        var nextNode = _nodes.FirstOrDefault(n => n.CitySpawnLocation == _nextCityLocation);
         if(nextNode != null)
             mapHighlight.transform.position = nextNode.transform.position;
         mapHighlight.gameObject.SetActive(nextNode != null); 
     }
 
-    ArrowDir? GetNextStoryDir(MapNode curNode, StoryId nextStoryId) {
-        if (curNode == null) return null;
-        var nextCityLocation = GameController.Instance.StoryController.StoryIdToLocation(nextStoryId);
+    private ArrowDir? GetNextStoryDir(MapNode curNode) {
+        if (curNode == null) return null; 
         var nodeNodes = curNode.NavNodes;
         var destinationNode = nodeNodes.Where(n => n.Node != null)
-            .FirstOrDefault(n => n.Node.CitySpawnLocation == nextCityLocation);  
+            .FirstOrDefault(n => n.Node.CitySpawnLocation == _nextCityLocation);  
         return destinationNode.Node == null ? null : destinationNode.Direction; 
     }
 
@@ -101,7 +106,7 @@
     }
     
     /// Only allows navigation if you press the button that goes to the next story location.
-    /// The plan for a full game would be to allow navigation anywhere. 
+    /// The plan for a full game would be to allow navigation anywhere, let the player hunt for the location. 
     private void HandleMapInput() {
         if (_nextStoryDir == null) return; 
         
@@ -111,22 +116,23 @@
                     GoToNextLocation();  
                 break;
             case ArrowDir.Right:
-                if (Input.GetKeyDown(KeyCode.D)) { 
+                if (Input.GetKeyDown(KeyCode.D)) 
                     GoToNextLocation();
-                }
                 break;
             case ArrowDir.Left:
                 if (Input.GetKeyDown(KeyCode.A))  
                     GoToNextLocation();  
                 break;
             case ArrowDir.Down:
-                if (Input.GetKeyDown(KeyCode.S)) {
+                if (Input.GetKeyDown(KeyCode.S))
                     GoToNextLocation();
-                }
                 break;
         }
     }
 
+    /// <summary>
+    /// Initiates moving the player and map cursor from the current node to the next story node
+    /// </summary>
     private void GoToNextLocation() {
         var nextNodeDir = GetNodeInDir(_curNode, _nextStoryDir);
         if (nextNodeDir == null) return;
@@ -139,7 +145,7 @@
         _timeTriggeredTransition = Time.time;
     }
 
-    private MapNode GetNodeInDir(MapNode curNode, ArrowDir? dir) { 
+    private static MapNode GetNodeInDir(MapNode curNode, ArrowDir? dir) { 
         return curNode.NavNodes.FirstOrDefault(n => n.Direction == dir).Node;
     }
 }

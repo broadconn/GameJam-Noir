@@ -13,8 +13,8 @@ namespace Editor
         private static readonly int WorldBendMagnitudeShaderId = Shader.PropertyToID("_WorldBendMagnitude");
 
         private string _currentScene;
-        private int lastDoneStoryIdx = 0; // might not need both of these
-        private int enteringStoryIdx = 0;
+        private int _lastDoneStoryIdx = 0; // might not need both of these
+        private int _enteringStoryIdx = 0;
 
         [MenuItem ("**Noir**/Dev Tools")]
         public static void ShowWindow () {
@@ -57,8 +57,8 @@ namespace Editor
                 _citySpawnPoints = GameObject.FindGameObjectsWithTag("CitySpawnPoint");
             
             // Story pos
-            lastDoneStoryIdx = PlayerPrefs.GetInt(StoryController.LastStoryIdPrefName);
-            enteringStoryIdx = PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName);
+            _lastDoneStoryIdx = PlayerPrefs.GetInt(StoryController.LastStoryIdPrefName);
+            _enteringStoryIdx = PlayerPrefs.GetInt(StoryController.EnteringStoryIdPrefName);
         }
 
         bool SceneUsesWorldBendShader()
@@ -119,10 +119,10 @@ namespace Editor
             var options = (StoryId[])Enum.GetValues(typeof(StoryId));
             var optionsStrs = options.Select(s => s.ToString()).ToArray(); 
             EditorGUILayout.BeginHorizontal(); 
-            lastDoneStoryIdx = EditorGUILayout.Popup("Last done StoryId", lastDoneStoryIdx, optionsStrs);
+            _lastDoneStoryIdx = EditorGUILayout.Popup("Last done StoryId", _lastDoneStoryIdx, optionsStrs);
             if (GUILayout.Button("Apply", GUILayout.Width(100))) {
-                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, lastDoneStoryIdx);
-                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, lastDoneStoryIdx+1);
+                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, _lastDoneStoryIdx);
+                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, _lastDoneStoryIdx+1);
             }
             EditorGUILayout.EndHorizontal(); 
         }
@@ -132,10 +132,10 @@ namespace Editor
             var options = (StoryId[])Enum.GetValues(typeof(StoryId));
             var optionsStrs = options.Select(s => s.ToString()).ToArray(); 
             EditorGUILayout.BeginHorizontal(); 
-            enteringStoryIdx = EditorGUILayout.Popup("Entering StoryId", enteringStoryIdx, optionsStrs);
+            _enteringStoryIdx = EditorGUILayout.Popup("Entering StoryId", _enteringStoryIdx, optionsStrs);
             if (GUILayout.Button("Apply", GUILayout.Width(100))) {
-                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, enteringStoryIdx-1);
-                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, enteringStoryIdx);
+                PlayerPrefs.SetInt(StoryController.LastStoryIdPrefName, _enteringStoryIdx-1);
+                PlayerPrefs.SetInt(StoryController.EnteringStoryIdPrefName, _enteringStoryIdx);
             }
             EditorGUILayout.EndHorizontal(); 
         }
@@ -161,7 +161,7 @@ namespace Editor
                 {
                     // move player to the gameobject location
                     var player = GameObject.FindWithTag("PlayerCityToken");
-                    Undo.RecordObject (player.transform, "Player Original Position"); // we need to help Unity recognize that something has changed that needs saving
+                    Undo.RecordObject (player.transform, "Player Original Position"); // this helps Unity recognize that something has changed that needs saving
                     player.transform.position = sp.transform.position;
                 
                     // update the world bend shader position

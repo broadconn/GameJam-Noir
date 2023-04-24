@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapNode : MonoBehaviour {
-    [SerializeField] private CityLocation citySpawnLocation; // links to a CitySpawnLocation's cityLocation. Should really have a separate enum.
+    [SerializeField] private CityLocation citySpawnLocation; 
     [SerializeField] private Transform worldDestination;
     
     // limited to 4 directions so transitions can be mapped to WASD

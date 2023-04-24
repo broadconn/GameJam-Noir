@@ -47,15 +47,10 @@ public class StoryController : MonoBehaviour {
                 return story[i+1].Id;
         }
     
-        return StoryId.Intro; // should only reach here if they've finished the game
+        return StoryId.Undefined; 
     }
 
     public StoryConversation GetConversation(StoryId storyId) { 
-        return story.First(s => s.Id == storyId); 
-    }
-
-    public StoryConversation GetNextConversation() {
-        var storyId = GetNextStoryId();
         return story.First(s => s.Id == storyId); 
     }
     

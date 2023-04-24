@@ -429,7 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a9463d33abf6a4a9a16ea43ca0a52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storyId: 0
+  storyId: 0
+  spawnRotation: 0
 --- !u!135 &7183781053722301398
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -449,5 +450,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.9
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class PlayerTokenThoughtsTrigger : MonoBehaviour {
     [TextArea]
-    [SerializeField] private string textToDisplay;
+    [SerializeField] private string textToDisplay; 
+    [SerializeField] private string tagToTriggerOn;
 
-    private GameObject _player;
+    private PlayerTokenThoughts _playerTokenThoughts;
 
-    private void Start() {
-        _player = GameObject.FindGameObjectWithTag("PlayerCityToken");
+    private void Awake() {
+        var player = GameObject.FindGameObjectWithTag("PlayerCityToken");
+        _playerTokenThoughts = player.GetComponentInChildren<PlayerTokenThoughts>();
     }
 
-    private void OnTriggerEnter(Collider other) {  
-        _player.GetComponentInChildren<PlayerTokenThoughts>().ShowText(textToDisplay); 
+    private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag(!string.IsNullOrWhiteSpace(tagToTriggerOn) ? tagToTriggerOn : "PlayerCityToken")) 
+            return;
+        
+        _playerTokenThoughts.ShowText(textToDisplay); 
         Destroy(this);
     }
 }

@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
     };
 
     private bool _manualRotationEnabled;
-    private bool _isRotating;
+    private bool _rotateInputReceived;
     private float _rotateDir;
     private float _tgtYRot, _smoothedYRot; 
     private float _tgtXRot, _smoothedXRot; 
@@ -60,56 +60,33 @@ public class CameraController : MonoBehaviour
             Distance = mapDistance,
             Pitch = mapPitch,
             DefaultYRotation = 0,
-            ManualRotationEnabled = true
+            ManualRotationEnabled = false
         };
-
-        SetMode(CityMode.Street);
+        
+        _smoothedYRot = _tgtYRot;
+        
+        SetMode(CityMode.Street); // do this in Awake() so special cases can override it in Start()
     }
 
     #region Input Event Handling
     private void RotateInputStarted(InputAction.CallbackContext input)
     {
-        _isRotating = true;
+        _rotateInputReceived = true;
         _rotateDir = input.ReadValue<float>();
     }
-    private void RotateInputCancelled(InputAction.CallbackContext input) { _isRotating = false; }
+    private void RotateInputCancelled(InputAction.CallbackContext input) { _rotateInputReceived = false; }
     #endregion
 
-    void Start()
-    {
-        _smoothedYRot = _tgtYRot;
-    }
-
     void Update() {
-        DoEditorOnlyThings();
-        
         UpdateValuesViaInput();
         UpdateSmoothedValues();
         ApplyValues();
     }
 
-    private void DoEditorOnlyThings() {
-#if UNITY_EDITOR
-        // setting the settings
-        _streetSettings = new CameraSettings {
-            Distance = playingDistance,
-            Pitch = playingPitch,
-            DefaultYRotation = 0,
-            ManualRotationEnabled = true
-        };
-        _mapSettings = new CameraSettings {
-            Distance = mapDistance,
-            Pitch = mapPitch,
-            DefaultYRotation = 0,
-            ManualRotationEnabled = true
-        };
-#endif
-    }
-
     private void UpdateValuesViaInput()
     {
         // yaw manual rotation
-        if (_manualRotationEnabled && _isRotating)
+        if (_manualRotationEnabled && _rotateInputReceived)
             _tgtYRot += _rotateDir * rotateSpeed * Time.deltaTime;
     }
 
@@ -137,8 +114,9 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void SetCameraLookTarget(Transform t) {
+    public void SetCameraLookTarget(Transform t, bool allowCollisions) {
         playerCamera.LookAt = t;
+        playerCamera.GetComponent<CinemachineCollider>().enabled = allowCollisions; 
     }
 
     public void SetMode(CityMode mode)
@@ -149,16 +127,18 @@ public class CameraController : MonoBehaviour
 
     private void SetTargetValues(CameraSettings cs)
     {
+        print("Setting map mode values");
         _tgtYRot = cs.DefaultYRotation;
+        _manualRotationEnabled = cs.ManualRotationEnabled;
+        
         _tgtXRot = cs.Pitch;
         _tgtDistance = cs.Distance;
-        _manualRotationEnabled = cs.ManualRotationEnabled;
     }
 
     public void ForceCameraRotation(float spawnRotation) {
         print("Setting spawn rotation: " + spawnRotation);
         _tgtYRot = spawnRotation;
-        playerCamera.transform.localEulerAngles = new Vector3(playerCamera.transform.localEulerAngles.x, spawnRotation, playerCamera.transform.localEulerAngles.z);
+        playerCamera.transform.localEulerAngles = new Vector3(playerCamera.transform.localEulerAngles.x, spawnRotation, 0);
     }
 }
 

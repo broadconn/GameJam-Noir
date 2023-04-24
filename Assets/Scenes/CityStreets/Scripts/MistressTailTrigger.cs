@@ -10,7 +10,7 @@ public class MistressTailTrigger : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("PlayerCityToken")) {
             mistress.StartMoving();
-            playerCamera.SetCameraLookTarget(mistress.transform);
+            playerCamera.SetCameraLookTarget(mistress.transform, false);
         }
     }
 }
