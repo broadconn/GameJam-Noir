@@ -10,10 +10,9 @@ public class GameController : MonoBehaviour {
     
     [SerializeField] private GameConfigScriptableObject gameConfig;
     
-    public SceneFader SceneFader => _sceneFader;
-    private SceneFader _sceneFader;
-    public StoryController StoryController => _storyController;
-    private StoryController _storyController;
+    public SceneFader SceneFader { get; private set; }
+    public StoryController StoryController { get; private set; }
+    public MusicController MusicController { get; private set; }
 
     public const string CitySceneName = "City";
     public const string ConversationSceneName = "Conversation";
@@ -23,8 +22,9 @@ public class GameController : MonoBehaviour {
     void Awake()
     {
         EnsureOneInstance();
-        _sceneFader = GetComponent<SceneFader>();
-        _storyController = GetComponent<StoryController>();
+        SceneFader = GetComponent<SceneFader>();
+        StoryController = GetComponent<StoryController>();
+        MusicController = GetComponent<MusicController>();
         SetStartupGameConfig();
     }
 
@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
     private void EnsureOneInstance()
     {
         if (Instance != null && Instance != this) {
-            Destroy(this); 
+            Destroy(gameObject); 
             return;
         }
         Instance = this;

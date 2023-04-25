@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 8047153938741843460}
   - component: {fileID: 4891753684197766201}
   - component: {fileID: 3573228234840918959}
+  - component: {fileID: 9103597734497373318}
   - component: {fileID: 2695697270598915021}
   m_Layer: 0
   m_Name: GameController
@@ -167,6 +168,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4467375670726012495}
+  - {fileID: 9071996727882268882}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -197,6 +199,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackFadeImg: {fileID: 5155203408148531330}
   fadeTime: 1
+--- !u!114 &9103597734497373318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739791969214591118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f508b4e2612360444b199d07e57a07fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storyMusicLinks:
+  - note: Diner city streets
+    location: 1
+    scene: 0
+    storyId: 0
+    music: {fileID: 8300000, guid: b506cad49420a3344a4304e644978fb8, type: 3}
+  - note: Diner widow talk
+    location: 1
+    scene: 1
+    storyId: 2
+    music: {fileID: 8300000, guid: 90d80a5d3b38c4c48a2d5a28da44cdd9, type: 3}
+  - note: Morgue dodgy streets
+    location: 2
+    scene: 0
+    storyId: 0
+    music: {fileID: 8300000, guid: b6d4066052f11eb4ca265dfd76e6c4bb, type: 3}
+  - note: Morgue investigation
+    location: 2
+    scene: 1
+    storyId: 0
+    music: {fileID: 8300000, guid: 99dcfd9f933430348b16ded43633b58a, type: 3}
+  - note: Bar streets
+    location: 3
+    scene: 0
+    storyId: 0
+    music: {fileID: 8300000, guid: cd4a313ca2dcadc4689a02c3c0b37d12, type: 3}
+  - note: Initial bar snooping
+    location: 3
+    scene: 1
+    storyId: 0
+    music: {fileID: 8300000, guid: 3f81d04d27d4f064c815b81458444c7f, type: 3}
+  - note: Mistress follow section
+    location: 3
+    scene: 0
+    storyId: 5
+    music: {fileID: 8300000, guid: 5a72b0943c0a9a242af73f9faec0d2c1, type: 3}
+  - note: Mistress confrontation
+    location: 3
+    scene: 1
+    storyId: 5
+    music: {fileID: 8300000, guid: f70e0e4cfc735244485ff33d9def4d36, type: 3}
+  - note: Eavesdropping
+    location: 3
+    scene: 1
+    storyId: 6
+    music: {fileID: 8300000, guid: 9ff7cd4c7c723cb4ba405973fdc469c8, type: 3}
+  - note: Warehouse streets
+    location: 4
+    scene: 0
+    storyId: 0
+    music: {fileID: 8300000, guid: 2fc8e9e6b2b1f364c8f2b45e2b8a894f, type: 3}
+  - note: Warehouse finale
+    location: 4
+    scene: 1
+    storyId: 0
+    music: {fileID: 8300000, guid: 4385382edfb5fa64b84725661fd5b0bf, type: 3}
+  audioSource: {fileID: 6716464299851081140}
 --- !u!114 &2695697270598915021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,6 +1801,143 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6284915621254548516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9071996727882268882}
+  - component: {fileID: 64194668210818843}
+  - component: {fileID: 6716464299851081140}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9071996727882268882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284915621254548516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8047153938741843460}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &64194668210818843
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284915621254548516}
+  m_Enabled: 1
+--- !u!82 &6716464299851081140
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284915621254548516}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6415606421279435331
 GameObject:
   m_ObjectHideFlags: 0

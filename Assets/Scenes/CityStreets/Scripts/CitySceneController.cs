@@ -48,8 +48,10 @@ public class CitySceneController : MonoBehaviour
  
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M)) {
             SetMode(CityMode.Map);
+            GameController.Instance.MusicController.FadeOutMusic();
+        }
     }
 
     public void SetMode(CityMode mode)

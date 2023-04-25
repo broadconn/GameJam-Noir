@@ -15,7 +15,7 @@ public class ConversationSpeaker : MonoBehaviour {
     private float _curLightIntensity = 0;
  
     private float _timeTriggeredTransition = float.MinValue;
-    private const float TransitionLength = 0.7f;
+    private const float TransitionLength = 0.3f;
 
     private Transform _model;
     

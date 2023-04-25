@@ -218,6 +218,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Bt
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -2251,6 +2275,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Me
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -2265,7 +2313,6 @@ GameObject:
   m_Component:
   - component: {fileID: 969450266}
   - component: {fileID: 969450265}
-  - component: {fileID: 969450264}
   - component: {fileID: 969450267}
   m_Layer: 0
   m_Name: Main Camera
@@ -2274,14 +2321,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &969450264
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969450263}
-  m_Enabled: 1
 --- !u!20 &969450265
 Camera:
   m_ObjectHideFlags: 0
@@ -2749,6 +2788,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284915621254548516, guid: e8ec1144491c7ba49864901ac771892a,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioSource
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716464299851081140, guid: e8ec1144491c7ba49864901ac771892a,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8047153938741843460, guid: e8ec1144491c7ba49864901ac771892a,
         type: 3}
@@ -3339,6 +3388,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Kd
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -4236,6 +4309,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Ms
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -4369,6 +4466,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Me
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -4693,6 +4814,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Me
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -9706,7 +9851,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.514151, g: 0.71249086, b: 1, a: 1}
   m_Intensity: 200
-  m_Range: 6
+  m_Range: 10
   m_SpotAngle: 66.05129
   m_InnerSpotAngle: 0
   m_CookieSize: 10
@@ -9877,6 +10022,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Br
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -10351,6 +10520,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Wd
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100
@@ -10384,6 +10577,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a718e278e5d0314b9f8fdeab562338a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   id: Me
   lightIntensitySpeaking: 200
   lightIntensitySilent: 100

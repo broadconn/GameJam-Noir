@@ -30,6 +30,8 @@
     
     private bool _isTransitioning;
     private float _timeTriggeredTransition = float.MinValue;
+    
+    public const string LocationPrefName = "MapLocation";
 
     private void Awake() {
         _nodes = nodesParent.GetComponentsInChildren<MapNode>(includeInactive: true).ToList();
@@ -112,23 +114,30 @@
 
         mapCursor.transform.position = Vector2.Lerp(_curNode.transform.position, _nextNode.transform.position, percThrough);
         player.transform.position = Vector3.Lerp(_curNode.WorldDestination.position, _nextNode.WorldDestination.position, percThrough);
-
-        // check for transition end
+ 
         if (Math.Abs(percThrough - 1) < 0.001f) {
-            _isTransitioning = false;
-            mapCursor.SetAtMapNode(_nextNode);
-            _curNode = _nextNode;
+            OnMapTransitionEnd();
         }
     }
-    
+
+    private void OnMapTransitionEnd() {
+        _isTransitioning = false;
+        mapCursor.SetAtMapNode(_nextNode);
+        _curNode = _nextNode;
+        PlayerPrefs.SetInt(LocationPrefName, (int)_curNode.CitySpawnLocation);
+    }
+
     /// Only allows navigation if you press the button that goes to the next story location.
     /// The plan for a full game would be to allow navigation anywhere, let the player hunt for the location. 
     private void HandleMapInput() {
-        if (_nextStoryDir == null) return; 
-        
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            cityController.SetMode(CityMode.Street); 
-        
+        if (_nextStoryDir == null) return;
+
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            print("Hit down arrow");
+            cityController.SetMode(CityMode.Street);
+            GameController.Instance.MusicController.OnLocationChange();
+        }
+
         switch (_nextStoryDir) {
             case ArrowDir.Up:
                 if (Input.GetKeyDown(KeyCode.W)) 

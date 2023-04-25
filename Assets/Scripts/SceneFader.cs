@@ -26,10 +26,6 @@ public class SceneFader : MonoBehaviour
         _isLoadingLevel = false;
     }
  
-    void Start()
-    {
-    }
- 
     void Update()
     {
         var timePassed = Time.time - _timeTriggeredTransition;
@@ -49,6 +45,8 @@ public class SceneFader : MonoBehaviour
         _sceneToGoTo = sceneName;
         _fadeDir = FadeDirection.Out;
         _timeTriggeredTransition = Time.time;
+        
+        GameController.Instance.MusicController.FadeOutMusic();
     }
 
     private void UpdateSceneTransition(float timePassed, float transitionPercent) {
