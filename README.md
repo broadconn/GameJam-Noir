@@ -11,6 +11,8 @@ I added a dev tool under File menu -> \*\*Noir\*\* -> Dev Tools.<br/>This has ha
 - teleporting to specific story locations around the world
 - changing shader values to make scene editing easier
 
+City model created with https://github.com/vvoovv/blender-osm 
+
 
 ## TODO (if I had more time)
 - Build out the story
