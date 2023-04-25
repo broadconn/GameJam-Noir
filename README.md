@@ -3,6 +3,8 @@ Made as part of a one-month long gamejam. The prompt was 'Noir': https://itch.io
 
 I decided I wanted to try something I haven't done before, and make a story-focused game that spans multiple locations.
 
+My original vision for the game was for the player to be drip-fed clues that guide them to different locations throughout a city that they can freely roam, and part of the fun is deciphering where the next clue location might be and testing out their theories. Naturally all this was out of scope for the game jam, so the result is extremely railroaded :)
+
 ## Development
 Built in Unity 2022.2.12.
 
