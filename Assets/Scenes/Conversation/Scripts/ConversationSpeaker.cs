@@ -24,9 +24,7 @@ public class ConversationSpeaker : MonoBehaviour {
     private void Awake() {
         _speakerIlluminatingLight = GetComponentInChildren<Light>();
         _model = transform.Find("Model");
-    }
-
-    private void Start() {
+        
         _speakerIlluminatingLight.intensity = 0;
         IsVisible = false;
     }

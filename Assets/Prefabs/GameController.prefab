@@ -282,9 +282,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   story:
   - Id: 1
-    Dialogue: <Me>Here we go again.||A new client wants to meet at the Midnight Diner
-      in the Westward District.|I've just arrived.||She wouldn't share any details
-      over the phone.||Better get to it.|Diner's just up the street.
+    Dialogue: <Me>Here we go again.||A new client wants to meet at the *Midnight
+      Diner* in the Unnamed District.|I've just arrived.||She wouldn't share any
+      details over the phone.||Better get to it.|Diner's just up the street.
   - Id: 2
     Dialogue: "[You spot the client sitting in a corner booth, sipping a coffee.]||{show:BG,
       show:Wd, music}[She's wearing a muted overcoat and dark glasses, apparently
@@ -373,11 +373,13 @@ MonoBehaviour:
       escape grants you a vantage of a nearby window into the bar.]||[You hear the
       lady talking to someone.]||[She sounds mad.]||[She talks about how the widow
       must be trying to get out of paying her by sending the detective.]||[She talks
-      about a meeting at a deserted warehouse they were supposed to have tonight,
-      where the widow pays the lady for killing her husband.]||[She decides to rob
-      the widow at this meeting (or kill? idk).]||[Shes tells the person shes talking
-      to to bring gangsterz.]||[You go talk to your cop buddy again, telling him
-      to bring cops to the warehouse.]||[You''re going on ahead.]'
+      about a deserted warehouse that they were supposed to meet at tonight, where
+      the widow was to pay the lady for killing her husband.]||[She throws something
+      against a wall and decides to rob the widow at this meeting (or kill? idk).]||[Shes
+      tells the person shes talking to to bring gangsterz.]||[You hear them storm
+      out of the room, then hear engines revving.]||[You hurry back to the bar and
+      tell your cop buddy to bring The Force to this warehouse, quickly.]||[You''re
+      going on ahead.]'
   - Id: 7
     Dialogue: '[You sneak into the warehouse.]||[You find the mistress and the widow
       arguing.]||[The widow denies sending the detective after her.]||[The mistress
@@ -677,7 +679,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9103597734497373318}
+        m_TargetAssemblyTypeName: MusicController, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2789529766049035337
 GameObject:
   m_ObjectHideFlags: 0
