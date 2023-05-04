@@ -8,34 +8,26 @@ public class GameController : MonoBehaviour {
 
     private Camera _camera;
 
+    private int _numCellsWideToHighlight = 1; // e.g. if placing a 1x1 or 2x2-width tower
+
     private void Awake() {
         _camera = Camera.main;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    } 
  
     void Update() {
         var layerMask = 1 << LayerMask.NameToLayer("MouseRaycastLayer");
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
         
-        if (Physics.Raycast(ray, out var hit, 10000, layerMask)) {
+        if (Physics.Raycast(ray, out var hit, 100, layerMask)) {
             var hitPos = hit.point;
-            var hitPosMod = new Vector3(Mathf.Floor(hitPos.x) + 0.5f, hitPos.y, Mathf.Floor(hitPos.z) + 0.5f);
+            var hitPosMod = new Vector3(Mathf.Floor(hitPos.x), hitPos.y, Mathf.Floor(hitPos.z));
+            hitPosMod += GetHighlightOffset();
             GridHighlighter.position = hitPosMod;
         }
     }
-    
-    // void FixedUpdate()
-    // {
-    //     var ray = _camera.ScreenPointToRay(Input.mousePosition);
-    //
-    //     if (Physics.Raycast(ray.origin, ray.direction, out var hit, 100.0f)) {
-    //         print("Found an object - distance: " + hit.distance);
-    //         GridHighlighter.position = hit.point;
-    //     }
-    // }
+
+    private Vector3 GetHighlightOffset() {
+        var offset = _numCellsWideToHighlight / 2f;
+        return new Vector3(offset, 0, offset);
+    }
 }
