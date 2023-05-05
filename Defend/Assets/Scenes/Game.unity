@@ -3417,7 +3417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114b2f239582c6843836fd05347ee3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numCellsWideToHighlight: 2
+  numCellsWideToHighlight: 2
 --- !u!1 &919732735
 GameObject:
   m_ObjectHideFlags: 0
@@ -6444,6 +6444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1880404844}
+  - component: {fileID: 1880404845}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -6466,6 +6467,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1880404845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880404842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a6f65398dc736429fa3e27a77bbaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridHighlighter: {fileID: 918354765}
 --- !u!1 &1929313131
 GameObject:
   m_ObjectHideFlags: 0
