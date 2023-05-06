@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 namespace GameStates {
-    public class ActionStateContext {
+    public class GameplayStateContext {
         public Camera MainCamera;
         public GridHighlighter GridHighlighter;
 
         public bool StateChanged;
-        private ActionState _nextState;
-        public ActionState NextState {
+        private GameplayState _nextState;
+        public GameplayState NextState {
             get => _nextState;
             set {
                 _nextState = value;

@@ -1,6 +1,6 @@
 ﻿namespace GameStates {
-    public class NormalActionStateProcessor : ActionStateProcessor {
-        public NormalActionStateProcessor(ActionStateContext ctx) : base(ctx) { }
+    public class NormalGameplayStateProcessor : GameplayStateProcessor {
+        public NormalGameplayStateProcessor(GameplayStateContext ctx) : base(ctx) { }
         
         public override void OnEnterState() { 
             base.OnEnterState();

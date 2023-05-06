@@ -10,7 +10,7 @@ For this jam I'm trying to recreate a certain flavor of tower defence games, my 
 ## Features so far
 ### Grid visualization
 Made with a shader graph shader using world position to draw grid lines and inputs for highlighted square and size. 
-This will appear when placing a building to help the user place buildings accurately.
+This will appear when placing a building to help the user place buildings accurately without drawing the grid everywhere.
 
 
 ## TODO
@@ -22,5 +22,8 @@ This will appear when placing a building to help the user place buildings accura
     - Take a start point, end point and blocked cells list. Use A* to find a path between the points.
     - Refresh whenever a tower is placed
     - Generate a spline for more organic minion movement
+- Minion spawning
+    - Come up with a way to define waves of enemies
+    - enemies follow the pathing spline
 ### Tech
 - Switch to UI Toolkit from uGUI

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 namespace GameStates {
-    public class PlacingBuildingActionStateProcessor : ActionStateProcessor {
-        public PlacingBuildingActionStateProcessor(ActionStateContext ctx) : base(ctx) { }
+    public class PlacingBuildingStateProcessor : GameplayStateProcessor {
+        public PlacingBuildingStateProcessor(GameplayStateContext ctx) : base(ctx) { }
         
         public override void OnEnterState() {
             base.OnEnterState();
@@ -11,7 +11,7 @@ namespace GameStates {
 
         public override void HandleKeyboardInput() {
             if (Input.GetKeyDown(KeyCode.Escape)) {
-                Ctx.NextState = ActionState.Normal;
+                Ctx.NextState = GameplayState.Normal;
             }
         }
 

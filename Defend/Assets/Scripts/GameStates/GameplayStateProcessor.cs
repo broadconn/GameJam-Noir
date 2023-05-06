@@ -1,10 +1,10 @@
 ﻿using UnityEngine.PlayerLoop;
 
 namespace GameStates {
-    public abstract class ActionStateProcessor {
-        protected readonly ActionStateContext Ctx;
+    public abstract class GameplayStateProcessor {
+        protected readonly GameplayStateContext Ctx;
 
-        protected ActionStateProcessor(ActionStateContext ctx) {
+        protected GameplayStateProcessor(GameplayStateContext ctx) {
             Ctx = ctx;
         }
 
@@ -15,10 +15,10 @@ namespace GameStates {
         public abstract void Update();
 
         public bool StateChanged => Ctx.StateChanged;
-        public ActionState NextState => Ctx.NextState;
+        public GameplayState NextState => Ctx.NextState;
     }
 
-    public enum ActionState {
+    public enum GameplayState {
         Normal,
         PlacingBuilding 
     }

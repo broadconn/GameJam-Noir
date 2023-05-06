@@ -7,39 +7,39 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     [SerializeField] private GridHighlighter gridHighlighter; 
 
-    private ActionStateProcessor _actionStateProcessor;
-    private Dictionary<ActionState, ActionStateProcessor> _actionStateMappings;
+    private GameplayStateProcessor _gameplayStateProcessor;
+    private Dictionary<GameplayState, GameplayStateProcessor> _gameplayStateMappings;
 
     private void Awake() {
-        var ctx = new ActionStateContext {
+        var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
             GridHighlighter = gridHighlighter
         };
-        _actionStateMappings = new Dictionary<ActionState, ActionStateProcessor> {
-            { ActionState.Normal, new NormalActionStateProcessor(ctx) },
-            { ActionState.PlacingBuilding, new PlacingBuildingActionStateProcessor(ctx) }
+        _gameplayStateMappings = new Dictionary<GameplayState, GameplayStateProcessor> {
+            { GameplayState.Normal, new NormalGameplayStateProcessor(ctx) },
+            { GameplayState.PlacingBuilding, new PlacingBuildingStateProcessor(ctx) }
         };
     }
 
     private void Start() {
-        SetActionState(ActionState.Normal);
+        SetGameplayState(GameplayState.Normal);
     }
 
     private void Update() {
-        _actionStateProcessor.HandleKeyboardInput();
-        _actionStateProcessor.Update();
+        _gameplayStateProcessor.HandleKeyboardInput();
+        _gameplayStateProcessor.Update();
         
-        if (_actionStateProcessor.StateChanged) 
-            SetActionState(_actionStateProcessor.NextState); 
+        if (_gameplayStateProcessor.StateChanged) 
+            SetGameplayState(_gameplayStateProcessor.NextState); 
     }
 
-    private void SetActionState(ActionState actionState) {
-        _actionStateProcessor = _actionStateMappings[actionState]; // TODO: check mapping exists
-        _actionStateProcessor.OnEnterState();
+    private void SetGameplayState(GameplayState gameplayState) {
+        _gameplayStateProcessor = _gameplayStateMappings[gameplayState]; // TODO: check mapping exists
+        _gameplayStateProcessor.OnEnterState();
     }
 
     public void ClickedBuildBuildingButton(string buildingId) {
         // TODO: check if the player can afford this building
-        SetActionState(ActionState.PlacingBuilding);
+        SetGameplayState(GameplayState.PlacingBuilding);
     }
 }
