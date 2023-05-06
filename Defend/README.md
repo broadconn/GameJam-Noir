@@ -27,10 +27,13 @@ Towers can be placed on the grid. The cells they occupy are maked as such, so to
 - Minion spawning
     - Come up with a way to define waves of enemies
     - Enemies follow the pathing spline
-- Towers attack and enemies die
 - Camera movement
     - Click and drag the ground to pan the camera
     - Restrict the camera to the game area
+- Towers attack and enemies die
+    - Show tower range when placing it
+    - Enemies have a coin reward
+    - The original game had a way to force a tower to focus on a targetted enemy. Consider this.
 - Tower selling and upgrades
     - Sell for 75% of their original cost
     - Upgrade system (trees?)
