@@ -7,17 +7,17 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     [SerializeField] private GridHighlighter gridHighlighter; 
 
-    private GameplayStateProcessor _gameplayStateProcessor;
-    private Dictionary<GameplayState, GameplayStateProcessor> _gameplayStateMappings;
+    private GameplayProcessor _gameplayProcessor;
+    private Dictionary<GameplayState, GameplayProcessor> _gameplayStateToProcessorMappings;
 
     private void Awake() {
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
             GridHighlighter = gridHighlighter
         };
-        _gameplayStateMappings = new Dictionary<GameplayState, GameplayStateProcessor> {
-            { GameplayState.Normal, new NormalGameplayStateProcessor(ctx) },
-            { GameplayState.PlacingBuilding, new PlacingBuildingStateProcessor(ctx) }
+        _gameplayStateToProcessorMappings = new Dictionary<GameplayState, GameplayProcessor> {
+            { GameplayState.Normal, new NormalGameplayProcessor(ctx) },
+            { GameplayState.PlacingBuilding, new PlacingBuildingProcessorProcessor(ctx) }
         };
     }
 
@@ -26,20 +26,27 @@ public class GameController : MonoBehaviour {
     }
 
     private void Update() {
-        _gameplayStateProcessor.HandleKeyboardInput();
-        _gameplayStateProcessor.Update();
+        _gameplayProcessor.HandleKeyboardInput();
+        _gameplayProcessor.Update();
         
-        if (_gameplayStateProcessor.StateChanged) 
-            SetGameplayState(_gameplayStateProcessor.NextState); 
-    }
-
-    private void SetGameplayState(GameplayState gameplayState) {
-        _gameplayStateProcessor = _gameplayStateMappings[gameplayState]; // TODO: check mapping exists
-        _gameplayStateProcessor.OnEnterState();
+        if (_gameplayProcessor.StateChanged) 
+            SetGameplayState(_gameplayProcessor.NextState); 
     }
 
     public void ClickedBuildBuildingButton(string buildingId) {
         // TODO: check if the player can afford this building
-        SetGameplayState(GameplayState.PlacingBuilding);
+
+        GameObject buildingTower = null;
+        SetGameplayState(GameplayState.PlacingBuilding, buildingTower);
+    }
+
+    private void SetGameplayState(GameplayState gameplayState, GameObject referenceObject = null) {
+        _gameplayProcessor?.OnExitState();
+        
+        _gameplayProcessor = _gameplayStateToProcessorMappings[gameplayState]; // TODO: check mapping exists
+        if(_gameplayProcessor is IGameplayProcessorReferencingGameObject processor)
+            processor.SetReferenceObject(referenceObject);
+        
+        _gameplayProcessor.OnEnterState();
     }
 }

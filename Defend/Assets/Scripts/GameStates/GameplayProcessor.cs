@@ -1,18 +1,20 @@
 ﻿using UnityEngine.PlayerLoop;
 
 namespace GameStates {
-    public abstract class GameplayStateProcessor {
+    public abstract class GameplayProcessor {
         protected readonly GameplayStateContext Ctx;
 
-        protected GameplayStateProcessor(GameplayStateContext ctx) {
+        protected GameplayProcessor(GameplayStateContext ctx) {
             Ctx = ctx;
         }
 
         public virtual void OnEnterState() {
-            Ctx.StateChanged = false;   
+            Ctx.StateChanged = false;
         }
+
         public abstract void HandleKeyboardInput();
         public abstract void Update();
+        public abstract void OnExitState();
 
         public bool StateChanged => Ctx.StateChanged;
         public GameplayState NextState => Ctx.NextState;
