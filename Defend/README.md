@@ -3,7 +3,7 @@ For this jam I'm trying to recreate the mechanics from a certain flavor of the t
 <br>In this game there is no separation between enemy pathing and tower placement.
 <br>Enemies try to take the shortest path between the start, any intermediate path points, and the end.
 <br>Towers can be placed anywhere in the area, even disrupting enemy pathing. 
-<br>This means players can strategially place their towers in such a way to maximize the time the enemies are in range of their towers.
+<br>This means players can strategically place their towers in such a way to maximize the time the enemies are in range of their towers.
 <br>If the player places their towers in such a way that the enemy path is blocked, the enemies attack and destroy the towers until a valid path exists again.
 <br>Buildings are typically 2x2 units wide. Enemies only need 1 unit to move through.
 

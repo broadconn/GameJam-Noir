@@ -15,30 +15,24 @@ namespace GameStates {
             base.OnEnterState();
             
             Ctx.GridHighlighter.gameObject.SetActive(true);
-            Ctx.GridHighlighter.SetPos(GetMouseWorldPosition(), true);
+            Ctx.GridHighlighter.SetPos(GetMouseWorldPosition(), instant: true);
             
             // TODO: set reference building visuals to ethereal
         }
 
         public override void Update() {
-            _mouseWorldPos = GetMouseWorldPosition();
-            Ctx.GridHighlighter.SetPos(_mouseWorldPos);
-            PlaceReferenceBuildingAtMousePos();
-            
-            // placement validity coloring
-            var cellsRequested = GetOccupiedCellsFromMousePos(_mouseWorldPos);
+            _mouseWorldPos = GetMouseWorldPosition(); 
+            var cellsRequested = GetSelectedCellsFromMousePos(_mouseWorldPos);
             var canPlaceHere = Ctx.PathController.CheckCellsAreFree(cellsRequested); // TODO: only check this when the hovered cell changes
+
+            Ctx.GridHighlighter.SetPos(_mouseWorldPos);
             Ctx.GridHighlighter.SetColoringValid(canPlaceHere);
             
-            // Input handling
-            // cancel building mode
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                ExitBuildMode();
-            }
+            PlaceBuildingVisualizerAtMousePos();
 
-            // place building
             if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse)) {
                 if (canPlaceHere) {
+                    // place the building
                     Ctx.PathController.SetCellsOccupied(cellsRequested);
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
                     newBuilding.transform.position = Ctx.ReferenceGameObject.transform.position;
@@ -48,12 +42,16 @@ namespace GameStates {
                         ExitBuildMode();
                 }
             }
+            
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                ExitBuildMode();
+            }
         }
 
         /// <summary>
         /// The visual representation of where a building would be created if placed where the mouse is.
         /// </summary>
-        private void PlaceReferenceBuildingAtMousePos() {
+        private void PlaceBuildingVisualizerAtMousePos() {
             var flooredWorldPos = new Vector3(Mathf.Floor(_mouseWorldPos.x), _mouseWorldPos.y, Mathf.Floor(_mouseWorldPos.z));
             var buildingPos = flooredWorldPos + new Vector3(BuildingSize / 2f, 0, BuildingSize / 2f);
             Ctx.ReferenceGameObject.transform.position = buildingPos;
@@ -64,7 +62,7 @@ namespace GameStates {
         /// </summary>
         /// <param name="mouseWorldPos"></param>
         /// <returns></returns>
-        private static List<Vector2> GetOccupiedCellsFromMousePos(Vector3 mouseWorldPos) {
+        private static List<Vector2> GetSelectedCellsFromMousePos(Vector3 mouseWorldPos) {
             var mousePosV2 = new Vector2(Mathf.Floor(mouseWorldPos.x), Mathf.Floor(mouseWorldPos.z));
 
             var occupiedCells = new List<Vector2>();

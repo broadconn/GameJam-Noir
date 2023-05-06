@@ -5,15 +5,9 @@ using UnityEngine;
 namespace Controllers {
     public class PathController {
         private readonly List<Vector2> _occupiedCells = new();
-        
-        public PathController() {
-            
-        }
 
-        public void SetCellsOccupied(List<Vector2> cells) {
-            foreach (var cell in cells) {
-                _occupiedCells.Add(cell);
-            }
+        public void SetCellsOccupied(IEnumerable<Vector2> cells) {
+            _occupiedCells.AddRange(cells);
         }
         public void SetCellsFree(IEnumerable<Vector2> cells) {
             foreach (var cell in cells.Where(cell => _occupiedCells.Contains(cell))) {
@@ -21,7 +15,7 @@ namespace Controllers {
             }
         }
 
-        public bool CheckCellsAreFree(List<Vector2> cellsToCheck) {
+        public bool CheckCellsAreFree(IEnumerable<Vector2> cellsToCheck) {
             return !cellsToCheck.Any(cell => _occupiedCells.Contains(cell));
         }
     }
