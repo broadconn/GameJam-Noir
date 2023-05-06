@@ -5,7 +5,7 @@ namespace GameStates {
         public Camera MainCamera;
         public GridHighlighter GridHighlighter;
 
-        public bool StateChanged = false;
+        public bool StateChanged;
         private ActionState _nextState;
         public ActionState NextState {
             get => _nextState;

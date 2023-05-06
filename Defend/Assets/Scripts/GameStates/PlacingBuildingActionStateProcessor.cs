@@ -5,7 +5,7 @@ namespace GameStates {
         public PlacingBuildingActionStateProcessor(ActionStateContext ctx) : base(ctx) { }
         
         public override void OnEnterState() {
-            Ctx.StateChanged = false;
+            base.OnEnterState();
             Ctx.GridHighlighter.gameObject.SetActive(true);
         }
 

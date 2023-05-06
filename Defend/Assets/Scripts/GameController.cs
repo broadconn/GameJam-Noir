@@ -25,23 +25,21 @@ public class GameController : MonoBehaviour {
         SetActionState(ActionState.Normal);
     }
 
-    private void SetActionState(ActionState actionState) {
-        _actionStateProcessor = _actionStateMappings[actionState]; // TODO check mapping exists
-        _actionStateProcessor.OnEnterState();
-    }
-
     private void Update() {
         _actionStateProcessor.HandleKeyboardInput();
         _actionStateProcessor.Update();
-    }
-
-    private void LateUpdate() {
+        
         if (_actionStateProcessor.StateChanged) 
             SetActionState(_actionStateProcessor.NextState); 
     }
 
+    private void SetActionState(ActionState actionState) {
+        _actionStateProcessor = _actionStateMappings[actionState]; // TODO: check mapping exists
+        _actionStateProcessor.OnEnterState();
+    }
+
     public void ClickedBuildBuildingButton(string buildingId) {
-        // TODO: check if we can afford this building
+        // TODO: check if the player can afford this building
         SetActionState(ActionState.PlacingBuilding);
     }
 }

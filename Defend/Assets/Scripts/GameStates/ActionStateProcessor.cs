@@ -7,8 +7,10 @@ namespace GameStates {
         protected ActionStateProcessor(ActionStateContext ctx) {
             Ctx = ctx;
         }
-        
-        public abstract void OnEnterState();
+
+        public virtual void OnEnterState() {
+            Ctx.StateChanged = false;   
+        }
         public abstract void HandleKeyboardInput();
         public abstract void Update();
 

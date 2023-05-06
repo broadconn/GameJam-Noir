@@ -3,6 +3,7 @@
         public NormalActionStateProcessor(ActionStateContext ctx) : base(ctx) { }
         
         public override void OnEnterState() { 
+            base.OnEnterState();
             Ctx.GridHighlighter.gameObject.SetActive(false);
         }
 
