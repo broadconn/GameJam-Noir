@@ -1,16 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameStates;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private GridHighlighter gridHighlighter; 
-    private Camera _camera;
 
-    private ActionState _actionState;
-    
+    private ActionStateProcessor _actionStateProcessor;
+    private Dictionary<ActionState, ActionStateProcessor> _actionStateMappings;
+
     private void Awake() {
-        _camera = Camera.main;
+        var ctx = new ActionStateContext {
+            MainCamera = Camera.main,
+            GridHighlighter = gridHighlighter
+        };
+        _actionStateMappings = new Dictionary<ActionState, ActionStateProcessor> {
+            { ActionState.Normal, new NormalActionStateProcessor(ctx) },
+            { ActionState.PlacingBuilding, new PlacingBuildingActionStateProcessor(ctx) }
+        };
     }
 
     private void Start() {
@@ -18,49 +26,22 @@ public class GameController : MonoBehaviour {
     }
 
     private void SetActionState(ActionState actionState) {
-        _actionState = actionState;
-
-        switch (_actionState) {
-            case ActionState.Normal:
-                gridHighlighter.gameObject.SetActive(false);
-                break;
-            case ActionState.PlacingBuilding:
-                gridHighlighter.gameObject.SetActive(true);
-                break;
-        }
+        _actionStateProcessor = _actionStateMappings[actionState]; // TODO check mapping exists
+        _actionStateProcessor.OnEnterState();
     }
 
     private void Update() {
-        switch (_actionState) {
-            case ActionState.Normal:
-                HandleNormalState();
-                break;
-            case ActionState.PlacingBuilding:
-                HandlePlacingBuildingState();
-                break;
-            default:
-                throw new NotImplementedException();
-        }
+        _actionStateProcessor.HandleKeyboardInput();
+        _actionStateProcessor.Update();
     }
 
-    private void HandleNormalState() {
-        
+    private void LateUpdate() {
+        if (_actionStateProcessor.StateChanged) 
+            SetActionState(_actionStateProcessor.NextState); 
     }
 
-    private void HandlePlacingBuildingState() {
-        var mouseWorldPos = GetMouseWorldPosition();
-        gridHighlighter.SetMouseWorldPos(mouseWorldPos);
+    public void ClickedBuildBuildingButton(string buildingId) {
+        // TODO: check if we can afford this building
+        SetActionState(ActionState.PlacingBuilding);
     }
-
-    private Vector3 GetMouseWorldPosition() {
-        const int maxCastDistance = 100;
-        var layerMask = 1 << LayerMask.NameToLayer("MouseRaycastLayer");
-        var mouseToWorldRay = _camera.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(mouseToWorldRay, out var hit, maxCastDistance, layerMask) ? hit.point : Vector3.positiveInfinity;
-    }
-}
-
-public enum ActionState {
-    Normal,
-    PlacingBuilding
 }
