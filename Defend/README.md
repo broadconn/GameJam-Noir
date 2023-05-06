@@ -25,5 +25,6 @@ This will appear when placing a building to help the user place buildings accura
 - Minion spawning
     - Come up with a way to define waves of enemies
     - enemies follow the pathing spline
+- Camera movement
 ### Tech
 - Switch to UI Toolkit from uGUI

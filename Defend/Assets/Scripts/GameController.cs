@@ -33,11 +33,9 @@ public class GameController : MonoBehaviour {
             SetGameplayState(_gameplayProcessor.NextState); 
     }
 
-    public void ClickedBuildBuildingButton(string buildingId) {
+    public void ClickedBuildBuildingButton(GameObject buildingPrefab) {
         // TODO: check if the player can afford this building
-
-        GameObject buildingTower = null;
-        SetGameplayState(GameplayState.PlacingBuilding, buildingTower);
+        SetGameplayState(GameplayState.PlacingBuilding, buildingPrefab);
     }
 
     private void SetGameplayState(GameplayState gameplayState, GameObject referenceObject = null) {

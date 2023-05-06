@@ -9,7 +9,7 @@ namespace GameStates {
         }
 
         public virtual void OnEnterState() {
-            Ctx.StateChanged = false;
+            Ctx.StateChanged = false; 
         }
 
         public abstract void HandleKeyboardInput();

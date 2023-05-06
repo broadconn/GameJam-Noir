@@ -20,9 +20,12 @@ public class GridHighlighter : MonoBehaviour {
         _highlighterRenderer.material.SetVector(HighlightedSquareShaderId, new Vector4(_gridHighlightTgtPos.x, _gridHighlightTgtPos.z, 0, 0));
     }
     
-    public void SetMouseWorldPos(Vector3 mouseWorldPos){
-        var worldPosFloored = new Vector3(Mathf.Floor(mouseWorldPos.x), mouseWorldPos.y, Mathf.Floor(mouseWorldPos.z));
+    public void SetMouseWorldPos(Vector3 mouseWorldPos, bool instant = false){
+        var worldPosFloored = new Vector3(Mathf.Floor(mouseWorldPos.x), 0, Mathf.Floor(mouseWorldPos.z));
         _gridHighlightTgtPos = worldPosFloored + GetHighlightOffset();
+
+        if (instant) 
+            transform.position = _gridHighlightTgtPos; 
     }
 
     public void SetBuildingWidth(int buildingWidth) {
