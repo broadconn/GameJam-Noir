@@ -12,7 +12,7 @@ For this jam I'm trying to recreate the mechanics from a certain flavor of the t
 Made with a shader graph shader using world position to draw grid lines and inputs for highlighted square and size. 
 This will appear when placing a building to help the user place buildings accurately without drawing the grid everywhere.
 ### Tower Placement
-Towers can be placed on the grid. The cells they occupy are maked as such, so towers can not be placed on top of each other.
+Towers can be placed on the grid. The cells they occupy are marked as such, so towers can not be placed on top of each other.
 
 
 ## Roadmap
