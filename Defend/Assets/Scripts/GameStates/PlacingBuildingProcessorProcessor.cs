@@ -33,7 +33,7 @@ namespace GameStates {
             // Input handling
             // cancel building mode
             if (Input.GetKeyDown(KeyCode.Escape)) {
-                Ctx.NextState = GameplayState.Normal;
+                ExitBuildMode();
             }
 
             // place building
@@ -45,7 +45,7 @@ namespace GameStates {
 
                     // if not holding shift, switch back to normal mode
                     if (!Input.GetKey(KeyCode.LeftShift))
-                        Ctx.NextState = GameplayState.Normal;
+                        ExitBuildMode();
                 }
             }
         }
@@ -84,11 +84,16 @@ namespace GameStates {
 
         public void SetReferenceObject(GameObject gameObject) {
             Ctx.ReferenceGameObject = gameObject;
-            Ctx.ReferenceGameObject.gameObject.SetActive(true);
+            Ctx.ReferenceGameObject.SetActive(true);
         }
 
         public override void OnExitState() {
             Ctx.GridHighlighter.gameObject.SetActive(false); 
+            Ctx.ReferenceGameObject.SetActive(false);
+        }
+
+        private void ExitBuildMode() {
+            Ctx.NextState = GameplayState.Normal;
         }
     }
 }
