@@ -12,7 +12,6 @@ namespace GameStates {
             Ctx.StateChanged = false; 
         }
 
-        public abstract void HandleKeyboardInput();
         public abstract void Update();
         public abstract void OnExitState();
 

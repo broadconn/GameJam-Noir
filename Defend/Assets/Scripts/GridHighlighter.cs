@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridHighlighter : MonoBehaviour {
+    [SerializeField] [ColorUsage(true, true)] private Color validPlacementColor = Color.white;
+    [SerializeField] [ColorUsage(true, true)] private Color invalidPlacementColor = Color.red;
     private int _numCellsWideToHighlight = 2; // e.g. if placing a 1x1 or 2x2-width tower
     private Renderer _highlighterRenderer;
 
     private Vector3 _gridHighlightTgtPos;
+    private static readonly int GridColorShaderId = Shader.PropertyToID("_LineColor");
     private static readonly int HighlightedSquareShaderId = Shader.PropertyToID("_HighlightedSquare");
     private static readonly int NumSquaresShaderId = Shader.PropertyToID("_HighlightedSquareSize");
 
@@ -20,7 +23,7 @@ public class GridHighlighter : MonoBehaviour {
         _highlighterRenderer.material.SetVector(HighlightedSquareShaderId, new Vector4(_gridHighlightTgtPos.x, _gridHighlightTgtPos.z, 0, 0));
     }
     
-    public void SetMouseWorldPos(Vector3 mouseWorldPos, bool instant = false){
+    public void SetPos(Vector3 mouseWorldPos, bool instant = false){
         var worldPosFloored = new Vector3(Mathf.Floor(mouseWorldPos.x), 0, Mathf.Floor(mouseWorldPos.z));
         _gridHighlightTgtPos = worldPosFloored + GetHighlightOffset();
 
@@ -40,5 +43,9 @@ public class GridHighlighter : MonoBehaviour {
     private Vector3 GetHighlightOffset() {
         var offset = _numCellsWideToHighlight / 2f;
         return new Vector3(offset, 0, offset);
+    }
+
+    public void SetColoringValid(bool canPlaceHere) {
+        _highlighterRenderer.material.SetColor(GridColorShaderId, canPlaceHere ? validPlacementColor : invalidPlacementColor);
     }
 }

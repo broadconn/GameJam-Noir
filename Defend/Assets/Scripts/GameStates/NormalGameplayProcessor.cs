@@ -2,7 +2,7 @@
     public class NormalGameplayProcessor : GameplayProcessor {
         public NormalGameplayProcessor(GameplayStateContext ctx) : base(ctx) { }
 
-        public override void HandleKeyboardInput() {
+        public override void OnEnterState() {
             // if this remains unused consider composition over inheritance
         }
 

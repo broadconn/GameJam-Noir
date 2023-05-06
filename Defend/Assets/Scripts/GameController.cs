@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Controllers;
 using GameStates;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ public class GameController : MonoBehaviour {
     private void Awake() {
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
-            GridHighlighter = gridHighlighter
+            GridHighlighter = gridHighlighter,
+            PathController = new PathController()
         };
         _gameplayStateToProcessorMappings = new Dictionary<GameplayState, GameplayProcessor> {
             { GameplayState.Normal, new NormalGameplayProcessor(ctx) },
@@ -26,16 +28,10 @@ public class GameController : MonoBehaviour {
     }
 
     private void Update() {
-        _gameplayProcessor.HandleKeyboardInput();
         _gameplayProcessor.Update();
         
         if (_gameplayProcessor.StateChanged) 
             SetGameplayState(_gameplayProcessor.NextState); 
-    }
-
-    public void ClickedBuildBuildingButton(GameObject buildingPrefab) {
-        // TODO: check if the player can afford this building
-        SetGameplayState(GameplayState.PlacingBuilding, buildingPrefab);
     }
 
     private void SetGameplayState(GameplayState gameplayState, GameObject referenceObject = null) {
@@ -46,5 +42,10 @@ public class GameController : MonoBehaviour {
             processor.SetReferenceObject(referenceObject);
         
         _gameplayProcessor.OnEnterState();
+    }
+
+    public void ClickedBuildBuildingButton(GameObject buildingPrefab) {
+        // TODO: check if the player can afford this building
+        SetGameplayState(GameplayState.PlacingBuilding, buildingPrefab);
     }
 }

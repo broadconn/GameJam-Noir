@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Controllers;
+using UnityEngine;
 
 namespace GameStates {
     public class GameplayStateContext {
         public Camera MainCamera;
         public GridHighlighter GridHighlighter;
         public GameObject ReferenceGameObject;
+        public PathController PathController;
         
         public bool StateChanged;
         private GameplayState _nextState;
