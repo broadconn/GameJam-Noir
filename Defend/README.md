@@ -13,13 +13,18 @@ Made with a shader graph shader using world position to draw grid lines and inpu
 This will appear when placing a building to help the user place buildings accurately without drawing the grid everywhere.
 ### Tower Placement
 Towers can be placed on the grid. The cells they occupy are marked as such, so towers can not be placed on top of each other.
-
+### Camera Controls
+Hold right-click and drag to pan the camera. This can be done while placing a tower.<br>
+Mouse wheel to zoom. This can be done while panning.
 
 ## Roadmap
 ### Gameplay
 - ✔ ~~Grid visualization~~
 - ✔ ~~Tower placement~~
     - ✔ ~~Mark cells as blocked for the pathing generator.~~
+- ✔ ~~Camera movement~~
+    - ✔ ~~Click and drag the ground to pan the camera~~
+    - Restrict the camera to the game area
 - Path generator
     - Take a start point, end point and blocked cells list. Use A* to find a path between the points.
     - Enemies follow this path. Use a spline for more natural movement.
@@ -27,9 +32,6 @@ Towers can be placed on the grid. The cells they occupy are marked as such, so t
 - Minion spawning
     - Come up with a way to define waves of enemies
     - Enemies follow the pathing spline
-- Camera movement
-    - Click and drag the ground to pan the camera
-    - Restrict the camera to the game area
 - Towers attack and enemies die
     - Show tower range when placing it
     - Enemies have a coin reward

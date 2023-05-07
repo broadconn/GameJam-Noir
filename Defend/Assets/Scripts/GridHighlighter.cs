@@ -45,7 +45,8 @@ public class GridHighlighter : MonoBehaviour {
         return new Vector3(offset, 0, offset);
     }
 
-    public void SetColoringValid(bool canPlaceHere) {
-        _highlighterRenderer.material.SetColor(GridColorShaderId, canPlaceHere ? validPlacementColor : invalidPlacementColor);
+    public void SetValidityColoring(bool canPlaceHere) {
+        _highlighterRenderer.material.SetColor(GridColorShaderId, 
+            canPlaceHere ? validPlacementColor : invalidPlacementColor);
     }
 }

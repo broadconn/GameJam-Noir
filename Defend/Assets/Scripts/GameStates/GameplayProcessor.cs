@@ -1,4 +1,5 @@
-﻿using UnityEngine.PlayerLoop;
+﻿using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace GameStates {
     public abstract class GameplayProcessor {
@@ -9,6 +10,7 @@ namespace GameStates {
         }
 
         public virtual void OnEnterState() {
+            Ctx.TimeEnteredState = Time.time;
             Ctx.StateChanged = false; 
         }
 

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private GridHighlighter gridHighlighter; 
+    [SerializeField] private CameraController cameraController; 
 
     private GameplayProcessor _gameplayProcessor;
     private Dictionary<GameplayState, GameplayProcessor> _gameplayStateToProcessorMappings;
@@ -15,7 +16,8 @@ public class GameController : MonoBehaviour {
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
             GridHighlighter = gridHighlighter,
-            PathController = new PathController()
+            PathController = new PathController(),
+            CameraController = cameraController
         };
         _gameplayStateToProcessorMappings = new Dictionary<GameplayState, GameplayProcessor> {
             { GameplayState.Normal, new NormalGameplayProcessor(ctx) },
@@ -28,6 +30,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void Update() {
+        cameraController.DoUpdate();
         _gameplayProcessor.Update();
         
         if (_gameplayProcessor.StateChanged) 

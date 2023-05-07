@@ -7,6 +7,10 @@ namespace GameStates {
         public GridHighlighter GridHighlighter;
         public GameObject ReferenceGameObject;
         public PathController PathController;
+        public CameraController CameraController;
+
+        public float TimeInThisState => Time.time - TimeEnteredState;
+        public float TimeEnteredState;
         
         public bool StateChanged;
         private GameplayState _nextState;

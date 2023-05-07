@@ -6,6 +6,7 @@ namespace GameStates {
     public class PlacingBuildingProcessorProcessor : GameplayProcessor, IGameplayProcessorReferencingGameObject {
         private const float BuildingSize = 2; // Num squares the current building takes up. Will probably always be 2.
         private Vector3 _mouseWorldPos; // should be set at the start of Update();
+        private bool JustEnteredState => Ctx.TimeInThisState == 0;
         
         public PlacingBuildingProcessorProcessor(GameplayStateContext ctx) : base(ctx) {
             Ctx.GridHighlighter.gameObject.SetActive(false);
@@ -23,15 +24,16 @@ namespace GameStates {
         public override void Update() {
             _mouseWorldPos = GetMouseWorldPosition(); 
             var cellsRequested = GetSelectedCellsFromMousePos(_mouseWorldPos);
-            var canPlaceHere = Ctx.PathController.CheckCellsAreFree(cellsRequested); // TODO: only check this when the hovered cell changes
+            var areaIsValid = Ctx.PathController.CheckCellsAreFree(cellsRequested); // TODO: only check this when the hovered cell changes
 
-            Ctx.GridHighlighter.SetPos(_mouseWorldPos);
-            Ctx.GridHighlighter.SetColoringValid(canPlaceHere);
-            
+            UpdateGridVisualizer(areaIsValid);
             PlaceBuildingVisualizerAtMousePos();
-
-            if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse)) {
-                if (canPlaceHere) {
+            
+            if (Input.GetMouseButtonUp((int)MouseButton.LeftMouse)) {
+                if (areaIsValid 
+                    && !JustEnteredState // prevents placing the tower immediately upon clicking the UI build button
+                    && !Ctx.CameraController.StoppedDraggingThisFrame) // in case CameraController also uses Input.GetMouseButtonUp(LMB) to end dragging the camera around.
+                { 
                     // place the building
                     Ctx.PathController.SetCellsOccupied(cellsRequested);
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
@@ -46,6 +48,11 @@ namespace GameStates {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 ExitBuildMode();
             }
+        }
+
+        private void UpdateGridVisualizer(bool areaIsValid) {
+            Ctx.GridHighlighter.SetPos(_mouseWorldPos);
+            Ctx.GridHighlighter.SetValidityColoring(areaIsValid);
         }
 
         /// <summary>
