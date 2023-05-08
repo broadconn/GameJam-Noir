@@ -38,7 +38,9 @@ namespace GameStates {
                     Ctx.PathController.SetCellsOccupied(cellsRequested);
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
                     newBuilding.transform.position = Ctx.ReferenceGameObject.transform.position;
-                    Ctx.PathController.RefreshPath();
+                    
+                    Ctx.PathController.FullSearch();
+                    //Ctx.PathController.InitNewSearch();
                     Ctx.PathController.DrawDebugPath();
 
                     // if not holding shift, switch back to normal mode

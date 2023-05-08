@@ -5,20 +5,22 @@ using UnityEngine;
 namespace Controllers {
     public class PathController {
         private readonly List<Vector2Int> _occupiedCells = new();
-        private readonly Vector2Int _enemySpawnCell, _enemyGoalCell;
-
-        private const int _boardSize = 10;
-        private Transform _debugDotsParent;
+        private Vector2Int _enemySpawnCell, _enemyGoalCell;
+        private readonly Transform _debugPathDotsParent;
+        private readonly Transform _debugToExploreDotsParent;
+        private readonly Transform _debugCheckedDotsParent;
         
-        PathNode _pathEndNode = null; // the end node from the last search
-        private List<PathNode> _nodesToExplore = new();
-        private List<PathNode> _exploredNodes = new();
-        private List<Vector2Int> _path = new();
+        private PathNode _pathEndNode = null; // the end node from the last search
+        private readonly List<PathNode> _nodesToExplore = new();
+        private readonly List<PathNode> _exploredNodes = new();
 
         public PathController(Vector2Int enemySpawnCell, Vector2Int enemyGoalCell, Transform debugDotsParent) {
             _enemySpawnCell = enemySpawnCell;
             _enemyGoalCell = enemyGoalCell;
-            _debugDotsParent = debugDotsParent;
+            
+            _debugPathDotsParent = debugDotsParent.Find("Path");
+            _debugToExploreDotsParent = debugDotsParent.Find("Explore");
+            _debugCheckedDotsParent = debugDotsParent.Find("Checked");
         }
 
         public void SetCellsOccupied(IEnumerable<Vector2Int> cells) {
@@ -38,64 +40,71 @@ namespace Controllers {
             return _occupiedCells.Contains(cell);
         }
 
-        public IEnumerable<Vector2Int> RefreshPath() {
-            var path = GetPath(_enemySpawnCell, _enemyGoalCell);
-            return path;
-        }
+        /// <summary>
+        /// Returns the list of cells making up the path.
+        /// </summary>
+        /// <param name="startCell"></param>
+        /// <param name="endCell"></param>
+        /// <returns></returns>W
+        public List<Vector2Int> FullSearch() {
+            InitNewSearch(_enemySpawnCell, _enemyGoalCell);
 
-        public List<Vector2Int> GetPath(Vector2Int startCell, Vector2Int endCell) {
-            Search(startCell, endCell);
-
-            // construct the final path from the parents of the node that reached the goal
-            _path.Clear();
-            var endNode = _pathEndNode;
-            if (endNode is null){ Debug.Log("Failed to find end cell :("); return _path; }
-            while (endNode.ParentNode is not null) {
-                _path.Add(endNode.Cell);
-                endNode = endNode.ParentNode;
+            var maxSteps = 2000;
+            while(_pathEndNode == null || maxSteps >= 0) {
+                StepSearch();
+                maxSteps--;
             }
-            return _path;
+
+            return GetV2Path();
         }
 
         public void InitNewSearch(Vector2Int startCell, Vector2Int endCell) {
-            Debug.Log("Prepping search"); 
+            _enemySpawnCell = startCell;
+            _enemyGoalCell = endCell;
+            InitNewSearch();
+        }
+        public void InitNewSearch() {
             _pathEndNode = null;
             _exploredNodes.Clear();
             _nodesToExplore.Clear();
-            _nodesToExplore.Add(new PathNode(startCell, null));
-            _enemySpawnCell = startCell;
-            _enemyGoalCell = endCell;
+            _nodesToExplore.Add(new PathNode(null, _enemySpawnCell));
         }
+        
         public void StepSearch() {
-            if (_pathEndNode is not null) return;
-            if(!_nodesToExplore.Any()) return;
+            if (_pathEndNode is not null
+                || !_nodesToExplore.Any()) {
+                return;
+            }
             
+            // get the most promising node from the explore list
             var promisingNode = _nodesToExplore.Aggregate((n1, n2) => n1.ClosenessMetric < n2.ClosenessMetric ? n1 : n2); // Q
             _nodesToExplore.Remove(promisingNode);
-            Debug.Log("Checking node");
 
             // look at promisingNode's neighbors
             for (var i = -1; i <= 1; i++) {
                 for (var j = -1; j <= 1; j++) {
                     if (i == 0 && j == 0) continue; // dont re-add the parentCell
-                    var neighbor = new PathNode(new Vector2Int(promisingNode.Cell.x + i, promisingNode.Cell.y + j), promisingNode);
+                    var neighbor = new PathNode(promisingNode, new Vector2Int(promisingNode.Cell.x + i, promisingNode.Cell.y + j));
 
                     // if one of the neighbors is the goal, exit
                     if (neighbor.Cell == _enemyGoalCell) {
                         _pathEndNode = neighbor;
-                        Debug.Log("Found end cell! :)");
-                        break;
+                        return;
                     }
 
                     if (_occupiedCells.Any(c => c == neighbor.Cell)) 
                         continue; // ignore cells in our ignore-list
-                    if (_nodesToExplore.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
+                    if (_nodesToExplore.Any(n => n.Cell == neighbor.Cell /*&& n.ClosenessMetric < neighbor.ClosenessMetric*/))
                         continue; // if there's already a better-valued node in the openList with this cell, skip this neighbor
-                    if (_exploredNodes.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
+                    if (_exploredNodes.Any(n => n.Cell == neighbor.Cell /*&& n.ClosenessMetric < neighbor.ClosenessMetric*/))
                         continue; // if there's already a better-valued node in the closedList with this cell, skip this neighbor
+                    
+                    if (i != 0 && j != 0) // if cell is diagonal from neighbor, ignore it if either of the 0-axis neighbors are occupied.
+                        if (_occupiedCells.Any(c => c == new Vector2Int(promisingNode.Cell.x + i, promisingNode.Cell.y) && _occupiedCells.Any(cl => cl == new Vector2Int(promisingNode.Cell.x, promisingNode.Cell.y + j))))
+                            continue;
 
                     neighbor.DistanceFromStart = promisingNode.DistanceFromStart + Vector2Int.Distance(neighbor.Cell, promisingNode.Cell);
-                    neighbor.DistToGoal = Vector2Int.Distance(neighbor.Cell, _enemyGoalCell); // TODO: check common methods for this
+                    neighbor.DistToGoal = Vector2Int.Distance(neighbor.Cell, _enemyGoalCell); // TODO: check common methods for this (Heuristics: Manhattan, Diagonal, or Euclidean)
                     neighbor.ClosenessMetric = neighbor.DistanceFromStart + neighbor.DistToGoal;
 
                     _nodesToExplore.Add(neighbor);
@@ -105,39 +114,62 @@ namespace Controllers {
             _exploredNodes.Add(promisingNode);  
         }
 
-        /// <summary>
-        /// Returns bool for whether it's done or not.
-        /// The path can be extracted by iterating through it's parents.
-        /// </summary>
-        /// <param name="startCell"></param>
-        /// <param name="endCell"></param>
-        /// <returns></returns>
-        private void Search(Vector2Int startCell, Vector2Int endCell) {
-            InitNewSearch(startCell, endCell);
-            while(_pathEndNode == null){
-            StepSearch();
+        private List<Vector2Int> GetV2Path() {
+            List<Vector2Int> path = new();
+            var endNode = _pathEndNode;
+            if (endNode is null){ return path; }
+            while (endNode.ParentNode is not null) {
+                path.Add(endNode.Cell);
+                endNode = endNode.ParentNode;
             }
+            return path;
         }
 
-        /// <summary>
-        /// Draws the results of the algorithm at this point in time.
-        /// </summary>
+        public void DrawAllDebug() {
+            DrawDebugPath();
+            DrawDotsWithNodeList(_debugCheckedDotsParent, _exploredNodes);
+            DrawDotsWithNodeList(_debugToExploreDotsParent, _nodesToExplore);
+        } 
+        
         public void DrawDebugPath() {
-            var path = _path;
-            
-            foreach (Transform dot in _debugDotsParent) {
+            DrawDotsWithV2List(_debugPathDotsParent, GetV2Path());
+        }
+
+        private static void DrawDotsWithV2List(Transform dotsParent, List<Vector2Int> cells) {
+            foreach (Transform dot in dotsParent) {
                 dot.gameObject.SetActive(false);
             }
 
-            for (var i = 0; i < path.Count; i++) {
-                if (i >= _debugDotsParent.childCount-1) {
-                    Debug.Log("Need more dots to draw this path: " + path.Count);
+            for (var i = 0; i < cells.Count; i++) {
+                if (i >= dotsParent.childCount-1) {
                     return;
                 }
-                var d = _debugDotsParent.GetChild(i);
-                var p = path[i];
+                var c = cells[i];
+                var d = dotsParent.GetChild(i);
                 d.gameObject.SetActive(true);
-                d.transform.position = new Vector3(p.x, 0, p.y);
+                d.transform.position = new Vector3(c.x, 0, c.y);
+            }
+        }
+
+        private static void DrawDotsWithNodeList(Transform dotsParent, List<PathNode> cells) {
+            foreach (Transform dot in dotsParent) {
+                dot.gameObject.SetActive(false);
+            }
+
+            for (var i = 0; i < cells.Count; i++) {
+                if (i >= dotsParent.childCount-1) {
+                    return;
+                }
+                
+                var c = cells[i];
+                var d = dotsParent.GetChild(i);
+                d.gameObject.SetActive(true);
+                d.transform.position = new Vector3(c.Cell.x, 0, c.Cell.y);
+                    
+                var debugCube = d.GetComponent<DebugCube>();
+                debugCube.FMetric = c.ClosenessMetric;
+                debugCube.DistFromStart = c.DistanceFromStart;
+                debugCube.EstDistFromEnd = c.DistToGoal;
             }
         }
     }
@@ -148,7 +180,7 @@ namespace Controllers {
         public float DistanceFromStart; // G
         public float DistToGoal;        // H
         public float ClosenessMetric;   // F
-        public PathNode(Vector2Int cell, PathNode parentNode) {
+        public PathNode(PathNode parentNode, Vector2Int cell) {
             Cell = cell;
             ParentNode = parentNode;
         }

@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 _dragScreenOrigin;
     private bool _isDragInDeadZone; // e.g. so minuscule drags dont prevent tower placement
-    private const int CameraDragMouseBtn = (int) MouseButton.RightMouse;
+    private const int CameraDragMouseBtn = (int) MouseButton.MiddleMouse;
 
     private Vector3 _lastInputMousePos;
 
