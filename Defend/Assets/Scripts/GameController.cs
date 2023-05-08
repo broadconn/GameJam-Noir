@@ -7,7 +7,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private GridHighlighter gridHighlighter; 
-    [SerializeField] private CameraController cameraController; 
+    [SerializeField] private CameraController cameraController;
+    [SerializeField] private Transform enemySpawnTransform;
+    [SerializeField] private Transform enemyGoalTransform;
+    [SerializeField] private Transform debugPathDotsParent;
 
     private GameplayProcessor _gameplayProcessor;
     private Dictionary<GameplayState, GameplayProcessor> _gameplayStateToProcessorMappings;
@@ -16,7 +19,7 @@ public class GameController : MonoBehaviour {
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
             GridHighlighter = gridHighlighter,
-            PathController = new PathController(),
+            PathController = new PathController(enemySpawnTransform.position.WorldXZToV2Int(), enemyGoalTransform.position.WorldXZToV2Int(), debugPathDotsParent),
             CameraController = cameraController
         };
         _gameplayStateToProcessorMappings = new Dictionary<GameplayState, GameplayProcessor> {
@@ -50,5 +53,11 @@ public class GameController : MonoBehaviour {
     public void ClickedBuildBuildingButton(GameObject buildingPrefab) {
         // TODO: check if the player can afford this building
         SetGameplayState(GameplayState.PlacingBuilding, buildingPrefab);
+    }
+}
+
+public static class UtilityExtensions {
+    public static Vector2Int WorldXZToV2Int(this Vector3 pos) {
+        return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.z));
     }
 }

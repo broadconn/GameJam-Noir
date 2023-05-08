@@ -7,7 +7,7 @@ namespace GameStates {
         private const float BuildingSize = 2; // Num squares the current building takes up. Will probably always be 2.
         private Vector3 _mouseWorldPos; // should be set at the start of Update();
         private bool JustEnteredState => Ctx.TimeInThisState == 0;
-        
+
         public PlacingBuildingProcessorProcessor(GameplayStateContext ctx) : base(ctx) {
             Ctx.GridHighlighter.gameObject.SetActive(false);
         }
@@ -38,6 +38,7 @@ namespace GameStates {
                     Ctx.PathController.SetCellsOccupied(cellsRequested);
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
                     newBuilding.transform.position = Ctx.ReferenceGameObject.transform.position;
+                    Ctx.PathController.RefreshPath();
 
                     // if not holding shift, switch back to normal mode
                     if (!Input.GetKey(KeyCode.LeftShift))
@@ -45,7 +46,7 @@ namespace GameStates {
                 }
             }
             
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown((int)MouseButton.RightMouse)) {
                 ExitBuildMode();
             }
         }
@@ -69,13 +70,13 @@ namespace GameStates {
         /// </summary>
         /// <param name="mouseWorldPos"></param>
         /// <returns></returns>
-        private static List<Vector2> GetSelectedCellsFromMousePos(Vector3 mouseWorldPos) {
-            var mousePosV2 = new Vector2(Mathf.Floor(mouseWorldPos.x), Mathf.Floor(mouseWorldPos.z));
+        private static List<Vector2Int> GetSelectedCellsFromMousePos(Vector3 mouseWorldPos) {
+            var mousePosV2 = new Vector2Int(Mathf.FloorToInt(mouseWorldPos.x), Mathf.FloorToInt(mouseWorldPos.z));
 
-            var occupiedCells = new List<Vector2>();
+            var occupiedCells = new List<Vector2Int>();
             for (var i = 0; i < BuildingSize; i++) 
                 for (var j = 0; j < BuildingSize; j++) 
-                    occupiedCells.Add(new Vector2(mousePosV2.x + i, mousePosV2.y + j));
+                    occupiedCells.Add(new Vector2Int(mousePosV2.x + i, mousePosV2.y + j));
             return occupiedCells;
         }
 
