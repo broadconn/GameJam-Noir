@@ -23,6 +23,7 @@ public class PathfindingTest : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space)) {
             _pathController.RefreshPath();
+            _pathController.DrawDebugPath();
         }
     }
 }

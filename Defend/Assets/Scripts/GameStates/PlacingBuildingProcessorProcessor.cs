@@ -39,6 +39,7 @@ namespace GameStates {
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
                     newBuilding.transform.position = Ctx.ReferenceGameObject.transform.position;
                     Ctx.PathController.RefreshPath();
+                    Ctx.PathController.DrawDebugPath();
 
                     // if not holding shift, switch back to normal mode
                     if (!Input.GetKey(KeyCode.LeftShift))
@@ -46,7 +47,7 @@ namespace GameStates {
                 }
             }
             
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown((int)MouseButton.RightMouse)) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
                 ExitBuildMode();
             }
         }

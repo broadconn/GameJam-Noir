@@ -40,19 +40,11 @@ namespace Controllers {
 
         public IEnumerable<Vector2Int> RefreshPath() {
             var path = GetPath(_enemySpawnCell, _enemyGoalCell);
-            DrawDebugPath();
             return path;
         }
 
         public List<Vector2Int> GetPath(Vector2Int startCell, Vector2Int endCell) {
-            Search(startCell, endCell);//.GetEnumerator();
-            // var done = false;
-            // do {
-            //     // convert this to manually triggered moves. Or automatic, but move the debug pieces between moves.
-            //     done = enumerable.MoveNext();
-            //
-            //     //DrawDebugPath();
-            // } while (!done); 
+            Search(startCell, endCell);
 
             // construct the final path from the parents of the node that reached the goal
             _path.Clear();
@@ -65,6 +57,54 @@ namespace Controllers {
             return _path;
         }
 
+        public void InitNewSearch(Vector2Int startCell, Vector2Int endCell) {
+            Debug.Log("Prepping search"); 
+            _pathEndNode = null;
+            _exploredNodes.Clear();
+            _nodesToExplore.Clear();
+            _nodesToExplore.Add(new PathNode(startCell, null));
+            _enemySpawnCell = startCell;
+            _enemyGoalCell = endCell;
+        }
+        public void StepSearch() {
+            if (_pathEndNode is not null) return;
+            if(!_nodesToExplore.Any()) return;
+            
+            var promisingNode = _nodesToExplore.Aggregate((n1, n2) => n1.ClosenessMetric < n2.ClosenessMetric ? n1 : n2); // Q
+            _nodesToExplore.Remove(promisingNode);
+            Debug.Log("Checking node");
+
+            // look at promisingNode's neighbors
+            for (var i = -1; i <= 1; i++) {
+                for (var j = -1; j <= 1; j++) {
+                    if (i == 0 && j == 0) continue; // dont re-add the parentCell
+                    var neighbor = new PathNode(new Vector2Int(promisingNode.Cell.x + i, promisingNode.Cell.y + j), promisingNode);
+
+                    // if one of the neighbors is the goal, exit
+                    if (neighbor.Cell == _enemyGoalCell) {
+                        _pathEndNode = neighbor;
+                        Debug.Log("Found end cell! :)");
+                        break;
+                    }
+
+                    if (_occupiedCells.Any(c => c == neighbor.Cell)) 
+                        continue; // ignore cells in our ignore-list
+                    if (_nodesToExplore.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
+                        continue; // if there's already a better-valued node in the openList with this cell, skip this neighbor
+                    if (_exploredNodes.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
+                        continue; // if there's already a better-valued node in the closedList with this cell, skip this neighbor
+
+                    neighbor.DistanceFromStart = promisingNode.DistanceFromStart + Vector2Int.Distance(neighbor.Cell, promisingNode.Cell);
+                    neighbor.DistToGoal = Vector2Int.Distance(neighbor.Cell, _enemyGoalCell); // TODO: check common methods for this
+                    neighbor.ClosenessMetric = neighbor.DistanceFromStart + neighbor.DistToGoal;
+
+                    _nodesToExplore.Add(neighbor);
+                }
+            }
+
+            _exploredNodes.Add(promisingNode);  
+        }
+
         /// <summary>
         /// Returns bool for whether it's done or not.
         /// The path can be extracted by iterating through it's parents.
@@ -72,58 +112,17 @@ namespace Controllers {
         /// <param name="startCell"></param>
         /// <param name="endCell"></param>
         /// <returns></returns>
-        private bool Search(Vector2Int startCell, Vector2Int endCell) {
-            var shortCircuit = 2000; // limit the searches in case it all goes wrong
-            _pathEndNode = null;
-            _exploredNodes.Clear();
-            _nodesToExplore.Clear();
-            _nodesToExplore.Add(new PathNode(startCell, null));
-
-            while (_nodesToExplore.Any()) {
-                var promisingNode = _nodesToExplore.Aggregate((n1, n2) => n1.ClosenessMetric < n2.ClosenessMetric ? n1 : n2); // Q
-                _nodesToExplore.Remove(promisingNode);
-
-                // look at promisingNode's neighbors
-                for (var i = -1; i <= 1; i++) {
-                    for (var j = -1; j <= 1; j++) {
-                        if (i == 0 && j == 0) continue; // dont re-add the parentCell
-                        var neighbor = new PathNode(new Vector2Int(promisingNode.Cell.x + i, promisingNode.Cell.y + j), promisingNode);
-
-                        // if one of the neighbors is the goal, exit
-                        if (neighbor.Cell == endCell) {
-                            _pathEndNode = neighbor;
-                            Debug.Log("Found end cell! :)");
-                            break;
-                        }
-
-                        if (_occupiedCells.Any(c => c == neighbor.Cell)) continue; // ignore cells in our ignore-list
-                        if (_nodesToExplore.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
-                            continue; // if there's already a better-valued node in the openList with this cell, skip this neighbor
-                        if (_exploredNodes.Any(n => n.Cell == neighbor.Cell && n.ClosenessMetric < neighbor.ClosenessMetric))
-                            continue; // if there's already a better-valued node in the closedList with this cell, skip this neighbor
-
-                        neighbor.DistanceFromStart = promisingNode.DistanceFromStart + Vector2Int.Distance(neighbor.Cell, promisingNode.Cell);
-                        neighbor.DistToGoal = Vector2Int.Distance(neighbor.Cell, endCell); // TODO: check common methods for this
-                        neighbor.ClosenessMetric = neighbor.DistanceFromStart + neighbor.DistToGoal;
-
-                        _nodesToExplore.Add(neighbor);
-                    }
-                }
-
-                if (_pathEndNode is not null) break;
-
-                _exploredNodes.Add(promisingNode);
-
-                shortCircuit--;
-                if (shortCircuit <= 0) break;
+        private void Search(Vector2Int startCell, Vector2Int endCell) {
+            InitNewSearch(startCell, endCell);
+            while(_pathEndNode == null){
+            StepSearch();
             }
-            return true; // done
         }
 
         /// <summary>
         /// Draws the results of the algorithm at this point in time.
         /// </summary>
-        private void DrawDebugPath() {
+        public void DrawDebugPath() {
             var path = _path;
             
             foreach (Transform dot in _debugDotsParent) {
