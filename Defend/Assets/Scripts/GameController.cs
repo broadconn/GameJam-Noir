@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour {
     private GameplayProcessor _gameplayProcessor;
     private Dictionary<GameplayState, GameplayProcessor> _gameplayStateToProcessorMappings;
 
+    public Vector3 EnemySpawnPos => enemySpawnTransform.position;
+    public Vector3 EnemyGoalPos => enemyGoalTransform.position;
+
     private void Awake() {
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,

@@ -39,9 +39,9 @@ namespace GameStates {
                     var newBuilding = Object.Instantiate(Ctx.ReferenceGameObject);
                     newBuilding.transform.position = Ctx.ReferenceGameObject.transform.position;
                     
-                    Ctx.PathController.FullSearch();
+                    //Ctx.PathController.FullSearch();
                     //Ctx.PathController.InitNewSearch();
-                    Ctx.PathController.DrawDebugPath();
+                    //Ctx.PathController.DrawDebugPath();
 
                     // if not holding shift, switch back to normal mode
                     if (!Input.GetKey(KeyCode.LeftShift))
