@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour {
     }
 
     public void Spawn(Vector3 spawnPos, Vector3 goalPosition) {
-        transform.position = spawnPos;
+        _agent.Warp(spawnPos);
         var canFindPath = _agent.SetDestination(goalPosition);
         if (!canFindPath) {
             Debug.LogWarning("Enemy could not find a valid path! It might attack!!");

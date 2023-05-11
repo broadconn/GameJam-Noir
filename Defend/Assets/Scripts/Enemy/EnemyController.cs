@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour {
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            var newEnemy = Instantiate(enemy);
+            var newEnemy = Instantiate(enemy, _gameController.EnemySpawnPos, Quaternion.identity);
             var e = newEnemy.GetComponent<Enemy>();
             e.Spawn(_gameController.EnemySpawnPos, _gameController.EnemyGoalPos);
         }

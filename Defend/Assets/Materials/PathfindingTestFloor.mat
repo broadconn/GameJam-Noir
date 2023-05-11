@@ -97,8 +97,8 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FadeAmount: 0
-    - _FadeSharpness: 0.29
-    - _FadeSize: 0.5
+    - _FadeSharpness: -0.339
+    - _FadeSize: 0.044
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -106,7 +106,7 @@ Material:
     - _HighlightedSquaresIntensity: 0
     - _LineDensity: 1.78
     - _LineSpacing: 10.47
-    - _LineWidth: 0.026
+    - _LineWidth: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -114,7 +114,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RippleSpeed: -0.1
-    - _RippleVis: 10
+    - _RippleVis: -274.1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -128,8 +128,8 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HighlightedSquare: {r: 1, g: 1, b: 0, a: 0}
-    - _LineColor: {r: 11.193761, g: 11.193761, b: 11.193761, a: 1}
+    - _HighlightedSquare: {r: 1000, g: 1000, b: 0, a: 0}
+    - _LineColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4290160382074842542
