@@ -6,6 +6,9 @@ using GameStates;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+    private static GameController _instance;
+    public static GameController Instance => _instance;
+
     [SerializeField] private GridHighlighter gridHighlighter; 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform enemySpawnTransform;
@@ -19,6 +22,12 @@ public class GameController : MonoBehaviour {
     public Vector3 EnemyGoalPos => enemyGoalTransform.position;
 
     private void Awake() {
+        if (_instance != null && _instance != this) {
+            Destroy(gameObject);
+        } else {
+            _instance = this;
+        }
+            
         var ctx = new GameplayStateContext {
             MainCamera = Camera.main,
             GridHighlighter = gridHighlighter,
@@ -57,6 +66,13 @@ public class GameController : MonoBehaviour {
         // TODO: check if the player can afford this building
         SetGameplayState(GameplayState.PlacingBuilding, buildingPrefab);
     }
+
+    public void OnEnemyReachedGoal()
+    {
+        
+    }
+
+    private void OnDestroy() { if (this == _instance) { _instance = null; } }
 }
 
 public static class UtilityExtensions {

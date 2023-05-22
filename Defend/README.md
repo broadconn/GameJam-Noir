@@ -14,7 +14,7 @@ This will appear when placing a building to help the user place buildings accura
 ### Tower Placement
 Towers can be placed on the grid. The cells they occupy are marked as such, so towers can not be placed on top of each other.
 ### Camera Controls
-Hold right-click and drag to pan the camera. This can be done while placing a tower.<br>
+Hold middle-click and drag to pan the camera. This can be done while holding a tower for placement.<br>
 Mouse wheel to zoom. This can be done while panning.
 ### AI Pathing
 I tried implementing my own pathfinding with the A* algorithm. This worked well for most cases, except where the goal is blocked off and the path leads directly away from the spawn location. In this case the pathing would head directly towards the goal until it hits the block, then slowly expand out in all directions until the search radius was big enough to get around the blockade.
@@ -34,8 +34,9 @@ I tried implementing my own pathfinding with the A* algorithm. This worked well 
     - ~~Enemies follow this path. Use a spline for more natural movement.~~
     - ~~Refresh the path whenever a tower is placed~~
 - Minion spawning
-    - Come up with a way to define waves of enemies
-    - Enemies follow the pathing spline
+    - ~~Come up with a way to define waves of enemies.~~
+    - Spawn wave after wave until the player runs out out health or the waves end
+        - Build phase? Timed or manually trigger the next wave?
 - Towers attack and enemies die
     - Show tower range when placing it
     - Enemies have a coin reward

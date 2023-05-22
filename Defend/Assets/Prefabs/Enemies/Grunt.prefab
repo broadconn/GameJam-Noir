@@ -294,9 +294,9 @@ GameObject:
   - component: {fileID: 7416827203894755287}
   - component: {fileID: 275505793885001737}
   - component: {fileID: 3383313673582627992}
-  - component: {fileID: -362360543614552979}
+  - component: {fileID: 2490133589796563835}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Grunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,7 +339,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8629695358631723314}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -352,7 +352,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!135 &-362360543614552979
+--- !u!135 &2490133589796563835
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
